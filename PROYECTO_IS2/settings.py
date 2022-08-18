@@ -44,8 +44,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    #'allauth.socialaccount.providers.github',
-    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.github',
 
     'crispy_forms',
 
@@ -160,28 +159,13 @@ SOCIALACCOUNT_PROVIDERS = {
             'access_type': 'online',
         }
     },
-
-'facebook': {
-        'METHOD': 'oauth2',
-        #'SDK_URL': '//connect.facebook.net/{locale}/sdk.js',
-        'SCOPE': ['email', 'public_profile'],
-        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-        'INIT_PARAMS': {'cookie': True},
-        'FIELDS': [
-            'id',
-            'first_name',
-            'last_name',
-            'middle_name',
-            'name',
-            'name_format',
-            'picture',
-            'short_name'
+    'github': {
+        'SCOPE': [
+            'user',
+            'repo',
+            'read:org',
         ],
-        'EXCHANGE_TOKEN': True,
-        #'LOCALE_FUNC': 'path.to.callable',
-        'VERIFIED_EMAIL': False,
-        'VERSION': 'v13.0',
-    }
+    },
 }
 
 LOGIN_REDIRECT_URL= 'home'
@@ -189,3 +173,6 @@ LOGIN_REDIRECT_URL= 'home'
 ACCOUNT_LOGOUT_REDIRECT_URL= 'account_login'
 
 CRISPY_TEMPLATE_PACK= 'bootstrap4'
+
+#16879a5e93669c7fbb1e
+#729ca9e0b56f8c85ca4627fcc1d4016e072a41c7
