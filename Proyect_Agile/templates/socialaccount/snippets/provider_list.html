@@ -20,6 +20,7 @@
      <img 
       src="
      {% with 'images/'|add:provider.name|add:'.png' as image %}
+
       {% static image %}
      {% endwith %}
      " alt="{{ provider.name }}" height="50" width="300"/>
