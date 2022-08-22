@@ -11,10 +11,12 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import mimetypes
+
+mimetypes.add_type("text/css", ".css", True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -25,8 +27,7 @@ SECRET_KEY = 'django-insecure-!)4-4e@-04l)q3l-7%d7@5fq9k@g3a2$1fj3rhn&9^n_$k@j*o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
-
+ALLOWED_HOSTS = ['localhost', '*']
 
 # Application definition
 
@@ -58,6 +59,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.middleware.security.SecurityMiddleware',
 ]
 
 ROOT_URLCONF = 'PROYECTO_IS2.urls'
@@ -82,7 +85,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'PROYECTO_IS2.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -92,7 +94,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -112,7 +113,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -124,11 +124,12 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/home/diego/Desktop/IS2/PROYECTO_IS2/Proyect_Agile/static/'
+STATIC_ROOT = '/home/diego/Desktop/IS2/PROYECTO_IS2/Proyect_Agile/static/'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -145,9 +146,9 @@ AUTHENTICATION_BACKENDS = [
 
 ]
 
-SITE_ID= 1
-#300690643311-pmjm8nc392cs70d5jdjld85j2bp3e7ar.apps.googleusercontent.com
-#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
+SITE_ID = 1
+# 300690643311-pmjm8nc392cs70d5jdjld85j2bp3e7ar.apps.googleusercontent.com
+# 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
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -168,11 +169,11 @@ SOCIALACCOUNT_PROVIDERS = {
     },
 }
 
-LOGIN_REDIRECT_URL= 'home'
+LOGIN_REDIRECT_URL = 'home'
 
-ACCOUNT_LOGOUT_REDIRECT_URL= 'account_login'
+ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
 
-CRISPY_TEMPLATE_PACK= 'bootstrap4'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-#16879a5e93669c7fbb1e
-#729ca9e0b56f8c85ca4627fcc1d4016e072a41c7
+# 16879a5e93669c7fbb1e
+# 729ca9e0b56f8c85ca4627fcc1d4016e072a41c7

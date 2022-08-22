@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fc82abfe-1e11-4cfa-88ee-f8d83a81d086" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Proyect_Agile/static/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/static/images/Agile.png" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/static/images/Agile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROYECTO_IS2/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/PROYECTO_IS2/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROYECTO_IS2/settings_prod.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PROYECTO_IS2/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/PROYECTO_IS2/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/account/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/account/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/socialaccount/snippets/provider_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/socialaccount/snippets/provider_list.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -38,17 +38,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Acer/Desktop/is2/PROYECTO_IS2/templates",
-    "list.type.of.created.stylesheet": "CSS",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Acer/Desktop/is2/PROYECTO_IS2/templates&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Acer\Desktop\is2\PROYECTO_IS2\templates" />
@@ -95,6 +95,8 @@
       <workItem from="1660863035839" duration="1917000" />
       <workItem from="1660867945395" duration="1476000" />
       <workItem from="1660956221736" duration="8719000" />
+      <workItem from="1661143335804" duration="440000" />
+      <workItem from="1661143995663" duration="6002000" />
     </task>
     <servers />
   </component>
