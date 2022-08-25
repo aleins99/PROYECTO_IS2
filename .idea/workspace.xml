@@ -4,9 +4,7 @@
     <list default="true" id="fc82abfe-1e11-4cfa-88ee-f8d83a81d086" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PROYECTO_IS2/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/PROYECTO_IS2/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PROYECTO_IS2/settings_prod.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PROYECTO_IS2/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/PROYECTO_IS2/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/account/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/account/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/tests.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -97,6 +95,8 @@
       <workItem from="1660956221736" duration="8719000" />
       <workItem from="1661143335804" duration="440000" />
       <workItem from="1661143995663" duration="6002000" />
+      <workItem from="1661192446675" duration="954000" />
+      <workItem from="1661389381832" duration="1641000" />
     </task>
     <servers />
   </component>
