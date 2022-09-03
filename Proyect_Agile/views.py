@@ -14,4 +14,5 @@ def iniciosesion(request):
 class crearProyecto(CreateView):
     model = Proyecto
     template_name = 'dashboard/proyect.html'
-    form_class = crearProyectoForm
+    form_class = ProyectoForm
+    extra_context = {'form': ProyectoForm }

@@ -5,15 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc82abfe-1e11-4cfa-88ee-f8d83a81d086" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Proyect_Agile/forms.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyect_Agile/templates/dashboard/proyect.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/PROYECTO_IS2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PROYECTO_IS2.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/account/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/account/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/forms.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,6 +112,7 @@
       <workItem from="1661481343679" duration="2425000" />
       <workItem from="1661991974621" duration="2702000" />
       <workItem from="1662157170675" duration="7368000" />
+      <workItem from="1662235212216" duration="4868000" />
     </task>
     <servers />
   </component>

@@ -6,8 +6,14 @@
 
     <form action="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Crear Proyecto">
+        {% for campo in form %}
+        <div class="mb-3" >
+
+            <label for="formInput#text" class="form-label" > {{ campo.label }} </label>
+            {{ campo }}
+        </div>
+        {% endfor %}
+        <input type="submit" class="btn btn-primary" value="Crear Proyecto">
     </form>
 
 {% endblock %}
