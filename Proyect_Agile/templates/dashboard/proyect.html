@@ -1,0 +1,13 @@
+{% extends 'account/base.html' %}
+
+{% block content %}
+
+    <h1>Nuevo Proyecto:</h1>
+
+    <form action="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Crear Proyecto">
+    </form>
+
+{% endblock %}
