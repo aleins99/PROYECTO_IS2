@@ -1,15 +1,18 @@
+from datetime import datetime
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
-
+from allauth.account.models import EmailAddress
+from allauth import app_settings
+from allauth.account.models import EmailAddress
 # Create your models here
 class Proyecto(models.Model):
 
-    nombre = models.CharField(max_length=200)
-    descripcion = models.TextField(null= True, blank= True)
+    nombre = models.CharField(max_length=200, null=False, blank=False)
+    descripcion = models.TextField(null= True, blank= True, max_length=200)
     miembros = models.ForeignKey('Miembro', on_delete=models.RESTRICT)
-    scrumMaster = models.ForeignKey('Usuario', on_delete=models.RESTRICT)
-    fechainicio = models.DateTimeField()
-    fechafin = models.DateTimeField()
+    scrumMaster = models.ForeignKey(EmailAddress, on_delete=models.RESTRICT, blank=False)
+    fechainicio = models.DateField(default=datetime.now)
+    fechafin = models.DateField(blank=False, null=False)
     usbacklog = models.ForeignKey('User_Story',on_delete=models.RESTRICT)
     ESTADOS = (
 
@@ -20,16 +23,9 @@ class Proyecto(models.Model):
     )
     estado = models.CharField(max_length=1 , choices=ESTADOS , default= 'P')
 
-class Usuario(models.Model):
-
-    nombre = models.CharField(max_length=200)
-    apellido = models.CharField(max_length=200)
-    id_proyectos = models.ForeignKey(Proyecto , on_delete=models.RESTRICT)
-
 class Miembro(models.Model):
-
-    usuario = models.ForeignKey(Usuario , on_delete=models.RESTRICT)
-    cargahoraria = models.IntegerField()
+    correo = models.ForeignKey(EmailAddress, on_delete=models.RESTRICT, null=True, blank=False)
+    cargahoraria = models.IntegerField(default=0)
 
 class Rol(models.Model):
 

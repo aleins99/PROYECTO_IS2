@@ -2,18 +2,19 @@
 
 {% block content %}
 
-    <h1>Nuevo Proyecto:</h1>
 
-    <form action="post">
+    <form action="post" class="container">
+        <h1>Crear Proyecto</h1>
         {% csrf_token %}
         {% for campo in form %}
         <div class="mb-3" >
-
             <label for="formInput#text" class="form-label" > {{ campo.label }} </label>
             {{ campo }}
         </div>
         {% endfor %}
-        <input type="submit" class="btn btn-primary" value="Crear Proyecto">
+        <div class="mb-3">
+            <input type="submit" class="btn btn-primary" value="Crear Proyecto">
+        </div>
     </form>
 
 {% endblock %}
