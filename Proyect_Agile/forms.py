@@ -28,5 +28,22 @@ class ProyectoForm(forms.ModelForm):
 
         for name, field in self.fields.items():
             field.widget.attrs.update({'class':'form-control'})
-            print(field)
-    
+
+
+
+class UserStoryForm(forms.ModelForm):
+    class Meta:
+        model = User_Story
+        fields = '__all__'
+
+
+
+    def __init__(self, *args, **kwargs):
+        """
+        The function takes in a list of fields and a list of widgets, and returns a list of fields with
+        the widgets replaced
+        """
+        super(UserStoryForm, self).__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class':'form-control'})

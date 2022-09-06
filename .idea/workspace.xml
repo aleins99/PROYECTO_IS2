@@ -5,8 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc82abfe-1e11-4cfa-88ee-f8d83a81d086" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/editarProyecto.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/verProyecto.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Proyect_Agile/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/static/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/proyecto.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/proyecto.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/us.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/us.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/account/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/account/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/dashboard/proyect.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/listarProyectos.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,8 +30,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="HTML File" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -113,6 +123,7 @@
       <workItem from="1661991974621" duration="2702000" />
       <workItem from="1662157170675" duration="7368000" />
       <workItem from="1662235212216" duration="4868000" />
+      <workItem from="1662493794011" duration="10911000" />
     </task>
     <servers />
   </component>

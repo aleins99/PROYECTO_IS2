@@ -16,3 +16,9 @@ body {
 .btn-d:hover {
     cursor: pointer;
 }
+
+td,th,tr{
+
+    color:#fff;
+
+}

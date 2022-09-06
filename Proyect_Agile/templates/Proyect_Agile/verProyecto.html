@@ -1,0 +1,14 @@
+{% extends 'account/base.html' %}
+{% block content %}
+    <h1> {{ proyecto.nombre }} </h1>
+    <h2> {{ proyecto.descripcion }} </h2>
+
+    <div class="mb-3">
+        <a class="btn btn-primary" href="{% url 'crearUS' %}" > Crear User Story </a>
+    </div>
+
+    <div class="mb-3">
+            <a class="btn btn-primary" href="#" > Importar User Story </a>
+    </div>
+
+{% endblock %}

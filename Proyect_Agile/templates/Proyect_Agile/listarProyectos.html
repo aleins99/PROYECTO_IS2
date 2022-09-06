@@ -1,0 +1,38 @@
+{% extends 'account/base.html' %}
+
+{% block content %}
+
+    <table class="table">
+
+        <thead>
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Estado</th>
+            <th scope="col">ScrumMaster</th>
+            <th scope="col">Fecha Inicio</th>
+
+
+        </tr>
+
+        </thead>
+        <tbody>
+
+            {% for proyecto in object_list %}
+
+                <tr>
+                    <td> <a href="{% url 'verproyecto' proyecto.id %}"> {{ proyecto.nombre }} </a>  </td>
+
+                    <td>{{ proyecto.estado }}</td>
+                    <td>{{ proyecto.scrumMaster }}</td>
+                    <td>{{ proyecto.fechainicio }}</td>
+                    <td> <a href="{% url 'editarproyecto' proyecto.id %}"> Editar </a>  </td>
+                </tr>
+
+            {% endfor %}
+
+
+
+        </tbody>
+    </table>
+
+{% endblock %}

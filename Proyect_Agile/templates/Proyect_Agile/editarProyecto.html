@@ -3,8 +3,8 @@
 {% block content %}
 
 
-    <form action="post" class="container">
-        <h1>Crear Proyecto</h1>
+    <form method="POST" class="container">
+        <h1>Editar Proyecto</h1>
         {% csrf_token %}
         {% for campo in form %}
             <div class="mb-3" >
@@ -13,7 +13,7 @@
             </div>
         {% endfor %}
         <div class="mb-3">
-            <input type="submit" class="btn btn-primary" value="Crear Proyecto">
+            <input type="submit" class="btn btn-primary" value="Editar Proyecto">
         </div>
     </form>
 

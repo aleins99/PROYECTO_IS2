@@ -23,6 +23,9 @@ class Proyecto(models.Model):
     estado = models.CharField(max_length=1 , choices=ESTADOS , default= 'P')
     def __str__(self):
        return self.nombre
+
+    def get_absolute_url(self):
+        return '/Proyecto'
 class Miembro(models.Model):	
     correo = models.ForeignKey(EmailAddress, on_delete=models.RESTRICT, null=True, blank=False)
     cargahoraria = models.IntegerField(default=0)

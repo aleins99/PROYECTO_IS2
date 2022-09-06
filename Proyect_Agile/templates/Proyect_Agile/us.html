@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>User Stories</title>
-</head>
-<body>
+{% extends 'account/base.html' %}
 
-</body>
-</html>
+{% block content %}
+
+
+    <form action="post" class="container">
+        <h1>Crear User Story</h1>
+        {% csrf_token %}
+        {% for campo in form %}
+            <div class="mb-3" >
+                <label for="formInput#text" class="form-label" > {{ campo.label }} </label>
+                {{ campo }}
+            </div>
+        {% endfor %}
+        <div class="mb-3">
+            <input type="submit" class="btn btn-primary" value="Crear User Story">
+        </div>
+    </form>
+
+{% endblock %}

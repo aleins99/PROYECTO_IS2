@@ -1,4 +1,20 @@
-{% extends "Proyect_Agile/base.html" %}
-{% block title %}
-    <title> Proyecto </title>
+{% extends 'account/base.html' %}
+
+{% block content %}
+
+
+    <form method="POST" class="container">
+        <h1>Crear Proyecto</h1>
+        {% csrf_token %}
+        {% for campo in form %}
+            <div class="mb-3" >
+                <label for="formInput#text" class="form-label" > {{ campo.label }} </label>
+                {{ campo }}
+            </div>
+        {% endfor %}
+        <div class="mb-3">
+            <input type="submit" class="btn btn-primary" value="Crear Proyecto">
+        </div>
+    </form>
+
 {% endblock %}
