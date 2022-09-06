@@ -7,10 +7,10 @@
         <h1>Crear Proyecto</h1>
         {% csrf_token %}
         {% for campo in form %}
-        <div class="mb-3" >
-            <label for="formInput#text" class="form-label" > {{ campo.label }} </label>
-            {{ campo }}
-        </div>
+            <div class="mb-3" >
+                <label for="formInput#text" class="form-label" > {{ campo.label }} </label>
+                {{ campo }}
+            </div>
         {% endfor %}
         <div class="mb-3">
             <input type="submit" class="btn btn-primary" value="Crear Proyecto">

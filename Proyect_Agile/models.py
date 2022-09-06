@@ -9,11 +9,10 @@ class Proyecto(models.Model):
 
     nombre = models.CharField(max_length=200, null=False, blank=False)
     descripcion = models.TextField(null= True, blank= True, max_length=200)
-    miembros = models.ForeignKey('Miembro', on_delete=models.RESTRICT)
+    miembros = models.ManyToManyField('Miembro')
     scrumMaster = models.ForeignKey(EmailAddress, on_delete=models.RESTRICT, blank=False)
     fechainicio = models.DateField(default=datetime.now)
     fechafin = models.DateField(blank=False, null=False)
-    usbacklog = models.ForeignKey('User_Story',on_delete=models.RESTRICT)
     ESTADOS = (
 
         ('P', 'Pendiente'),
@@ -22,11 +21,13 @@ class Proyecto(models.Model):
         ('F', 'Finalizado'),
     )
     estado = models.CharField(max_length=1 , choices=ESTADOS , default= 'P')
-
-class Miembro(models.Model):
+    def __str__(self):
+       return self.nombre
+class Miembro(models.Model):	
     correo = models.ForeignKey(EmailAddress, on_delete=models.RESTRICT, null=True, blank=False)
     cargahoraria = models.IntegerField(default=0)
-
+    def __str__(self):
+       return self.correo.email
 class Rol(models.Model):
 
     idProyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT)  # Proyecto al que pertenece el rol
