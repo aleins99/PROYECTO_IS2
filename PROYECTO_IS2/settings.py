@@ -90,12 +90,12 @@ WSGI_APPLICATION = 'PROYECTO_IS2.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': 'SmleWiVEna6KKH70Qeec',
-        'HOST': 'containers-us-west-67.railway.app',
-        'PORT': '6265',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'agileproject',
+        'USER': 'usuario',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
