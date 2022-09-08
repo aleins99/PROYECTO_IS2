@@ -17,8 +17,11 @@ body {
     cursor: pointer;
 }
 
-td,th,tr{
+.table a {
+    color: #fff;
+    text-decoration: none;
+}
 
-    color:#fff;
-
+.table a:hover {
+    text-decoration: underline;
 }

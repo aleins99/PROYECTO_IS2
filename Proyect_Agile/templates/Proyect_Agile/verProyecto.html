@@ -1,14 +1,72 @@
 {% extends 'account/base.html' %}
 {% block content %}
-    <h1> {{ proyecto.nombre }} </h1>
-    <h2> {{ proyecto.descripcion }} </h2>
+    <div class="container-xxl">
+        <div class="row">
+            <div class="col border border-muted" >
+                <h1 class="text-center"> {{ proyecto.nombre|upper }} </h1>
+                <p> {{ estados|get_item:proyecto.estado }} </p>
+                <nav class="navbar navbar-expand-lg navbar-dark border border-muted">
+                    <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/ver/'%}active{%endif%}" aria-current="page" href="{% url 'verproyecto' proyecto.id %}">Descripción</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/miembros/'%}active{%endif%}" href="{% url 'miembrosproyecto' proyecto.id %}">Miembros</a>
+                        </li>
+                        {% if proyecto.estado == 'E' or proyecto.estado == 'C'%}
+                            <li class="nav-item">
+                                <a class="nav-link">Backlog</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link">Sprints</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link">Reportes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link">Historial</a>
+                            </li>
+                        {%endif%}
+                        </ul>
+                    </div>
+                    </div>
+                </nav>
+                {% block proyectoContent %}
+                    {% if proyecto.estado == 'P' %}
+                        <form method="POST" action="{% url 'verproyecto' proyecto.id %}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <input type="submit" class="btn btn-primary" style="margin-top: 18px;" value="Iniciar Proyecto">
+                            </div>
+                        </form>
+                    {% elif proyecto.estado == 'C' %}
+                        <div class="container" style="margin-top: 10px;">
+                            <h2 class="text-center">Sprint Actual</h2>
+                        </div>
+                    {% else %}
+                        <div class="container" style="margin-top: 10px;">
+                            <h2 class="text-center">Sprint Actual</h2>
+                        </div>
+                        <div class="mb-3">
+                            <a class="btn btn-primary" href="{% url 'crearUS' %}" > Crear User Story </a>
+                        </div>
 
-    <div class="mb-3">
-        <a class="btn btn-primary" href="{% url 'crearUS' %}" > Crear User Story </a>
+                        <div class="mb-3">
+                                <a class="btn btn-primary" href="#" > Importar User Story </a>
+                        </div>
+                    {% endif %}
+                </div>
+                {%if proyecto.estado == 'E' or proyecto.estado == 'C'%}
+                    <div class="container col-lg-3 border border-muted">
+                        <h2 class="text-center">Sprint Backlog</h2>
+                    </div>
+                {%endif%}
+                {% endblock %}
+        </div>
     </div>
-
-    <div class="mb-3">
-            <a class="btn btn-primary" href="#" > Importar User Story </a>
-    </div>
-
 {% endblock %}

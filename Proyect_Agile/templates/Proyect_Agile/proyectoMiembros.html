@@ -1,0 +1,26 @@
+{% extends 'Proyect_Agile/verProyecto.html' %}
+{% block proyectoContent %}
+<table class="table table-dark table-hover table-bordered border-muted">
+
+ <thead>
+ <tr>
+     <th scope="col">Correo</th>
+     <th scope="col">Carga Horaria</th>
+ </tr>
+
+ </thead>
+ <tbody>
+
+     {% for miembro in proyecto.miembros.all %}
+         <tr>
+             <td>{{ miembro.correo }}</td>
+             <td>{{ miembro.cargahoraria }}</td>
+         </tr>
+
+     {% endfor %}
+
+
+
+ </tbody>
+</table>
+{% endblock %}
