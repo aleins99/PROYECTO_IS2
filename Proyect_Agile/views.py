@@ -81,16 +81,23 @@ class IniciarProyecto(View):
         obj.save()
         return redirect(reverse_lazy('<iniciarproyecto>', kwargs={'pk': obj.pk}))
 
-class listarProyectos(ListView):
-    model= Proyecto
+def listarProyectos(request):
+
     template_name = 'Proyect_Agile/listarProyectos.html'
 
-    def get_context_data(self, **kwargs):
-        usuario = self.request.user.groups.filter(name='Administrador').exists()
-        context = super().get_context_data(**kwargs)
-        context['estados']= estados_Proyecto
-        context['Administrador']= usuario
-        return context
+
+
+    usuario = request.user.groups.filter(name='Administrador').exists()
+    proyectos = obtenerlistaDeProyectosUser(request)
+    context = {
+        'estados': estados_Proyecto,
+        'Administrador': usuario,
+        'proyectos': proyectos
+    }
+
+    return render(request, template_name, context)
+
+
 class editarProyecto(UpdateView):
     model= Proyecto
     template_name = 'Proyect_Agile/editarProyecto.html'
@@ -151,8 +158,16 @@ def verproyecto(request,id):
 
 @login_required(login_url="login")
 def miembrosProyecto(request, id):
-    proyecto = Proyecto.objects.get(id=id)
-    miembros = proyecto.miembros
+    proyecto = get_object_or_404(Proyecto, pk=id)
+    idproyecto = str(int(id) - 1)
+    rol = Rol.objects.filter(idProyecto=idproyecto, nombre="Scrum Master").first()
+    print('rol:',rol)
+    listaMiembros = Miembro.objects.filter(idproyecto=proyecto).exclude(idrol=rol)
+    permisos = obtenerPermisosProyecto(request, proyecto)
+    print(listaMiembros)
+
+
+
     proyecto_id = str(id)
 
     scrum= False
@@ -164,7 +179,8 @@ def miembrosProyecto(request, id):
         'proyecto':proyecto,
         'estados': estados_Proyecto,
         'proyecto_id':proyecto_id,
-        'scrum': scrum
+        'scrum': scrum,
+        'miembros': listaMiembros
     }
     return render(request, 'Proyect_Agile/proyectoMiembros.html', context)
 
@@ -177,6 +193,7 @@ def formCrearMiembro(request, id, socialUserId):
     if request.method == 'POST':
         # Se muestra el cuadro de crear miembro
         formMiembrosProyecto = MiembroForm(request.POST)
+
         if formMiembrosProyecto.is_valid():
             formMiembrosProyecto.save()
 
@@ -190,7 +207,7 @@ def formCrearMiembro(request, id, socialUserId):
             # Se muestra el cuadro de editar
             miembro.save()
 
-            return redirect('editarMiembros', id, miembro.id, miembro.usuario.id)
+            return redirect('miembrosproyecto', id)
 
         else:
             formMiembrosProyecto = MiembroForm()

@@ -17,7 +17,7 @@
         </thead>
         <tbody>
 
-            {% for proyecto in object_list %}
+            {% for proyecto in proyectos %}
 
                 <tr>
                     <td> <a href="{% url 'verproyecto' proyecto.id %}"> {{ proyecto.nombre }} </a>  </td>

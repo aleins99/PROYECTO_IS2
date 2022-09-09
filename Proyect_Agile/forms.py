@@ -57,6 +57,7 @@ class MiembroForm(forms.ModelForm):
             'usuario': forms.HiddenInput(),
             'idproyecto': forms.HiddenInput(),
 
+
         }
 
 

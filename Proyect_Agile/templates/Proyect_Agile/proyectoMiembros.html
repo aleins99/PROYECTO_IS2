@@ -4,18 +4,26 @@
 
  <thead>
  <tr>
+     <th scope="col">Nombre</th>
+     <th scope="col">Apellido</th>
      <th scope="col">Correo</th>
      <th scope="col">Carga Horaria</th>
+     <th scope="col">Rol</th>
  </tr>
 
  </thead>
  <tbody>
 
-     {% for miembro in proyecto.miembros.all %}
-         <tr>
-             <td>{{ miembro.correo }}</td>
-             <td>{{ miembro.cargahoraria }}</td>
-         </tr>
+     {% for miembro in miembros %}
+         {% if miembro.isActivo %}
+             <tr>
+                 <td>{{ miembro.usuario.first_name }}</td>
+                 <td>{{ miembro.usuario.last_name}}</td>
+                 <td>{{ miembro.usuario.email }}</td>
+                 <td>{{ miembro.cargahoraria }}</td>
+                 <td>{{ miembro.idrol }}</td>
+             </tr>
+         {% endif %}
 
      {% endfor %}
 
