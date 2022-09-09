@@ -1,4 +1,6 @@
 from gc import get_objects
+
+from allauth.socialaccount.models import SocialAccount
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template.loader import get_template
@@ -11,6 +13,8 @@ from .models import *
 from .forms import *
 from django.template.defaulttags import register
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
+from .utilidades import *
 
 estados_Proyecto = {
     'P':'Pendiente',
@@ -18,9 +22,28 @@ estados_Proyecto = {
     'C':'Cancelado',
     'F':'Finalizado',
 }
+
+@register.filter
+def get_at_index(list, index):
+    return list[index]
+
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)
+
+@register.filter
+def esMiembroEnProyecto(element, idProyecto):
+    user = User.objects.get(email__icontains=element.extra_data['email'])
+    proyecto = get_object_or_404(Proyecto, pk=idProyecto)
+    listaMiembros = Miembro.objects.filter(idproyecto=proyecto)
+    existe = False
+    if proyecto.scrumMaster == user:
+        existe = True
+    for x in listaMiembros:
+        if x.usuario == user and x.isActivo:
+            existe = True
+    return existe
+
 
 def iniciosesion(request):
     login = reverse('account_login')
@@ -32,7 +55,17 @@ class crearProyecto(CreateView):
     model = Proyecto
     template_name = 'Proyect_Agile/proyecto.html'
     form_class = ProyectoForm
-    extra_context = {'form': ProyectoForm }
+    extra_context = {'form': ProyectoForm}
+
+    def form_valid(self, form):
+        proyecto = Proyecto.objects.order_by('-id')[0]
+        rol = crearRolScrumMaster(proyecto)
+        asignarRolScrumMaster(proyecto, proyecto.scrumMaster, rol)
+        return super().form_valid(form)
+
+
+
+
 
 class crearUser_Story(CreateView):
     model = User_Story
@@ -51,7 +84,13 @@ class IniciarProyecto(View):
 class listarProyectos(ListView):
     model= Proyecto
     template_name = 'Proyect_Agile/listarProyectos.html'
-    extra_context = {'estados': estados_Proyecto}
+
+    def get_context_data(self, **kwargs):
+        usuario = self.request.user.groups.filter(name='Administrador').exists()
+        context = super().get_context_data(**kwargs)
+        context['estados']= estados_Proyecto
+        context['Administrador']= usuario
+        return context
 class editarProyecto(UpdateView):
     model= Proyecto
     template_name = 'Proyect_Agile/editarProyecto.html'
@@ -67,14 +106,44 @@ def verproyecto(request,id):
         obj.save()
         return redirect(reverse_lazy('verproyecto', kwargs={'id': obj.pk}))
 
-    
+
+
+    scrum = False
     proyecto = Proyecto.objects.get(id=id)
     proyecto_id = str(id)
     print(id)
+
+    idproyecto = str(int(id)-1)
+
+    rol = ''
+
+    try:
+
+        usuarios = Miembro.objects.filter(idproyecto=idproyecto, usuario=request.user).first()
+
+
+        rol = usuarios.idrol
+    except:
+        pass
+
+    print('rol:',rol)
+
+    #rol = Rol.objects.get(id=usuario.id)
+
+    print(request.user.id)
+
+    if request.user == proyecto.scrumMaster:
+        scrum = True
+
+    print(scrum)
+
     context = {
         'proyecto':proyecto,
         'estados': estados_Proyecto,
-        'proyecto_id':proyecto_id
+        'proyecto_id':proyecto_id,
+        'scrum': scrum,
+        'rol': rol,
+
     }
     print(type(proyecto.estado))
     return render(request,'Proyect_Agile/verProyecto.html', context)
@@ -85,10 +154,74 @@ def miembrosProyecto(request, id):
     proyecto = Proyecto.objects.get(id=id)
     miembros = proyecto.miembros
     proyecto_id = str(id)
+
+    scrum= False
+
+    if request.user == proyecto.scrumMaster:
+        scrum = True
+
     context = {
         'proyecto':proyecto,
         'estados': estados_Proyecto,
-        'proyecto_id':proyecto_id
+        'proyecto_id':proyecto_id,
+        'scrum': scrum
     }
     return render(request, 'Proyect_Agile/proyectoMiembros.html', context)
+
+def formCrearMiembro(request, id, socialUserId):
+    socialUser = get_object_or_404(SocialAccount, pk=socialUserId)
+    user = User.objects.get(email__icontains=socialUser.extra_data['email'])
+    proyecto = get_object_or_404(Proyecto, pk=id)
+    miembro = Miembro.objects.filter(usuario=user.id, idproyecto=proyecto).first()
+
+    if request.method == 'POST':
+        # Se muestra el cuadro de crear miembro
+        formMiembrosProyecto = MiembroForm(request.POST)
+        if formMiembrosProyecto.is_valid():
+            formMiembrosProyecto.save()
+
+
+        return redirect('miembrosproyecto', id)
+
+
+    else:
+        if miembro:
+            miembro.isActivo = True
+            # Se muestra el cuadro de editar
+            miembro.save()
+
+            return redirect('editarMiembros', id, miembro.id, miembro.usuario.id)
+
+        else:
+            formMiembrosProyecto = MiembroForm()
+            formMiembrosProyecto.fields["idproyecto"].initial = proyecto
+            formMiembrosProyecto.fields["usuario"].initial = user
+            formMiembrosProyecto.fields["isActivo"].initial = True
+
+            # se busca el rol SM_under que se excluye
+            rol = Rol.objects.filter(idProyecto=id, nombre="Scrum Master").first()
+            # se excluye el rol
+            formMiembrosProyecto.fields["idrol"].queryset = Rol.objects.filter(idProyecto=proyecto).exclude(
+                nombre="Scrum Master")
+
+            context = {
+                'formMiembroProyecto': formMiembrosProyecto,
+                'idProyecto': id,
+                'Usuario': user
+            }
+
+            return render(request, 'Proyect_Agile/agregarMiembro.html', context, None, 200)
+
+def ListarUsuarios(request, id):
+    # lista de usuario del sistema autenticados por el sso
+    listarUsuarios = SocialAccount.objects.order_by('id')
+    context = {
+        'usuarios': listarUsuarios,
+        'idProyecto': id,
+    }
+    return render(request, 'Proyect_Agile/listarUsuarios.html', context)
+
+
+
+
 

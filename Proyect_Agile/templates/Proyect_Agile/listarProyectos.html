@@ -35,4 +35,10 @@
         </tbody>
     </table>
 
+    {% if Administrador %}
+
+     <div class="mb-3">
+         <a class="btn btn-primary" href="{% url 'crearproyecto' %}">Crear Proyecto</a>
+     </div>
+    {% endif %}
 {% endblock %}

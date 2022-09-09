@@ -4,13 +4,14 @@ from django.contrib.postgres.fields import ArrayField
 from allauth.account.models import EmailAddress
 from allauth import app_settings
 from allauth.account.models import EmailAddress
+from django.contrib.auth.models import Permission, User, GroupManager
 # Create your models here
 class Proyecto(models.Model):
 
     nombre = models.CharField(max_length=200, null=False, blank=False)
     descripcion = models.TextField(null= True, blank= True, max_length=200)
     miembros = models.ManyToManyField('Miembro')
-    scrumMaster = models.ForeignKey(EmailAddress, on_delete=models.RESTRICT, blank=False)
+    scrumMaster = models.ForeignKey(User, on_delete=models.RESTRICT, blank=False)
     fechainicio = models.DateField(default=datetime.now)
     fechafin = models.DateField(blank=False, null=False)
     ESTADOS = (
@@ -26,11 +27,17 @@ class Proyecto(models.Model):
 
     def get_absolute_url(self):
         return '/Proyecto'
-class Miembro(models.Model):	
-    correo = models.ForeignKey(EmailAddress, on_delete=models.RESTRICT, null=True, blank=False)
+class Miembro(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.RESTRICT)
     cargahoraria = models.IntegerField(default=0)
+    idproyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT, null=True)
+    idrol = models.ForeignKey('Rol', on_delete=models.RESTRICT, null=True, blank=True)
+    isActivo = models.BooleanField(default=False)
+
     def __str__(self):
-       return self.correo.email
+        return self.usuario.first_name
+
+
 class Rol(models.Model):
 
     idProyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT)  # Proyecto al que pertenece el rol

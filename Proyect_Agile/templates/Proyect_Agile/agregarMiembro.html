@@ -1,0 +1,39 @@
+{% extends 'account/base.html' %}
+{% load crispy_forms_tags %}
+{% block nav-proyecto %}
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'Proyecto:index' %}">Proyecto <span class="sr-only">(current)</span> </a>
+    </li>
+{% endblock %}
+{% block content %}
+    {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            ERROR AL GUARDAR
+        </div>
+    {% endif %}
+    <div class="container mb-5">
+        <div class="py-5 text-center ">
+            <h1 class="text-light"> Agregar <Miembros></Miembros> </h1>
+        </div>
+        <!-- escribir aqui -->
+        <div class="bg-dark border rounded border-dark p-3">
+
+            <div class="d-flex align-items-center p-3 my-3 text-dark-50">
+                <div>
+                    <h6 class="mb-0 lh-100">Miembro: {{ Usuario.first_name }} {{ Usuario.last_name }} </h6>
+                    <small>{{ Usuario.email }}</small>
+                </div>
+            </div>
+
+            <form method="POST">
+                {{ formMiembroProyecto|crispy }}
+                <button type="submit" class="btn btn-primary">Guardar</button>
+
+                {% csrf_token %}
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+
+

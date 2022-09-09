@@ -47,3 +47,16 @@ class UserStoryForm(forms.ModelForm):
 
         for name, field in self.fields.items():
             field.widget.attrs.update({'class':'form-control'})
+
+
+class MiembroForm(forms.ModelForm):
+    class Meta:
+        model = Miembro
+        fields = '__all__'
+        widgets = {
+            'usuario': forms.HiddenInput(),
+            'idproyecto': forms.HiddenInput(),
+
+        }
+
+
