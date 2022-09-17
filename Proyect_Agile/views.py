@@ -54,6 +54,7 @@ def iniciosesion(request):
 class crearProyecto(CreateView):
     model = Proyecto
     template_name = 'Proyect_Agile/proyecto.html'
+    
     form_class = ProyectoForm
     extra_context = {'form': ProyectoForm}
 
