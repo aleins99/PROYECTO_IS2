@@ -60,6 +60,8 @@ class Rol(models.Model):
     agregarSprintBacklog = models.BooleanField(default=False)
     modificarSprintBacklog = models.BooleanField(default=False)
 
+#comentario prueba
+
     def __str__(self):
         return self.nombre
 
