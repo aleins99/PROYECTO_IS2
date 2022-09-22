@@ -37,7 +37,6 @@ class Miembro(models.Model):
     def __str__(self):
         return self.usuario.first_name
 
-
 class Rol(models.Model):
 
     idProyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT)  # Proyecto al que pertenece el rol

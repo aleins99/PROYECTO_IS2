@@ -51,21 +51,27 @@ def iniciosesion(request):
 
 # The class crearProyecto inherits from CreateView, and it's model is Proyecto, it's template is
 # proyect.html, it's form is ProyectoForm, and it's extra context is the ProyectoForm
-class crearProyecto(CreateView):
-    model = Proyecto
-    template_name = 'Proyect_Agile/proyecto.html'
-    
-    form_class = ProyectoForm
-    extra_context = {'form': ProyectoForm}
-
-    def form_valid(self, form):
-        proyecto = Proyecto.objects.order_by('-id')[0]
-        rol = crearRolScrumMaster(proyecto)
-        asignarRolScrumMaster(proyecto, proyecto.scrumMaster, rol)
-        return super().form_valid(form)
 
 
+def crearProyecto(request):
+    if request.method == 'POST':
+        formProyecto = ProyectoForm(request.POST)
+        if formProyecto.is_valid():
+            formProyecto.save()
+            # crear el rol SM por debajo
+            proyecto = Proyecto.objects.order_by('-id')[0]
+            idRol = crearRolScrumMaster(proyecto)
+            # asignar el rol al miembro SM que se asigno
+            asignarRolScrumMaster(proyecto, proyecto.scrumMaster, idRol)
 
+            return redirect('listarproyecto')
+    else:
+        formProyecto = ProyectoForm()
+        formProyecto.fields["scrumMaster"].queryset = User.objects.all().exclude(username='admin')
+
+    context = {'form': formProyecto}
+
+    return render(request, 'Proyect_Agile/proyecto.html', context, None, 200)
 
 
 class crearUser_Story(CreateView):
