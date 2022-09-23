@@ -23,6 +23,10 @@ estados_Proyecto = {
     'F':'Finalizado',
 }
 
+@register.filter(name='has_group')
+def has_group(user,groupname):
+    return user.groups.filter(name=groupname).exists()
+
 @register.filter
 def get_at_index(list, index):
     return list[index]
@@ -92,6 +96,7 @@ def listarProyectos(request):
 
     template_name = 'Proyect_Agile/listarProyectos.html'
 
+    scrum=request.user
 
 
     usuario = request.user.groups.filter(name='Administrador').exists()
@@ -99,7 +104,8 @@ def listarProyectos(request):
     context = {
         'estados': estados_Proyecto,
         'Administrador': usuario,
-        'proyectos': proyectos
+        'proyectos': proyectos,
+        'usuario' : scrum
     }
 
     return render(request, template_name, context)
@@ -127,13 +133,13 @@ def verproyecto(request,id):
     proyecto_id = str(id)
     print(id)
 
-    idproyecto = str(int(id)-1)
+
 
     rol = ''
 
     try:
 
-        usuarios = Miembro.objects.filter(idproyecto=idproyecto, usuario=request.user).first()
+        usuarios = Miembro.objects.filter(idproyecto=id, usuario=request.user).first()
 
 
         rol = usuarios.idrol
@@ -163,17 +169,30 @@ def verproyecto(request,id):
     return render(request,'Proyect_Agile/verProyecto.html', context)
 
 
+def listarProyectosAdmin(request):
+    template_name = 'Proyect_Agile/listarProyectosAdmin.html'
+
+    scrum = request.user
+    proyectos = Proyecto.objects.all()
+    context = {
+        'estados': estados_Proyecto,
+        'proyectos': proyectos,
+    }
+
+    return render(request, template_name, context)
+
+
+
 @login_required(login_url="login")
 def miembrosProyecto(request, id):
     proyecto = get_object_or_404(Proyecto, pk=id)
-    idproyecto = str(int(id) - 1)
-    rol = Rol.objects.filter(idProyecto=idproyecto, nombre="Scrum Master").first()
+    rol = Rol.objects.filter(idProyecto=id, nombre="Scrum Master").first()
     print('rol:',rol)
     listaMiembros = Miembro.objects.filter(idproyecto=proyecto).exclude(idrol=rol)
     permisos = obtenerPermisosProyecto(request, proyecto)
     print(listaMiembros)
 
-
+    usuario = request.user
 
     proyecto_id = str(id)
 
@@ -187,7 +206,8 @@ def miembrosProyecto(request, id):
         'estados': estados_Proyecto,
         'proyecto_id':proyecto_id,
         'scrum': scrum,
-        'miembros': listaMiembros
+        'miembros': listaMiembros,
+        'usuario' : usuario
     }
     return render(request, 'Proyect_Agile/proyectoMiembros.html', context)
 
@@ -235,6 +255,19 @@ def formCrearMiembro(request, id, socialUserId):
             }
 
             return render(request, 'Proyect_Agile/agregarMiembro.html', context, None, 200)
+
+class editarMiembro(UpdateView):
+    model= Miembro
+    template_name = 'Proyect_Agile/editarMiembro.html'
+    form_class = MiembroForm
+
+    def get_success_url(self):
+
+        id = self.kwargs['idproyecto']
+
+        print(id)
+
+        return reverse('miembrosproyecto',kwargs={'id':id})
 
 def ListarUsuarios(request, id):
     # lista de usuario del sistema autenticados por el sso

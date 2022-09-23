@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <h1>Bienvenido : {{ usuario.first_name }} {{ usuario.last_name }}</h1>
+    <h1>Bienvenido : Administrador</h1>
 
     <br/>
 
@@ -45,10 +45,8 @@
         </tbody>
     </table>
 
-    {% if Administrador %}
-
      <div class="mb-3">
          <a class="btn btn-primary" href="{% url 'crearproyecto' %}">Crear Proyecto</a>
      </div>
-    {% endif %}
+
 {% endblock %}

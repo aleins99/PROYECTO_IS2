@@ -22,6 +22,9 @@
                  <td>{{ miembro.usuario.email }}</td>
                  <td>{{ miembro.cargahoraria }}</td>
                  <td>{{ miembro.idrol }}</td>
+                  {% if proyecto.scrumMaster == usuario %}
+                      <td> <a href="{% url 'editarmiembro' proyecto.id miembro.id %}"> Editar </a>  </td>
+                  {% endif %}
              </tr>
          {% endif %}
 

@@ -44,7 +44,7 @@
           >
             <div class="offcanvas-header">
               <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">
-               	Administrador
+               	 <a class="navbar-brand" href="{% url 'listarproyecto' %}">Project Agile</a>
               </h5>
               <button
                 type="button"
@@ -57,12 +57,13 @@
               <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
                 <li class="nav-item">
                   <a class="nav-link active" aria-current="page"
-                  href="{% url 'home' %}" >Inicio</a
+                  href="{% url 'listarproyecto' %}" >Inicio</a
                   >
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="#">Link</a>
                 </li>
+                  {% if user|has_group:'Administrador' %}
                 <li class="nav-item dropdown">
                   <a
                     class="nav-link dropdown-toggle"
@@ -71,12 +72,12 @@
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    Proyecto
+                    Administracion
                   </a>
                   <ul class="dropdown-menu dropdown-menu-dark">
 
                     <li>
-                      <a class="dropdown-item" href="{% url 'listarproyecto' %}">Listar Proyectos</a>
+                      <a class="dropdown-item" href="{% url 'listaAdministracion' %}">Listar Proyectos Admnistrador</a>
                     </li>
 
                     <li>
@@ -85,32 +86,33 @@
 
                   </ul>
                 </li>
+                  {% endif %}
               </ul>
             </div>
-            <div class="dropup-center dropup">
+          </div>
+             <div class="dropdown" style="margin-right: 8% !important">
               <button
                 class="btn btn-dark dropdown-toggle"
                 type="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
+
               >
                 {{ user.username }}
               </button>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu" >
                 <li><a class="dropdown-item" href="#">Editar Perfil</a></li>
                 <li><a class="dropdown-item" href="{% url 'socialaccount_connections' %}">Administrar Cuenta</a></li>
 		<li><a class="dropdown-item" href="{% url 'account_logout'  %}">Cerrar Sesión</a></li>
               </ul>
             </div>
-          </div>
-          <a class="navbar-brand" href="{% url 'home' %}">Project Agile</a>
         </div>
       </nav>
     {% block body %}
         <div class="p-3 mb-3 bg-dark">
           <div class="container d-flex justify-content-between">
               {% if user.is_authenticated %}
-              <div><a class="text-light" href="{% url 'home' %}">Home</a></div>
+              <div><a class="text-light" href="{% url 'listarproyecto' %}">Home</a></div>
                   <div><a class="text-light" href="{% url 'account_logout' %}">{{ user.username }}</a></div>
               <div><a class="text-light" href="{% url 'account_logout' %}">Sign Out</a></div>
               {% endif %}
