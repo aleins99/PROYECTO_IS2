@@ -16,6 +16,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from .utilidades import *
 from .decorators import *
+from django.utils.decorators import method_decorator
 
 estados_Proyecto = {
     'P':'Pendiente',
@@ -76,7 +77,7 @@ def crearProyecto(request):
 
     context = {'form': formProyecto}
 
-    return render(request, 'Proyect_Agile/proyecto.html', context, None, 200)
+    return render(request, 'Proyect_Agile/Proyecto/proyecto.html', context, None, 200)
 
 
 class crearUser_Story(CreateView):
@@ -95,7 +96,7 @@ class IniciarProyecto(View):
 
 def listarProyectos(request):
 
-    template_name = 'Proyect_Agile/listarProyectos.html'
+    template_name = 'Proyect_Agile/Proyecto/listarProyectos.html'
 
     scrum=request.user
 
@@ -114,7 +115,7 @@ def listarProyectos(request):
 
 class editarProyecto(UpdateView):
     model= Proyecto
-    template_name = 'Proyect_Agile/editarProyecto.html'
+    template_name = 'Proyect_Agile/Proyecto/editarProyecto.html'
     form_class = ProyectoForm
 
 
@@ -167,11 +168,11 @@ def verproyecto(request,id):
 
     }
     print(type(proyecto.estado))
-    return render(request,'Proyect_Agile/verProyecto.html', context)
+    return render(request,'Proyect_Agile/Proyecto/verProyecto.html', context)
 
 
 def listarProyectosAdmin(request):
-    template_name = 'Proyect_Agile/listarProyectosAdmin.html'
+    template_name = 'Proyect_Agile/Proyecto/listarProyectosAdmin.html'
 
     scrum = request.user
     proyectos = Proyecto.objects.all()
@@ -210,8 +211,9 @@ def miembrosProyecto(request, id):
         'miembros': listaMiembros,
         'usuario' : usuario
     }
-    return render(request, 'Proyect_Agile/proyectoMiembros.html', context)
-@permisoVista(permiso='agregarMiembro')
+    return render(request, 'Proyect_Agile/Miembros/proyectoMiembros.html', context)
+
+@permisoVista(permiso="agregarMiembro")
 def formCrearMiembro(request, id, socialUserId):
     socialUser = get_object_or_404(SocialAccount, pk=socialUserId)
     user = User.objects.get(email__icontains=socialUser.extra_data['email'])
@@ -255,11 +257,13 @@ def formCrearMiembro(request, id, socialUserId):
                 'Usuario': user
             }
 
-            return render(request, 'Proyect_Agile/agregarMiembro.html', context, None, 200)
-@permisoVista(permiso='modificarMiembro')
+            return render(request, 'Proyect_Agile/Miembros/agregarMiembro.html', context, None, 200)
+
+
+@method_decorator(permisoVista(permiso="modificarMiembro"), name='dispatch')
 class editarMiembro(UpdateView):
     model= Miembro
-    template_name = 'Proyect_Agile/editarMiembro.html'
+    template_name = 'Proyect_Agile/Miembros/editarMiembro.html'
     form_class = MiembroForm
 
     def get_success_url(self):
@@ -277,9 +281,9 @@ def ListarUsuarios(request, id):
         'usuarios': listarUsuarios,
         'idProyecto': id,
     }
-    return render(request, 'Proyect_Agile/listarUsuarios.html', context)
+    return render(request, 'Proyect_Agile/Usuario/listarUsuarios.html', context)
 
-
+@permisoVista(permiso="crearRol")
 def crearRol(request, id):
     proyecto = Proyecto.objects.get(id=id)
     if request.method == 'POST':
@@ -293,7 +297,7 @@ def crearRol(request, id):
         context = {
             'form': formrol
         }
-        return render(request, 'Proyect_Agile/crearRol.html', context)
+        return render(request, 'Proyect_Agile/Rol/crearRol.html', context)
 
 
 def verRolProyecto(request, id):
@@ -305,4 +309,4 @@ def verRolProyecto(request, id):
         'proyecto': proyecto,
         'usuario': usuario,
     }
-    return render(request, 'Proyect_Agile/verRolesProyecto.html', context)
+    return render(request, 'Proyect_Agile/Rol/verRolesProyecto.html', context)

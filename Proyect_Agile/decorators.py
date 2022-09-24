@@ -1,16 +1,30 @@
+from ast import arg
+from calendar import c
 from .models import Proyecto, Miembro, Rol
 from django.http import HttpResponse
 
 def permisoVista(permiso):
     def decorator(view_func):
         def wrapper_func(request,*args,**kwargs):
-            id = kwargs["id"]
-            proyecto = Proyecto.objects.get(id=id)
+            # Tratando de obtener el id del proyecto
+            if 'id' in kwargs:
+                print("funciona?")
+                proyectoid = kwargs['id']
+            elif 'idproyecto' in kwargs:
+                proyectoid  = kwargs['idproyecto']
+            else:
+                proyectoid = kwargs['pk']
+            
+            print(proyectoid)
+            # el usuario logueado
             usuario = request.user
-            rol = Miembro.objects.filter(idproyecto=id,usuario=usuario).first()
-            permisos = rol.idrol.obtener_permisos()
+            
+            # comprobar si el miembro tiene el rol requerido
+            miembro = Miembro.objects.filter(idproyecto=proyectoid,usuario=usuario).first()
+            permisos = miembro.idrol.obtener_permisos()
             if permisos[permiso]:
                 return view_func(request,*args,**kwargs)
             else:
-                return HttpResponse("no tiene acceso a este modulo")
-
+                return HttpResponse("No tienes acceso a este modulo")
+        return wrapper_func        
+    return decorator
