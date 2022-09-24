@@ -28,7 +28,7 @@ class Proyecto(models.Model):
     def get_absolute_url(self):
         return '/Proyecto'
 class Miembro(models.Model):
-    usuario = models.ForeignKey(User, on_delete=models.RESTRICT)
+    usuario = models.ForeignKey(User, on_delete=models.RESTRICT, null=True, blank=True)
     cargahoraria = models.IntegerField(default=0)
     idproyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT, null=True)
     idrol = models.ForeignKey('Rol', on_delete=models.RESTRICT, null=True, blank=True)
@@ -58,7 +58,23 @@ class Rol(models.Model):
     finalizarSprint = models.BooleanField(default=False)
     agregarSprintBacklog = models.BooleanField(default=False)
     modificarSprintBacklog = models.BooleanField(default=False)
-
+    def obtener_permisos(self):
+        return {
+            'agregarUserStory': self.agregarUserStory,
+            'eliminarUserStory': self.eliminarUserStory,
+            'modificarUserStory': self.modificarUserStory,
+            'agregarMiembro': self.agregarMiembro,
+            'modificarMiembro': self.modificarMiembro,
+            'eliminarMiembro': self.eliminarMiembro,
+            'crearRol': self.crearRol,
+            'modificarRol': self.modificarRol,
+            'eliminarRol': self.eliminarRol,
+            'crearSprint': self.crearSprint,
+            'empezarSprint': self.empezarSprint,
+            'finalizarSprint': self.finalizarSprint,
+            'agregarSprintBacklog': self.agregarSprintBacklog,
+            'modificarSprintBacklog': self.modificarSprintBacklog,
+        }
 #comentario prueba
 
     def __str__(self):

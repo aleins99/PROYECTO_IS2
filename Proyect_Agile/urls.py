@@ -14,5 +14,6 @@ urlpatterns = [
     path('Proyecto/agregarMiembro/<int:id>/<int:socialUserId>', views.formCrearMiembro, name="agregarMiembros"),
     path('listarUsuarios/<int:id>/', views.ListarUsuarios, name='listarUsuarios'),
     path('Proyecto/<idproyecto>/miembro/<pk>/editar/', views.editarMiembro.as_view(), name='editarmiembro'),
-
+    path('Proyecto/<id>/roles/crear/', views.crearRol, name='agregarrol'),
+    path('Proyecto/<id>/roles/', views.crearRol, name='rolproyecto'),
 ]

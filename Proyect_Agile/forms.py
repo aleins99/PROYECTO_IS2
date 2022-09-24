@@ -59,5 +59,11 @@ class MiembroForm(forms.ModelForm):
 
 
         }
-
+class rolForm(forms.ModelForm):
+    class Meta:
+        model= Rol
+        fields = '__all__'
+        widgets = {
+            'idProyecto': forms.HiddenInput(),
+        }
 

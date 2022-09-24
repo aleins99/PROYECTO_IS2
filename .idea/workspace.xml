@@ -5,13 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc82abfe-1e11-4cfa-88ee-f8d83a81d086" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/editarMiembro.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/listarProyectosAdmin.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Proyect_Agile/decorators.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/crearRol.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/verRolesProyecto.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PROYECTO_IS2/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/PROYECTO_IS2/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/listarProyectos.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/listarProyectos.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/proyectoMiembros.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/proyectoMiembros.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/account/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/account/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/migrations/0002_tipous_proyecto_descripcion_proyecto_estado_and_more.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/migrations/0003_alter_miembro_cargahoraria.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/migrations/0004_remove_miembro_usuario_miembro_correo_and_more.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/migrations/0005_remove_proyecto_usbacklog_remove_proyecto_miembros_and_more.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/migrations/0006_remove_miembro_correo_miembro_idproyecto_and_more.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/migrations/0007_alter_miembro_usuario.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/migrations/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Proyect_Agile/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Proyect_Agile/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/views.py" afterDir="false" />
     </list>
@@ -49,22 +56,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/rsvf/Escritorio/PROYECTO_IS2/venv",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/rsvf/Escritorio/PROYECTO_IS2/venv&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Acer\Desktop\is2\PROYECTO_IS2\templates" />
@@ -128,6 +135,8 @@
       <workItem from="1662754078303" duration="383000" />
       <workItem from="1663367402550" duration="6785000" />
       <workItem from="1663885116454" duration="424000" />
+      <workItem from="1663973471861" duration="609000" />
+      <workItem from="1663982621722" duration="5468000" />
     </task>
     <servers />
   </component>

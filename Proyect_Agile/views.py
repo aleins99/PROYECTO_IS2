@@ -15,6 +15,7 @@ from django.template.defaulttags import register
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from .utilidades import *
+from .decorators import *
 
 estados_Proyecto = {
     'P':'Pendiente',
@@ -210,7 +211,7 @@ def miembrosProyecto(request, id):
         'usuario' : usuario
     }
     return render(request, 'Proyect_Agile/proyectoMiembros.html', context)
-
+@permisoVista(permiso='agregarMiembro')
 def formCrearMiembro(request, id, socialUserId):
     socialUser = get_object_or_404(SocialAccount, pk=socialUserId)
     user = User.objects.get(email__icontains=socialUser.extra_data['email'])
@@ -255,7 +256,7 @@ def formCrearMiembro(request, id, socialUserId):
             }
 
             return render(request, 'Proyect_Agile/agregarMiembro.html', context, None, 200)
-
+@permisoVista(permiso='modificarMiembro')
 class editarMiembro(UpdateView):
     model= Miembro
     template_name = 'Proyect_Agile/editarMiembro.html'
@@ -279,6 +280,29 @@ def ListarUsuarios(request, id):
     return render(request, 'Proyect_Agile/listarUsuarios.html', context)
 
 
+def crearRol(request, id):
+    proyecto = Proyecto.objects.get(id=id)
+    if request.method == 'POST':
+        formrol = rolForm(request.POST)
+        if formrol.is_valid():
+            formrol.save()
+        return redirect('rolproyecto', id)
+    else:
+        formrol = rolForm()
+        formrol.fields['idProyecto'].initial = proyecto
+        context = {
+            'form': formrol
+        }
+        return render(request, 'Proyect_Agile/crearRol.html', context)
 
 
-
+def verRolProyecto(request, id):
+    proyecto = Proyecto.objects.get(id=id)
+    usuario = request.user
+    roles = Rol.objects.filter(idProyecto=proyecto)
+    context = {
+        'roles': roles,
+        'proyecto': proyecto,
+        'usuario': usuario,
+    }
+    return render(request, 'Proyect_Agile/verRolesProyecto.html', context)
