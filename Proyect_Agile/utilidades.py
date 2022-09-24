@@ -111,7 +111,11 @@ def obtenerlistaDeProyectosUser(request):
     return listaDeProyectos
 
 
-
+# obtener los permisos del usuario
+def obtenerPermisos(proyectoid, usuario):
+    miembro = Miembro.objects.filter(idproyecto=proyectoid,usuario=usuario).first()
+    permisos = miembro.idrol.obtener_permisos()
+    return permisos
 
 
 

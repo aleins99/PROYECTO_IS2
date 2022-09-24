@@ -35,7 +35,7 @@ def get_at_index(list, index):
 
 @register.filter
 def get_item(dictionary, key):
-    return dictionary.get(key)
+    return dictionary[key]
 
 @register.filter
 def esMiembroEnProyecto(element, idProyecto):
@@ -158,14 +158,14 @@ def verproyecto(request,id):
         scrum = True
 
     print(scrum)
-
+    permisosUsuario = obtenerPermisos(id, request.user)
     context = {
         'proyecto':proyecto,
         'estados': estados_Proyecto,
         'proyecto_id':proyecto_id,
         'scrum': scrum,
         'rol': rol,
-
+        'permisos': permisosUsuario
     }
     print(type(proyecto.estado))
     return render(request,'Proyect_Agile/Proyecto/verProyecto.html', context)
@@ -203,13 +203,15 @@ def miembrosProyecto(request, id):
     if request.user == proyecto.scrumMaster:
         scrum = True
 
+    permisosMiembro = obtenerPermisos(id, request.user)
     context = {
         'proyecto':proyecto,
         'estados': estados_Proyecto,
         'proyecto_id':proyecto_id,
         'scrum': scrum,
         'miembros': listaMiembros,
-        'usuario' : usuario
+        'usuario' : usuario,
+        'permisos': permisosMiembro
     }
     return render(request, 'Proyect_Agile/Miembros/proyectoMiembros.html', context)
 

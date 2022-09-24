@@ -22,6 +22,7 @@ def permisoVista(permiso):
             # comprobar si el miembro tiene el rol requerido
             miembro = Miembro.objects.filter(idproyecto=proyectoid,usuario=usuario).first()
             permisos = miembro.idrol.obtener_permisos()
+            print(permisos)
             if permisos[permiso]:
                 return view_func(request,*args,**kwargs)
             else:

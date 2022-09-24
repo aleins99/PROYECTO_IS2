@@ -22,7 +22,7 @@
                  <td>{{ miembro.usuario.email }}</td>
                  <td>{{ miembro.cargahoraria }}</td>
                  <td>{{ miembro.idrol }}</td>
-                  {% if proyecto.scrumMaster == usuario %}
+                  {% if permisos|get_item:'modificarMiembro' %}
                       <td> <a href="{% url 'editarmiembro' proyecto.id miembro.id %}"> Editar </a>  </td>
                   {% endif %}
              </tr>
