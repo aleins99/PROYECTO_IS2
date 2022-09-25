@@ -1,13 +1,10 @@
 from datetime import datetime
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
-from allauth.account.models import EmailAddress
 from allauth import app_settings
-from allauth.account.models import EmailAddress
 from django.contrib.auth.models import Permission, User, GroupManager
 # Create your models here
 class Proyecto(models.Model):
-
     nombre = models.CharField(max_length=200, null=False, blank=False)
     descripcion = models.TextField(null= True, blank= True, max_length=200)
     miembros = models.ManyToManyField('Miembro')
@@ -27,6 +24,8 @@ class Proyecto(models.Model):
 
     def get_absolute_url(self):
         return '/Proyecto'
+
+
 class Miembro(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.RESTRICT, null=True, blank=True)
     cargahoraria = models.IntegerField(default=0)
@@ -37,8 +36,8 @@ class Miembro(models.Model):
     def __str__(self):
         return self.usuario.first_name
 
-class Rol(models.Model):
 
+class Rol(models.Model):
     idProyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT)  # Proyecto al que pertenece el rol
     nombre = models.CharField(max_length=250)
     descripcion = models.TextField()  # Describir el rol
@@ -58,6 +57,7 @@ class Rol(models.Model):
     finalizarSprint = models.BooleanField(default=False)
     agregarSprintBacklog = models.BooleanField(default=False)
     modificarSprintBacklog = models.BooleanField(default=False)
+
     def obtener_permisos(self):
         return {
             'agregarUserStory': self.agregarUserStory,
@@ -75,7 +75,6 @@ class Rol(models.Model):
             'agregarSprintBacklog': self.agregarSprintBacklog,
             'modificarSprintBacklog': self.modificarSprintBacklog,
         }
-#comentario prueba
 
     def __str__(self):
         return self.nombre
@@ -95,6 +94,10 @@ class TipoUS(models.Model):
         ('H', 'Hecho'),
         ('C', 'Cancelado'),
     ]
+
+    estado = models.CharField(max_length=4, choices=ESTADOS, default='N')
+
+
 class User_Story(models.Model):
     nombre = models.CharField(max_length=200)
     descripcion = models.TextField()
@@ -105,3 +108,19 @@ class User_Story(models.Model):
     BV = models.IntegerField()
     tipo = models.ForeignKey(TipoUS , on_delete=models.RESTRICT)
     estado = models.CharField(max_length=10,default='N')
+
+
+class Sprint(models.Model):
+    nombre = models.CharField(max_length=200)
+    descripcion = models.TextField()
+    fechainicio = models.DateField(default=datetime.now)
+    fechafin = models.DateField(blank=False, null=False)
+    idproyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT)
+    ESTADOS = (
+        ('P', 'Pendiente'),
+        ('E', 'En ejecucion'),
+        ('F', 'Finalizado'),
+    )
+    estado = models.CharField(max_length=1, choices=ESTADOS, default='P')
+    def __str__(self):
+        return self.nombre

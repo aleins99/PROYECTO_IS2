@@ -47,12 +47,10 @@ class ProyectoForm(forms.ModelForm):
             field.widget.attrs.update({'class':'form-control'})
 
 
-
 class UserStoryForm(forms.ModelForm):
     class Meta:
         model = User_Story
         fields = '__all__'
-
 
 
     def __init__(self, *args, **kwargs):
@@ -70,20 +68,34 @@ class MiembroForm(forms.ModelForm):
     class Meta:
         model = Miembro
         fields = '__all__'
+        labels = {'cargahoraria':'Carga Horaria', 'idrol': 'Rol', 'isActivo': 'Activo'}
         widgets = {
             'usuario': forms.HiddenInput(),
             'idproyecto': forms.HiddenInput(),
-
-
         }
+    
+       
+    def __init__(self, *args, **kwargs):
+        """
+        The function takes in a list of fields and a list of widgets, and returns a list of fields with
+        the widgets replaced
+        """
+        super(MiembroForm, self).__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class':'form-control'})
+
+
 class rolForm(forms.ModelForm):
     class Meta:
         model= Rol
         fields = '__all__'
+        labels = {'nombre': 'Nombre', 'descripcion': 'Descripción'}
         widgets = {
             'idProyecto': forms.HiddenInput(),
         }
 
+<<<<<<< HEAD
 class tipoUSForm(forms.ModelForm):
     class Meta:
         model= TipoUS
@@ -91,3 +103,38 @@ class tipoUSForm(forms.ModelForm):
         widgets = {
             'idProyecto': forms.HiddenInput(),
         }
+=======
+
+    def __init__(self, *args, **kwargs):
+        """
+        The function takes in a list of fields and a list of widgets, and returns a list of fields with
+        the widgets replaced
+        """
+        super(rolForm, self).__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class':'form-control'})
+
+
+class SprintForm(forms.ModelForm):
+    class Meta:
+        model = Sprint
+        fields = ['nombre', 'descripcion', 'fechainicio', 'fechafin', 'estado']
+        labels = {'fechainicio':'Fecha Inicio', 'fechafin':'Fecha Fin'}
+        widgets = {
+            'descripcion': forms.Textarea(attrs={'cols': 1, 'rows': 2}),
+            'fechainicio': forms.DateInput(attrs={'type': 'date'}),
+            'fechafin': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+
+    def __init__(self, *args, **kwargs):
+        """
+        The function takes in a list of fields and a list of widgets, and returns a list of fields with
+        the widgets replaced
+        """
+        super(SprintForm, self).__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class':'form-control'})
+>>>>>>> 718641c (agregue los tests)

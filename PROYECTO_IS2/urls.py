@@ -24,5 +24,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include("Proyect_Agile.urls")),
     path('accounts/', include('allauth.urls')),
-
+    path('Docs/', TemplateView.as_view(template_name='docs/admin.html'), name='Docs')
 ]
