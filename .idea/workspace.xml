@@ -5,20 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc82abfe-1e11-4cfa-88ee-f8d83a81d086" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Proyect_Agile/decorators.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/crearRol.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/verRolesProyecto.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Docs/Documentacion_index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Rol/editarRol.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/migrations/0002_tipous_proyecto_descripcion_proyecto_estado_and_more.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/migrations/0003_alter_miembro_cargahoraria.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/migrations/0004_remove_miembro_usuario_miembro_correo_and_more.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/migrations/0005_remove_proyecto_usbacklog_remove_proyecto_miembros_and_more.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/migrations/0006_remove_miembro_correo_miembro_idproyecto_and_more.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/migrations/0007_alter_miembro_usuario.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Miembros/proyectoMiembros.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Miembros/proyectoMiembros.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Proyecto/verProyecto.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Proyecto/verProyecto.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/account/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/account/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Proyect_Agile/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Proyect_Agile/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/views.py" afterDir="false" />
     </list>
@@ -137,6 +129,8 @@
       <workItem from="1663885116454" duration="424000" />
       <workItem from="1663973471861" duration="609000" />
       <workItem from="1663982621722" duration="5468000" />
+      <workItem from="1664060660473" duration="109000" />
+      <workItem from="1664060897718" duration="6665000" />
     </task>
     <servers />
   </component>

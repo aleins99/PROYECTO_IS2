@@ -14,6 +14,15 @@
  </thead>
  <tbody>
 
+    <tr>
+        <td>{{ proyecto.scrumMaster.first_name }}</td>
+        <td>{{ proyecto.scrumMaster.last_name}}</td>
+        <td>{{ proyecto.scrumMaster.email }}</td>
+        <td>#</td>
+        <td>Scrum Master</td>
+
+    </tr>
+
      {% for miembro in miembros %}
          {% if miembro.isActivo %}
              <tr>

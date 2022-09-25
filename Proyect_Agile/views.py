@@ -310,5 +310,26 @@ def verRolProyecto(request, id):
         'roles': roles,
         'proyecto': proyecto,
         'usuario': usuario,
+        'estados': estados_Proyecto,
     }
     return render(request, 'Proyect_Agile/Rol/verRolesProyecto.html', context)
+@method_decorator(permisoVista(permiso="modificarRol"), name='dispatch')
+class editarRol(UpdateView):
+    model= Rol
+    template_name = 'Proyect_Agile/Rol/editarRol.html'
+    form_class = rolForm
+
+    def get_success_url(self):
+
+        id = self.kwargs['idproyecto']
+
+        print(id)
+
+        return reverse('rolproyecto',kwargs={'id':id})
+
+
+def verDocumentacion(request):
+
+    context={}
+
+    return render(request,'Proyect_Agile/Docs/Documentacion_index.html',context)

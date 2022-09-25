@@ -15,5 +15,7 @@ urlpatterns = [
     path('listarUsuarios/<int:id>/', views.ListarUsuarios, name='listarUsuarios'),
     path('Proyecto/<idproyecto>/miembro/<pk>/editar/', views.editarMiembro.as_view(), name='editarmiembro'),
     path('Proyecto/<id>/roles/crear/', views.crearRol, name='agregarrol'),
-    path('Proyecto/<id>/roles/', views.crearRol, name='rolproyecto'),
+    path('Proyecto/<id>/roles/', views.verRolProyecto, name='rolproyecto'),
+    path('Proyecto/<idproyecto>/roles/<pk>editarRoles/', views.editarRol.as_view(), name='editarRol'),
+    path('home/documentacion' , views.verDocumentacion ,name='documentacion'),
 ]
