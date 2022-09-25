@@ -50,15 +50,23 @@ def esMiembroEnProyecto(element, idProyecto):
             existe = True
     return existe
 
-
+# USUARIO
 def iniciosesion(request):
     login = reverse('account_login')
     return HttpResponseRedirect(login)
 
+def ListarUsuarios(request, id):
+    # lista de usuario del sistema autenticados por el sso
+    listarUsuarios = SocialAccount.objects.order_by('id')
+    context = {
+        'usuarios': listarUsuarios,
+        'idProyecto': id,
+    }
+    return render(request, 'Proyect_Agile/Usuario/listarUsuarios.html', context)
 # The class crearProyecto inherits from CreateView, and it's model is Proyecto, it's template is
 # proyect.html, it's form is ProyectoForm, and it's extra context is the ProyectoForm
 
-
+# PROYECTO
 def crearProyecto(request):
     if request.method == 'POST':
         formProyecto = ProyectoForm(request.POST)
@@ -80,19 +88,14 @@ def crearProyecto(request):
     return render(request, 'Proyect_Agile/Proyecto/proyecto.html', context, None, 200)
 
 
-class crearUser_Story(CreateView):
-    model = User_Story
-    template_name = 'Proyect_Agile/us.html'
-    form_class = UserStoryForm
-    extra_context = {'form': UserStoryForm }
 
 class IniciarProyecto(View):
     def post(self, request, *args, **kwargs):
         obj = get_object_or_404(Proyecto, pk=self.kwargs['pk'])
-        print(obj)
         obj.estado = 'E'
         obj.save()
         return redirect(reverse_lazy('<iniciarproyecto>', kwargs={'pk': obj.pk}))
+
 
 def listarProyectos(request):
 
@@ -123,22 +126,14 @@ class editarProyecto(UpdateView):
 def verproyecto(request,id):
     if request.method == 'POST':
         obj = Proyecto.objects.get(id=id)
-        print(obj)
         obj.estado = 'E'
         obj.save()
         return redirect(reverse_lazy('verproyecto', kwargs={'id': obj.pk}))
 
-
-
     scrum = False
     proyecto = Proyecto.objects.get(id=id)
     proyecto_id = str(id)
-    print(id)
-
-
-
     rol = ''
-
     try:
 
         usuarios = Miembro.objects.filter(idproyecto=id, usuario=request.user).first()
@@ -148,16 +143,9 @@ def verproyecto(request,id):
     except:
         pass
 
-    print('rol:',rol)
-
-    #rol = Rol.objects.get(id=usuario.id)
-
-    print(request.user.id)
-
     if request.user == proyecto.scrumMaster:
         scrum = True
 
-    print(scrum)
     permisosUsuario = obtenerPermisos(id, request.user)
     context = {
         'proyecto':proyecto,
@@ -167,7 +155,6 @@ def verproyecto(request,id):
         'rol': rol,
         'permisos': permisosUsuario
     }
-    print(type(proyecto.estado))
     return render(request,'Proyect_Agile/Proyecto/verProyecto.html', context)
 
 
@@ -184,15 +171,13 @@ def listarProyectosAdmin(request):
     return render(request, template_name, context)
 
 
-
+# MIMBRO
 @login_required(login_url="login")
 def miembrosProyecto(request, id):
     proyecto = get_object_or_404(Proyecto, pk=id)
     rol = Rol.objects.filter(idProyecto=id, nombre="Scrum Master").first()
-    print('rol:',rol)
     listaMiembros = Miembro.objects.filter(idproyecto=proyecto).exclude(idrol=rol)
     permisos = obtenerPermisosProyecto(request, proyecto)
-    print(listaMiembros)
 
     usuario = request.user
 
@@ -225,40 +210,30 @@ def formCrearMiembro(request, id, socialUserId):
     if request.method == 'POST':
         # Se muestra el cuadro de crear miembro
         formMiembrosProyecto = MiembroForm(request.POST)
-
         if formMiembrosProyecto.is_valid():
             formMiembrosProyecto.save()
-
-
         return redirect('miembrosproyecto', id)
-
-
     else:
         if miembro:
             miembro.isActivo = True
             # Se muestra el cuadro de editar
             miembro.save()
-
             return redirect('miembrosproyecto', id)
-
         else:
             formMiembrosProyecto = MiembroForm()
             formMiembrosProyecto.fields["idproyecto"].initial = proyecto
             formMiembrosProyecto.fields["usuario"].initial = user
             formMiembrosProyecto.fields["isActivo"].initial = True
-
             # se busca el rol SM_under que se excluye
             rol = Rol.objects.filter(idProyecto=id, nombre="Scrum Master").first()
             # se excluye el rol
             formMiembrosProyecto.fields["idrol"].queryset = Rol.objects.filter(idProyecto=proyecto).exclude(
                 nombre="Scrum Master")
-
             context = {
                 'formMiembroProyecto': formMiembrosProyecto,
                 'idProyecto': id,
                 'Usuario': user
             }
-
             return render(request, 'Proyect_Agile/Miembros/agregarMiembro.html', context, None, 200)
 
 
@@ -269,22 +244,11 @@ class editarMiembro(UpdateView):
     form_class = MiembroForm
 
     def get_success_url(self):
-
         id = self.kwargs['idproyecto']
-
-        print(id)
-
         return reverse('miembrosproyecto',kwargs={'id':id})
 
-def ListarUsuarios(request, id):
-    # lista de usuario del sistema autenticados por el sso
-    listarUsuarios = SocialAccount.objects.order_by('id')
-    context = {
-        'usuarios': listarUsuarios,
-        'idProyecto': id,
-    }
-    return render(request, 'Proyect_Agile/Usuario/listarUsuarios.html', context)
 
+### ROLES ###
 @permisoVista(permiso="crearRol")
 def crearRol(request, id):
     proyecto = Proyecto.objects.get(id=id)
@@ -312,3 +276,11 @@ def verRolProyecto(request, id):
         'usuario': usuario,
     }
     return render(request, 'Proyect_Agile/Rol/verRolesProyecto.html', context)
+
+
+### USER STORY ###
+class crearUser_Story(CreateView):
+    model = User_Story
+    template_name = 'Proyect_Agile/us.html'
+    form_class = UserStoryForm
+    extra_context = {'form': UserStoryForm }
