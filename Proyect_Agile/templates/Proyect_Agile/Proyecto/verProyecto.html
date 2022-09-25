@@ -18,6 +18,9 @@
                         <li class="nav-item">
                             <a class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/miembros/'%}active{%endif%}" href="{% url 'miembrosproyecto' proyecto.id %}">Miembros</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/roles/'%}active{%endif%}" href="{% url 'rolproyecto' proyecto.id %}">Roles</a>
+                        </li>
                         {% if proyecto.estado == 'E' or proyecto.estado == 'C'%}
                             <li class="nav-item">
                                 <a class="nav-link">Backlog</a>

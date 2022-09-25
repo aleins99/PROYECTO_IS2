@@ -1,0 +1,22 @@
+{% extends 'account/base.html' %}
+
+{% block content %}
+
+
+    <form method="POST" class="container">
+        <h1>Editar Rol</h1>
+        {% csrf_token %}
+        {% for campo in form %}
+            <div class="mb-3" >
+                <label for="formInput#text" class="form-label" > {{ campo.label }} </label>
+                {{ campo }}
+            </div>
+        {% endfor %}
+        <div class="mb-3">
+            {% if rol.nombre != "Scrum Master" %}
+                <input type="submit" class="btn btn-primary" value="Editar Rol">
+            {% endif %}
+        </div>
+    </form>
+
+{% endblock %}
