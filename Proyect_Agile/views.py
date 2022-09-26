@@ -17,6 +17,9 @@ from django.contrib.auth.models import Group
 from .utilidades import *
 from .decorators import *
 from django.utils.decorators import method_decorator
+from allauth.account.models import EmailAddress
+from django.contrib.auth.models import AbstractUser
+from allauth.utils import get_user_model
 
 estados_Proyecto = {
     'P':'Pendiente',
@@ -55,11 +58,19 @@ def iniciosesion(request):
     login = reverse('account_login')
     return HttpResponseRedirect(login)
 
+class editarPerfil(UpdateView):
+    model = get_user_model()
+    form_class = UsuarioForm
+    template_name = 'Proyect_Agile/Usuario/editarUsuario.html'
+    success_url = '/'
+
 # The class crearProyecto inherits from CreateView, and it's model is Proyecto, it's template is
 # proyect.html, it's form is ProyectoForm, and it's extra context is the ProyectoForm
 
 
+
 def crearProyecto(request):
+
     if request.method == 'POST':
         formProyecto = ProyectoForm(request.POST)
         if formProyecto.is_valid():
@@ -117,6 +128,7 @@ class editarProyecto(UpdateView):
     model= Proyecto
     template_name = 'Proyect_Agile/Proyecto/editarProyecto.html'
     form_class = ProyectoForm
+    success_url = '/'
 
 
 @login_required(login_url="login")
@@ -328,8 +340,47 @@ class editarRol(UpdateView):
         return reverse('rolproyecto',kwargs={'id':id})
 
 
+def listarRolesProyecto(request, id):
+    proyectos = obtenerlistaDeProyectosUser(request)
+    context = {
+        'proyectos': proyectos,
+        'estados': estados_Proyecto,
+        'idproyecto': id,
+    }
+    return render(request,'Proyect_Agile/Rol/listarProyectoRol.html',context)
+
+
+def importarRol(request,id, idproyecto):
+    roles=Rol.objects.filter(idProyecto=idproyecto)
+    for rol in roles:
+        if not Rol.objects.filter(idProyecto=id, nombre=rol.nombre).exists():
+
+            #Rol.objects.create()
+            rol2 = rol
+            rol2.idProyecto = Proyecto.objects.get(id=id)
+            rol2.save()
+    return redirect('rolproyecto', id)
+
 def verDocumentacion(request):
 
     context={}
 
     return render(request,'Proyect_Agile/Docs/Documentacion_index.html',context)
+
+def eliminarMiembro(request,id,idproyecto):
+    proyecto = Proyecto.objects.get(id=idproyecto)
+    miembro = Miembro.objects.filter(id=id, idproyecto=proyecto).first()
+    miembro.delete()
+    return redirect('miembrosproyecto', id=idproyecto)
+
+def tipoUSProyecto(request, id):
+    proyecto = get_object_or_404(Proyecto, pk=id)
+    tipoUS = TipoUS.objects.filter(idproyecto=proyecto)
+    permisosMiembro = obtenerPermisos(id, request.user)
+    context = {
+        'proyecto':proyecto,
+        'estados': estados_Proyecto,
+        'tiposUS':tipoUS,
+        'permisos': permisosMiembro
+    }
+    return render(request, 'Proyect_Agile/US/verTipoUS.html', context)

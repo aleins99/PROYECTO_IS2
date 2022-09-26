@@ -3,6 +3,23 @@ from datetime import date, datetime
 from mimetypes import init
 from django import forms
 from .models import *
+from django.contrib.auth.models import AbstractUser
+from allauth.utils import get_user_model
+class UsuarioForm(forms.ModelForm):
+    class Meta:
+        model = get_user_model()
+        fields = ['username','first_name','last_name',]
+        labels = {'username':'Nombre de Usuario', 'first_name':'Nombres', 'last_name':'Apellidos'}
+
+    def __init__(self, *args, **kwargs):
+        """
+        The function takes in a list of fields and a list of widgets, and returns a list of fields with
+        the widgets replaced
+        """
+        super(UsuarioForm, self).__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class':'form-control'})
 
 # The ProyectoForm class inherits from forms.ModelForm, and it defines a Meta class that tells Django
 # which model should be used to create this form (model = Proyecto) and which fields should be used
@@ -67,3 +84,10 @@ class rolForm(forms.ModelForm):
             'idProyecto': forms.HiddenInput(),
         }
 
+class tipoUSForm(forms.ModelForm):
+    class Meta:
+        model= TipoUS
+        fields= '__all__'
+        widgets = {
+            'idProyecto': forms.HiddenInput(),
+        }

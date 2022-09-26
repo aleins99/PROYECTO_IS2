@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>views.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>views.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gc</span> <span class="kn">import</span> <span class="n">get_objects</span>
+
+<span class="kn">from</span> <span class="nn">allauth.socialaccount.models</span> <span class="kn">import</span> <span class="n">SocialAccount</span>
+<span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span>
+<span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span><span class="p">,</span> <span class="n">HttpResponseRedirect</span>
+<span class="kn">from</span> <span class="nn">django.template.loader</span> <span class="kn">import</span> <span class="n">get_template</span>
+<span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span><span class="p">,</span> <span class="n">get_object_or_404</span><span class="p">,</span> <span class="n">redirect</span>
+<span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">reverse</span><span class="p">,</span> <span class="n">reverse_lazy</span>
+<span class="kn">from</span> <span class="nn">django.views</span> <span class="kn">import</span> <span class="n">View</span>
+<span class="kn">from</span> <span class="nn">django.views.generic</span> <span class="kn">import</span> <span class="n">ListView</span>
+<span class="kn">from</span> <span class="nn">django.views.generic.edit</span> <span class="kn">import</span> <span class="n">CreateView</span><span class="p">,</span><span class="n">UpdateView</span><span class="p">,</span><span class="n">DeleteView</span>
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.forms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">django.template.defaulttags</span> <span class="kn">import</span> <span class="n">register</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">Group</span>
+<span class="kn">from</span> <span class="nn">.utilidades</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.decorators</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">django.utils.decorators</span> <span class="kn">import</span> <span class="n">method_decorator</span>
+
+<span class="n">estados_Proyecto</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;P&#39;</span><span class="p">:</span><span class="s1">&#39;Pendiente&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;E&#39;</span><span class="p">:</span><span class="s1">&#39;En ejecucion&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;C&#39;</span><span class="p">:</span><span class="s1">&#39;Cancelado&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;F&#39;</span><span class="p">:</span><span class="s1">&#39;Finalizado&#39;</span><span class="p">,</span>
+<span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@register</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;has_group&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">has_group</span><span class="p">(</span><span class="n">user</span><span class="p">,</span><span class="n">groupname</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">user</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">groupname</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+
+<span class="nd">@register</span><span class="o">.</span><span class="n">filter</span>
+<span class="k">def</span> <span class="nf">get_at_index</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+<span class="nd">@register</span><span class="o">.</span><span class="n">filter</span>
+<span class="k">def</span> <span class="nf">get_item</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">dictionary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+<span class="nd">@register</span><span class="o">.</span><span class="n">filter</span>
+<span class="k">def</span> <span class="nf">esMiembroEnProyecto</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">idProyecto</span><span class="p">):</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">email__icontains</span><span class="o">=</span><span class="n">element</span><span class="o">.</span><span class="n">extra_data</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">])</span>
+    <span class="n">proyecto</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">idProyecto</span><span class="p">)</span>
+    <span class="n">listaMiembros</span> <span class="o">=</span> <span class="n">Miembro</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">idproyecto</span><span class="o">=</span><span class="n">proyecto</span><span class="p">)</span>
+    <span class="n">existe</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">proyecto</span><span class="o">.</span><span class="n">scrumMaster</span> <span class="o">==</span> <span class="n">user</span><span class="p">:</span>
+        <span class="n">existe</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">listaMiembros</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">usuario</span> <span class="o">==</span> <span class="n">user</span> <span class="ow">and</span> <span class="n">x</span><span class="o">.</span><span class="n">isActivo</span><span class="p">:</span>
+            <span class="n">existe</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="n">existe</span>
+
+
+<span class="k">def</span> <span class="nf">iniciosesion</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">login</span> <span class="o">=</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;account_login&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">login</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>The class crearProyecto inherits from CreateView, and it&rsquo;s model is Proyecto, it&rsquo;s template is
+proyect.html, it&rsquo;s form is ProyectoForm, and it&rsquo;s extra context is the ProyectoForm</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">crearProyecto</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">formProyecto</span> <span class="o">=</span> <span class="n">ProyectoForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">formProyecto</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">formProyecto</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>crear el rol SM por debajo</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">proyecto</span> <span class="o">=</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-id&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">idRol</span> <span class="o">=</span> <span class="n">crearRolScrumMaster</span><span class="p">(</span><span class="n">proyecto</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>asignar el rol al miembro SM que se asigno</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">asignarRolScrumMaster</span><span class="p">(</span><span class="n">proyecto</span><span class="p">,</span> <span class="n">proyecto</span><span class="o">.</span><span class="n">scrumMaster</span><span class="p">,</span> <span class="n">idRol</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;listarproyecto&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">formProyecto</span> <span class="o">=</span> <span class="n">ProyectoForm</span><span class="p">()</span>
+        <span class="n">formProyecto</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;scrumMaster&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">queryset</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;admin&#39;</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">formProyecto</span><span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Proyect_Agile/Proyecto/proyecto.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">crearUser_Story</span><span class="p">(</span><span class="n">CreateView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">User_Story</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;Proyect_Agile/us.html&#39;</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">UserStoryForm</span>
+    <span class="n">extra_context</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">UserStoryForm</span> <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">IniciarProyecto</span><span class="p">(</span><span class="n">View</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;pk&#39;</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;E&#39;</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">reverse_lazy</span><span class="p">(</span><span class="s1">&#39;&lt;iniciarproyecto&gt;&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;pk&#39;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">pk</span><span class="p">}))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">listarProyectos</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;Proyect_Agile/Proyecto/listarProyectos.html&#39;</span>
+
+    <span class="n">scrum</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
+
+
+    <span class="n">usuario</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Administrador&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+    <span class="n">proyectos</span> <span class="o">=</span> <span class="n">obtenerlistaDeProyectosUser</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;estados&#39;</span><span class="p">:</span> <span class="n">estados_Proyecto</span><span class="p">,</span>
+        <span class="s1">&#39;Administrador&#39;</span><span class="p">:</span> <span class="n">usuario</span><span class="p">,</span>
+        <span class="s1">&#39;proyectos&#39;</span><span class="p">:</span> <span class="n">proyectos</span><span class="p">,</span>
+        <span class="s1">&#39;usuario&#39;</span> <span class="p">:</span> <span class="n">scrum</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">template_name</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">editarProyecto</span><span class="p">(</span><span class="n">UpdateView</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">=</span> <span class="n">Proyecto</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;Proyect_Agile/Proyecto/editarProyecto.html&#39;</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">ProyectoForm</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s2">&quot;login&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">verproyecto</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="nb">id</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;E&#39;</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">reverse_lazy</span><span class="p">(</span><span class="s1">&#39;verproyecto&#39;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">pk</span><span class="p">}))</span>
+
+
+
+    <span class="n">scrum</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">proyecto</span> <span class="o">=</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
+    <span class="n">proyecto_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+
+
+
+    <span class="n">rol</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+
+        <span class="n">usuarios</span> <span class="o">=</span> <span class="n">Miembro</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">idproyecto</span><span class="o">=</span><span class="nb">id</span><span class="p">,</span> <span class="n">usuario</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+
+
+        <span class="n">rol</span> <span class="o">=</span> <span class="n">usuarios</span><span class="o">.</span><span class="n">idrol</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;rol:&#39;</span><span class="p">,</span><span class="n">rol</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      <p>rol = Rol.objects.get(id=usuario.id)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nb">print</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span> <span class="o">==</span> <span class="n">proyecto</span><span class="o">.</span><span class="n">scrumMaster</span><span class="p">:</span>
+        <span class="n">scrum</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">scrum</span><span class="p">)</span>
+    <span class="n">permisosUsuario</span> <span class="o">=</span> <span class="n">obtenerPermisos</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;proyecto&#39;</span><span class="p">:</span><span class="n">proyecto</span><span class="p">,</span>
+        <span class="s1">&#39;estados&#39;</span><span class="p">:</span> <span class="n">estados_Proyecto</span><span class="p">,</span>
+        <span class="s1">&#39;proyecto_id&#39;</span><span class="p">:</span><span class="n">proyecto_id</span><span class="p">,</span>
+        <span class="s1">&#39;scrum&#39;</span><span class="p">:</span> <span class="n">scrum</span><span class="p">,</span>
+        <span class="s1">&#39;rol&#39;</span><span class="p">:</span> <span class="n">rol</span><span class="p">,</span>
+        <span class="s1">&#39;permisos&#39;</span><span class="p">:</span> <span class="n">permisosUsuario</span>
+    <span class="p">}</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">proyecto</span><span class="o">.</span><span class="n">estado</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="s1">&#39;Proyect_Agile/Proyecto/verProyecto.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">listarProyectosAdmin</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;Proyect_Agile/Proyecto/listarProyectosAdmin.html&#39;</span>
+
+    <span class="n">scrum</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+    <span class="n">proyectos</span> <span class="o">=</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;estados&#39;</span><span class="p">:</span> <span class="n">estados_Proyecto</span><span class="p">,</span>
+        <span class="s1">&#39;proyectos&#39;</span><span class="p">:</span> <span class="n">proyectos</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">template_name</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@login_required</span><span class="p">(</span><span class="n">login_url</span><span class="o">=</span><span class="s2">&quot;login&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">miembrosProyecto</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+    <span class="n">proyecto</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
+    <span class="n">rol</span> <span class="o">=</span> <span class="n">Rol</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">idProyecto</span><span class="o">=</span><span class="nb">id</span><span class="p">,</span> <span class="n">nombre</span><span class="o">=</span><span class="s2">&quot;Scrum Master&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;rol:&#39;</span><span class="p">,</span><span class="n">rol</span><span class="p">)</span>
+    <span class="n">listaMiembros</span> <span class="o">=</span> <span class="n">Miembro</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">idproyecto</span><span class="o">=</span><span class="n">proyecto</span><span class="p">)</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">idrol</span><span class="o">=</span><span class="n">rol</span><span class="p">)</span>
+    <span class="n">permisos</span> <span class="o">=</span> <span class="n">obtenerPermisosProyecto</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">proyecto</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">listaMiembros</span><span class="p">)</span>
+
+    <span class="n">usuario</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+
+    <span class="n">proyecto_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+
+    <span class="n">scrum</span><span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span> <span class="o">==</span> <span class="n">proyecto</span><span class="o">.</span><span class="n">scrumMaster</span><span class="p">:</span>
+        <span class="n">scrum</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="n">permisosMiembro</span> <span class="o">=</span> <span class="n">obtenerPermisos</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">)</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;proyecto&#39;</span><span class="p">:</span><span class="n">proyecto</span><span class="p">,</span>
+        <span class="s1">&#39;estados&#39;</span><span class="p">:</span> <span class="n">estados_Proyecto</span><span class="p">,</span>
+        <span class="s1">&#39;proyecto_id&#39;</span><span class="p">:</span><span class="n">proyecto_id</span><span class="p">,</span>
+        <span class="s1">&#39;scrum&#39;</span><span class="p">:</span> <span class="n">scrum</span><span class="p">,</span>
+        <span class="s1">&#39;miembros&#39;</span><span class="p">:</span> <span class="n">listaMiembros</span><span class="p">,</span>
+        <span class="s1">&#39;usuario&#39;</span> <span class="p">:</span> <span class="n">usuario</span><span class="p">,</span>
+        <span class="s1">&#39;permisos&#39;</span><span class="p">:</span> <span class="n">permisosMiembro</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Proyect_Agile/Miembros/proyectoMiembros.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+<span class="nd">@permisoVista</span><span class="p">(</span><span class="n">permiso</span><span class="o">=</span><span class="s2">&quot;agregarMiembro&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">formCrearMiembro</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">socialUserId</span><span class="p">):</span>
+    <span class="n">socialUser</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">SocialAccount</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">socialUserId</span><span class="p">)</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">email__icontains</span><span class="o">=</span><span class="n">socialUser</span><span class="o">.</span><span class="n">extra_data</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">])</span>
+    <span class="n">proyecto</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
+    <span class="n">miembro</span> <span class="o">=</span> <span class="n">Miembro</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">usuario</span><span class="o">=</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">idproyecto</span><span class="o">=</span><span class="n">proyecto</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      <p>Se muestra el cuadro de crear miembro</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">formMiembrosProyecto</span> <span class="o">=</span> <span class="n">MiembroForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">formMiembrosProyecto</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">formMiembrosProyecto</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;miembrosproyecto&#39;</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">miembro</span><span class="p">:</span>
+            <span class="n">miembro</span><span class="o">.</span><span class="n">isActivo</span> <span class="o">=</span> <span class="kc">True</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      <p>Se muestra el cuadro de editar</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">miembro</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;miembrosproyecto&#39;</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">formMiembrosProyecto</span> <span class="o">=</span> <span class="n">MiembroForm</span><span class="p">()</span>
+            <span class="n">formMiembrosProyecto</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;idproyecto&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">initial</span> <span class="o">=</span> <span class="n">proyecto</span>
+            <span class="n">formMiembrosProyecto</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;usuario&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">initial</span> <span class="o">=</span> <span class="n">user</span>
+            <span class="n">formMiembrosProyecto</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;isActivo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">initial</span> <span class="o">=</span> <span class="kc">True</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      <p>se busca el rol SM_under que se excluye</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">rol</span> <span class="o">=</span> <span class="n">Rol</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">idProyecto</span><span class="o">=</span><span class="nb">id</span><span class="p">,</span> <span class="n">nombre</span><span class="o">=</span><span class="s2">&quot;Scrum Master&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-18'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-18'>#</a>
+      </div>
+      <p>se excluye el rol</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">formMiembrosProyecto</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;idrol&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">queryset</span> <span class="o">=</span> <span class="n">Rol</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">idProyecto</span><span class="o">=</span><span class="n">proyecto</span><span class="p">)</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span>
+                <span class="n">nombre</span><span class="o">=</span><span class="s2">&quot;Scrum Master&quot;</span><span class="p">)</span>
+
+            <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;formMiembroProyecto&#39;</span><span class="p">:</span> <span class="n">formMiembrosProyecto</span><span class="p">,</span>
+                <span class="s1">&#39;idProyecto&#39;</span><span class="p">:</span> <span class="nb">id</span><span class="p">,</span>
+                <span class="s1">&#39;Usuario&#39;</span><span class="p">:</span> <span class="n">user</span>
+            <span class="p">}</span>
+
+            <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Proyect_Agile/Miembros/agregarMiembro.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-19'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-19'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@method_decorator</span><span class="p">(</span><span class="n">permisoVista</span><span class="p">(</span><span class="n">permiso</span><span class="o">=</span><span class="s2">&quot;modificarMiembro&quot;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;dispatch&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">editarMiembro</span><span class="p">(</span><span class="n">UpdateView</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">=</span> <span class="n">Miembro</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;Proyect_Agile/Miembros/editarMiembro.html&#39;</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">MiembroForm</span>
+
+    <span class="k">def</span> <span class="nf">get_success_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="nb">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;idproyecto&#39;</span><span class="p">]</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;miembrosproyecto&#39;</span><span class="p">,</span><span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span><span class="nb">id</span><span class="p">})</span>
+
+<span class="k">def</span> <span class="nf">ListarUsuarios</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-20'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-20'>#</a>
+      </div>
+      <p>lista de usuario del sistema autenticados por el sso</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">listarUsuarios</span> <span class="o">=</span> <span class="n">SocialAccount</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;usuarios&#39;</span><span class="p">:</span> <span class="n">listarUsuarios</span><span class="p">,</span>
+        <span class="s1">&#39;idProyecto&#39;</span><span class="p">:</span> <span class="nb">id</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Proyect_Agile/Usuario/listarUsuarios.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-21'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-21'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="nd">@permisoVista</span><span class="p">(</span><span class="n">permiso</span><span class="o">=</span><span class="s2">&quot;crearRol&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">crearRol</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+    <span class="n">proyecto</span> <span class="o">=</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+        <span class="n">formrol</span> <span class="o">=</span> <span class="n">rolForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">formrol</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">formrol</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;rolproyecto&#39;</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">formrol</span> <span class="o">=</span> <span class="n">rolForm</span><span class="p">()</span>
+        <span class="n">formrol</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;idProyecto&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">initial</span> <span class="o">=</span> <span class="n">proyecto</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">formrol</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Proyect_Agile/Rol/crearRol.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">verRolProyecto</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+    <span class="n">proyecto</span> <span class="o">=</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
+    <span class="n">usuario</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+    <span class="n">roles</span> <span class="o">=</span> <span class="n">Rol</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">idProyecto</span><span class="o">=</span><span class="n">proyecto</span><span class="p">)</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;roles&#39;</span><span class="p">:</span> <span class="n">roles</span><span class="p">,</span>
+        <span class="s1">&#39;proyecto&#39;</span><span class="p">:</span> <span class="n">proyecto</span><span class="p">,</span>
+        <span class="s1">&#39;usuario&#39;</span><span class="p">:</span> <span class="n">usuario</span><span class="p">,</span>
+        <span class="s1">&#39;estados&#39;</span><span class="p">:</span> <span class="n">estados_Proyecto</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;Proyect_Agile/Rol/verRolesProyecto.html&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+<span class="nd">@method_decorator</span><span class="p">(</span><span class="n">permisoVista</span><span class="p">(</span><span class="n">permiso</span><span class="o">=</span><span class="s2">&quot;modificarRol&quot;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;dispatch&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">editarRol</span><span class="p">(</span><span class="n">UpdateView</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">=</span> <span class="n">Rol</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;Proyect_Agile/Rol/editarRol.html&#39;</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">rolForm</span>
+
+    <span class="k">def</span> <span class="nf">get_success_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="nb">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;idproyecto&#39;</span><span class="p">]</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;rolproyecto&#39;</span><span class="p">,</span><span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span><span class="nb">id</span><span class="p">})</span>
+
+
+<span class="k">def</span> <span class="nf">verDocumentacion</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+
+    <span class="n">context</span><span class="o">=</span><span class="p">{}</span>
+
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="s1">&#39;Proyect_Agile/Docs/Documentacion_index.html&#39;</span><span class="p">,</span><span class="n">context</span><span class="p">)</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

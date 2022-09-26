@@ -27,7 +27,8 @@
 </table>
     {% if proyecto.scrumMaster == usuario %}
         <div class="mb-3">
-            <a class="btn btn-primary" href="{% url 'agregarrol' proyecto.id %}" > Agregar Rol </a>
+            <a class="btn btn-primary" href="{% url 'agregarrol' proyecto.id %}" > Crear Rol </a>
+            <a class="btn btn-primary" href="{% url 'listarRolesProyecto' proyecto.id %}" > Importar Rol </a>
         </div>
     {% endif %}
 

@@ -34,6 +34,11 @@
                   {% if permisos|get_item:'modificarMiembro' %}
                       <td> <a href="{% url 'editarmiembro' proyecto.id miembro.id %}"> Editar </a>  </td>
                   {% endif %}
+
+                  {% if permisos|get_item:'eliminarMiembro' %}
+                      <td> <a href="{% url 'eliminarMiembro' proyecto.id miembro.id %}"> Eliminar </a>  </td>
+                  {% endif %}
+
              </tr>
          {% endif %}
 
