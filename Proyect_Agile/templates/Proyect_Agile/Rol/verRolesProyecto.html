@@ -11,12 +11,11 @@
 
  </thead>
  <tbody>
-
      {% for rol in roles %}
          <tr>
              <td>{{ rol.nombre }}</td>
              <td>{{ rol.descripcion}}</td>
-              {% if proyecto.scrumMaster == usuario %}
+              {% if permisos|get_item:'modificarRol' %}
                   <td> <a href="{% url 'editarRol' proyecto.id rol.id %}"> Editar </a>  </td>
               {% endif %}
          </tr>
@@ -25,7 +24,7 @@
 
  </tbody>
 </table>
-    {% if proyecto.scrumMaster == usuario %}
+    {% if permisos|get_item:'crearRol' %}
         <div class="mb-3">
             <a class="btn btn-primary" href="{% url 'agregarrol' proyecto.id %}" > Crear Rol </a>
             <a class="btn btn-primary" href="{% url 'listarRolesProyecto' proyecto.id %}" > Importar Rol </a>

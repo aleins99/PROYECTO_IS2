@@ -90,12 +90,13 @@ class rolForm(forms.ModelForm):
     class Meta:
         model= Rol
         fields = '__all__'
-        labels = {'nombre': 'Nombre', 'descripcion': 'Descripción'}
+        labels = {'idProyecto':'','nombre': 'Nombre', 'descripcion': 'Descripción'}
         widgets = {
-            'idProyecto': forms.HiddenInput(),
+            'idProyecto': forms.HiddenInput(attrs={'style':'display:none'}),
+            'nombre': forms.TextInput(attrs={'class':'form-control'}),     
+            'descripcion': forms.TextInput(attrs={'class':'form-control'}),  
         }
 
-<<<<<<< HEAD
 class tipoUSForm(forms.ModelForm):
     class Meta:
         model= TipoUS
@@ -103,7 +104,6 @@ class tipoUSForm(forms.ModelForm):
         widgets = {
             'idProyecto': forms.HiddenInput(),
         }
-=======
 
     def __init__(self, *args, **kwargs):
         """
@@ -137,4 +137,3 @@ class SprintForm(forms.ModelForm):
 
         for name, field in self.fields.items():
             field.widget.attrs.update({'class':'form-control'})
->>>>>>> 718641c (agregue los tests)

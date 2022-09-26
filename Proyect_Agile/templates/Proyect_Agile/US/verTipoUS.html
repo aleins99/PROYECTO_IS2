@@ -19,14 +19,13 @@
          <td>{{ verUS.nombre }}</td>
          <td>{{ verUS.descripcion }}</td>
          <td>{{ verUS.estados }}</td>
-
      {% endfor %}
 
 
 
  </tbody>
 </table>
-    {% if scrum %}
+    {% if permisos|get_item:'eliminarMiembro' %}
         <div class="mb-3">
             <a class="btn btn-primary" href="{% url 'listarUsuarios' proyecto.id %}" > Crear Tipo US </a>
         </div>

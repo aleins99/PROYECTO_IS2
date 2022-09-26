@@ -94,8 +94,8 @@ class TipoUS(models.Model):
         ('H', 'Hecho'),
         ('C', 'Cancelado'),
     ]
-
-    estado = models.CharField(max_length=4, choices=ESTADOS, default='N')
+    idproyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT, null=True)
+    estado = ArrayField(models.CharField(max_length=4, choices=ESTADOS, default='N'), default=list)
 
 
 class User_Story(models.Model):
