@@ -1,10 +1,10 @@
-{% extends 'account/base.html' %}
+<{% extends 'account/base.html' %}
 
 {% block content %}
 
 
     <form method="POST" class="container">
-        <h1>Editar Rol</h1>
+        <h1>Editar Perfil</h1>
         {% csrf_token %}
         {% for campo in form %}
             <div class="mb-3" >
@@ -13,7 +13,7 @@
             </div>
         {% endfor %}
         <div class="mb-3">
-                <input type="submit" class="btn btn-primary" value="Editar Rol">
+            <input type="submit" class="btn btn-primary" value="Editar Perfil">
         </div>
     </form>
 

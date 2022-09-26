@@ -1,0 +1,34 @@
+{% extends 'Proyect_Agile/Proyecto/verProyecto.html' %}
+{% block proyectoContent %}
+<table class="table table-dark table-hover table-bordered border-muted">
+
+ <thead>
+ <tr>
+     <th scope="col">Nombre</th>
+     <th scope="col">Descripción</th>
+     <th scope="col">Estados</th>
+
+ </tr>
+
+ </thead>
+ <tbody>
+
+
+
+     {% for verUS in tiposUS %}
+         <td>{{ verUS.nombre }}</td>
+         <td>{{ verUS.descripcion }}</td>
+         <td>{{ verUS.estados }}</td>
+     {% endfor %}
+
+
+
+ </tbody>
+</table>
+    {% if permisos|get_item:'eliminarMiembro' %}
+        <div class="mb-3">
+            <a class="btn btn-primary" href="{% url 'listarUsuarios' proyecto.id %}" > Crear Tipo US </a>
+        </div>
+    {% endif %}
+
+{% endblock %}

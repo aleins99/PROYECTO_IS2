@@ -9,6 +9,7 @@
      <th scope="col">Correo</th>
      <th scope="col">Carga Horaria</th>
      <th scope="col">Rol</th>
+     <th scope="col" colspan="2" class="text-center">Acción</th>
  </tr>
 
  </thead>
@@ -31,19 +32,21 @@
                  <td>{{ miembro.usuario.email }}</td>
                  <td>{{ miembro.cargahoraria }}</td>
                  <td>{{ miembro.idrol }}</td>
+                 
                   {% if permisos|get_item:'modificarMiembro' %}
                       <td> <a href="{% url 'editarmiembro' proyecto.id miembro.id %}"> Editar </a>  </td>
                   {% endif %}
+
+                  {% if permisos|get_item:'eliminarMiembro' %}
+                      <td> <a href="{% url 'eliminarMiembro' proyecto.id miembro.id %}"> Eliminar </a>  </td>
+                  {% endif %}
              </tr>
          {% endif %}
-
      {% endfor %}
-
-
-
  </tbody>
 </table>
-    {% if scrum %}
+
+    {% if permisos|get_item:'agregarMiembro' %}
         <div class="mb-3">
             <a class="btn btn-primary" href="{% url 'listarUsuarios' proyecto.id %}" > Agregar Miembro </a>
         </div>

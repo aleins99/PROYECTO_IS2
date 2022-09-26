@@ -1,0 +1,49 @@
+{% extends 'account/base.html' %}
+
+{% block content %}
+
+    <h1>Bienvenido : {{ usuario.first_name }} {{ usuario.last_name }}</h1>
+
+    <br/>
+
+    <h1>Lista de proyectos</h1>
+
+    <table class="table table-dark table-hover table-bordered border-muted">
+
+        <thead>
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Estado</th>
+            <th scope="col">ScrumMaster</th>
+            <th scope="col">Fecha Inicio</th>
+
+
+        </tr>
+
+        </thead>
+        <tbody>
+
+        {# if the user check the checkbox import the role #}
+            {% for proyecto in proyectos %}
+
+                <tr>
+                    <td> {{ proyecto.nombre }}  </td>
+
+                    <td>{{ estados|get_item:proyecto.estado }}</td>
+                    <td>{{ proyecto.scrumMaster }}</td>
+                    <td>{{ proyecto.fechainicio }}</td>
+                    <td><input type="checkbox" name="importarRol" id="importarRol"></td>
+                </tr>
+
+            {% endfor %}
+
+
+
+        </tbody>
+    </table>
+
+    <div class="mb-3">
+        <a class="btn btn-primary" href="{% url 'rolproyecto' idproyecto %}" > Cancelar </a>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>urls.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>urls.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.contrib</span> <span class="kn">import</span> <span class="n">admin</span>
+<span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">path</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">views</span>
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">path</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">views</span><span class="o">.</span><span class="n">iniciosesion</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;home/&#39;</span> <span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">listarProyectos</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;listarproyecto&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;home/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">listarProyectos</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;home&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Administracion/Proyectos&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">listarProyectosAdmin</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;listaAdministracion&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/crear/&#39;</span><span class="p">,</span><span class="n">views</span><span class="o">.</span><span class="n">crearProyecto</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;crearproyecto&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;pk&gt;/editar/&#39;</span><span class="p">,</span><span class="n">views</span><span class="o">.</span><span class="n">editarProyecto</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;editarproyecto&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/ver/&#39;</span><span class="p">,</span><span class="n">views</span><span class="o">.</span><span class="n">verproyecto</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;verproyecto&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/miembros/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">miembrosProyecto</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;miembrosproyecto&quot;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;UserStory/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">crearUser_Story</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;crearUS&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/agregarMiembro/&lt;int:id&gt;/&lt;int:socialUserId&gt;&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">formCrearMiembro</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;agregarMiembros&quot;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;listarUsuarios/&lt;int:id&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">ListarUsuarios</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;listarUsuarios&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;idproyecto&gt;/miembro/&lt;pk&gt;/editar/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">editarMiembro</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;editarmiembro&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/roles/crear/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">crearRol</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;agregarrol&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/roles/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">verRolProyecto</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;rolproyecto&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;idproyecto&gt;/roles/&lt;pk&gt;editarRoles/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">editarRol</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;editarRol&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;home/documentacion&#39;</span> <span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">verDocumentacion</span> <span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;documentacion&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>
