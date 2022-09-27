@@ -99,10 +99,10 @@ class rolForm(forms.ModelForm):
 
 class tipoUSForm(forms.ModelForm):
     class Meta:
-        model= TipoUS
-        fields= '__all__'
+        model = TipoUS
+        fields = '__all__'
         widgets = {
-            'idProyecto': forms.HiddenInput(),
+            'idproyecto': forms.HiddenInput(),
         }
 
     def __init__(self, *args, **kwargs):
@@ -110,7 +110,7 @@ class tipoUSForm(forms.ModelForm):
         The function takes in a list of fields and a list of widgets, and returns a list of fields with
         the widgets replaced
         """
-        super(rolForm, self).__init__(*args, **kwargs)
+        super(tipoUSForm, self).__init__(*args, **kwargs)
 
         for name, field in self.fields.items():
             field.widget.attrs.update({'class':'form-control'})

@@ -38,9 +38,9 @@ class Miembro(models.Model):
 
 
 class Rol(models.Model):
-    idProyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT)  # Proyecto al que pertenece el rol
+    idProyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT, null=True , blank=True)  # Proyecto al que pertenece el rol
     nombre = models.CharField(max_length=250)
-    descripcion = models.TextField()  # Describir el rol
+    descripcion = models.TextField(null=True , blank=True)  # Describir el rol
 
     # Campos de Permisos
     agregarUserStory = models.BooleanField(default=False)
@@ -84,18 +84,8 @@ class TipoUS(models.Model):
 
     nombre= models.CharField(max_length=100)
 
-    ESTADOS = [
-        ('N', 'Nuevo'),
-        ('PP', 'En Planning Pocker'),
-        ('P', 'Pendiente'),
-        ('EP', 'En Proceso'),
-        ('STSA', 'Sin Terminar Sprint Anterior'),
-        ('A', 'Aprobado'),
-        ('H', 'Hecho'),
-        ('C', 'Cancelado'),
-    ]
     idproyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT, null=True)
-    estado = ArrayField(models.CharField(max_length=4, choices=ESTADOS, default='N'), default=list)
+    estado = models.TextField(default= 'Por hacer, En Proceso, Hecho, Cancelado')
 
 
 class User_Story(models.Model):

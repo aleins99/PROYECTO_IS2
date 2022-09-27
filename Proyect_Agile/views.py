@@ -368,6 +368,20 @@ def tipoUSProyecto(request, id):
     }
     return render(request, 'Proyect_Agile/US/verTipoUS.html', context)
 
+def crearTipoUS(request, id):
+    proyecto = Proyecto.objects.get(id=id)
+    if request.method == 'POST':
+        form = tipoUSForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect('listarTipoUS', id)
+    else:
+        form = tipoUSForm()
+        form.fields['idproyecto'].initial = proyecto
+        context = {
+            'form': form
+        }
+        return render(request, 'Proyect_Agile/US/crearTipoUS.html', context)
 
 ### USER STORY ###
 @method_decorator(permisoVista(permiso="agregarUserStory"), name='dispatch')

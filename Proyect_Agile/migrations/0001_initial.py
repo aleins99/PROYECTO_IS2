@@ -96,11 +96,7 @@ class Migration(migrations.Migration):
             name='usuario',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, to=settings.AUTH_USER_MODEL),
         ),
-        migrations.AddField(
-            model_name='tipous',
-            name='estado',
-            field=models.CharField(choices=[('N', 'Nuevo'), ('PP', 'En Planning Pocker'), ('P', 'Pendiente'), ('EP', 'En Proceso'), ('STSA', 'Sin Terminar Sprint Anterior'), ('A', 'Aprobado'), ('H', 'Hecho'), ('C', 'Cancelado')], default='N', max_length=4),
-        ),
+
         migrations.CreateModel(
             name='Sprint',
             fields=[
@@ -112,10 +108,5 @@ class Migration(migrations.Migration):
                 ('estado', models.CharField(choices=[('P', 'Pendiente'), ('E', 'En ejecucion'), ('F', 'Finalizado')], default='P', max_length=1)),
                 ('idproyecto', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='Proyect_Agile.proyecto')),
             ],
-        ),
-        migrations.AddField(
-            model_name='tipous',
-            name='idproyecto',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.RESTRICT, to='Proyect_Agile.proyecto'),
         ),
     ]

@@ -5,8 +5,8 @@
  <thead>
  <tr>
      <th scope="col">Nombre</th>
-     <th scope="col">Descripción</th>
      <th scope="col">Estados</th>
+     <th scope="col" colspan="2" class="text-center">Accion</th>
 
  </tr>
 
@@ -16,19 +16,20 @@
 
 
      {% for verUS in tiposUS %}
-         <td>{{ verUS.nombre }}</td>
-         <td>{{ verUS.descripcion }}</td>
-         <td>{{ verUS.estados }}</td>
+         <tr>
+            <td>{{ verUS.nombre }}</td>
+            <td>{{ verUS.estado }}</td>
+            <td>Editar</td>
+            <td>Eliminar</td>
+         </tr>
      {% endfor %}
 
 
 
  </tbody>
 </table>
-    {% if permisos|get_item:'eliminarMiembro' %}
-        <div class="mb-3">
-            <a class="btn btn-primary" href="{% url 'listarUsuarios' proyecto.id %}" > Crear Tipo US </a>
-        </div>
-    {% endif %}
+    <div class="mb-3">
+        <a class="btn btn-primary" href="{% url 'crearTipoUS' proyecto.id %}" > Crear Tipo US </a>
+    </div>
 
 {% endblock %}
