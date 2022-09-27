@@ -390,3 +390,4 @@ class crearUser_Story(CreateView):
     template_name = 'Proyect_Agile/us.html'
     form_class = UserStoryForm
     extra_context = {'form': UserStoryForm }
+

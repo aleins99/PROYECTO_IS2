@@ -63,7 +63,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('nombre', models.CharField(max_length=250)),
-                ('descripcion', models.TextField()),
+                ('descripcion', models.TextField(blank=True, null=True)),
                 ('agregarUserStory', models.BooleanField(default=False)),
                 ('eliminarUserStory', models.BooleanField(default=False)),
                 ('modificarUserStory', models.BooleanField(default=False)),
@@ -78,7 +78,7 @@ class Migration(migrations.Migration):
                 ('finalizarSprint', models.BooleanField(default=False)),
                 ('agregarSprintBacklog', models.BooleanField(default=False)),
                 ('modificarSprintBacklog', models.BooleanField(default=False)),
-                ('idProyecto', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='Proyect_Agile.proyecto')),
+                ('idProyecto', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, to='Proyect_Agile.proyecto')),
             ],
         ),
         migrations.AddField(
@@ -99,7 +99,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='tipous',
             name='estado',
-            field=models.CharField(choices=[('N', 'Nuevo'), ('PP', 'En Planning Pocker'), ('P', 'Pendiente'), ('EP', 'En Proceso'), ('STSA', 'Sin Terminar Sprint Anterior'), ('A', 'Aprobado'), ('H', 'Hecho'), ('C', 'Cancelado')], default='N', max_length=4),
+            field=models.TextField(default='Por hacer, En Proceso, Hecho, Cancelado'),
         ),
         migrations.CreateModel(
             name='Sprint',
