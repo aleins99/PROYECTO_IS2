@@ -97,7 +97,7 @@ class User_Story(models.Model):
     descripcion = models.TextField()
     comentarios = models.TextField()
     estimaciones = models.IntegerField()
-    historial = models.TextField()
+    historial = models.TextField(blank=True)
     UP = models.IntegerField()
     BV = models.IntegerField()
     tipo = models.ForeignKey(TipoUS , on_delete=models.RESTRICT)

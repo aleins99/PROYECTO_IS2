@@ -388,10 +388,10 @@ def crearTipoUS(request, id):
 def crearUser_Story(request,id):
     proyecto = Proyecto.objects.get(id=id)
     if request.method == 'POST':
-        form = tipoUSForm(request.POST)
+        form =UserStoryForm(request.POST)
         if form.is_valid():
             form.save()
-        return redirect('verproyecto', id)
+        return redirect('listarUS', id)
     else:
         form = UserStoryForm()
         form.fields['idproyecto'].initial = proyecto
@@ -399,3 +399,19 @@ def crearUser_Story(request,id):
             'form': form
         }
         return render(request, 'Proyect_Agile/US/crearUS.html', context)
+
+
+def verListaUS(request, id):
+    proyecto = Proyecto.objects.get(id=id)
+    usuario = request.user
+    us = User_Story.objects.filter(idproyecto=proyecto)
+
+    context = {
+        'USs': us,
+        'proyecto': proyecto,
+        'usuario': usuario,
+        'estados': estados_Proyecto,
+        'proyecto_id': str(id),
+        'permisos': obtenerPermisos(id, request.user)
+    }
+    return render(request, 'Proyect_Agile/US/listarUS.html', context)
