@@ -244,30 +244,30 @@ class editarMiembro(UpdateView):
     form_class = MiembroForm
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
-        id = self.kwargs['idproyecto']
+        id = self.kwargs['id']
         form.fields["idrol"].queryset = Rol.objects.filter(idProyecto=id).exclude(nombre="Scrum Master")
         return form
 
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        id = self.kwargs['idproyecto']
+        id = self.kwargs['id']
         permisos = obtenerPermisos(id, self.request.user)
         context['idProyecto'] = id
         context['permisos'] = permisos
         return context
 
     def get_success_url(self):
-        id = self.kwargs['idproyecto']
+        id = self.kwargs['id']
         return reverse('miembrosproyecto',kwargs={'id':id})
 
 
 @permisoVista(permiso="eliminarMiembro")
-def eliminarMiembro(request,id,idproyecto):
-    proyecto = Proyecto.objects.get(id=idproyecto)
-    miembro = Miembro.objects.filter(id=id, idproyecto=proyecto).first()
+def eliminarMiembro(request, id, idmiembro):
+    proyecto = Proyecto.objects.get(id=id)
+    miembro = Miembro.objects.filter(id=idmiembro, idproyecto=proyecto).first()
     miembro.delete()
-    return redirect('miembrosproyecto', id=idproyecto)
+    return redirect('miembrosproyecto', id=id)
 
 
 ### ROLES ###
@@ -330,11 +330,12 @@ class editarRol(UpdateView):
 
 @permisoVista(permiso="crearRol")
 def listarRolesProyecto(request, id):
-    proyectos = obtenerlistaDeProyectosUser(request)
+    proyectos = Proyecto.objects.exclude(id=id)
     context = {
         'proyectos': proyectos,
         'estados': estados_Proyecto,
         'idproyecto': id,
+        'flag': 0,
     }
     return render(request,'Proyect_Agile/Rol/listarProyectoRol.html',context)
 
@@ -413,3 +414,26 @@ def verListaUS(request, id):
         'permisos': obtenerPermisos(id, request.user)
     }
     return render(request, 'Proyect_Agile/US/listarUS.html', context)
+
+def listarTUSproyectos(request, id):
+    proyectos = Proyecto.objects.exclude(id=id)
+    context = {
+        'proyectos': proyectos,
+        'estados': estados_Proyecto,
+        'idproyecto': id,
+        'flag': 1,
+    }
+    return render(request, 'Proyect_Agile/Rol/listarProyectoRol.html', context)
+
+def importarTipoUS(request, id, idproyecto):
+    proyecto1 = Proyecto.objects.get(id=id)
+    proyecto2 = Proyecto.objects.get(id=idproyecto)
+    tipoUS= TipoUS.objects.filter(idproyecto=proyecto2)
+
+    for tipos in tipoUS:
+        if not TipoUS.objects.filter(idproyecto=proyecto1, nombre=tipos.nombre).exists():
+            tipoImportado = TipoUS.objects.create(nombre=tipos.nombre,idproyecto=proyecto1, estado=tipos.estado)
+            tipoImportado.save()
+
+
+    return redirect('listarTipoUS' , id)

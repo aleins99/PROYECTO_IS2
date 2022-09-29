@@ -10,7 +10,9 @@
       <change beforePath="$PROJECT_DIR$/Proyect_Agile/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Proyect_Agile/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Proyecto/verProyecto.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Proyecto/verProyecto.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Rol/listarProyectoRol.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Rol/listarProyectoRol.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/US/crearUS.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/US/crearUS.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/US/verTipoUS.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/US/verTipoUS.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Proyect_Agile/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Proyect_Agile/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/views.py" afterDir="false" />
     </list>
@@ -139,6 +141,7 @@
       <workItem from="1664241763694" duration="2624000" />
       <workItem from="1664244859257" duration="5088000" />
       <workItem from="1664411252499" duration="4594000" />
+      <workItem from="1664481905049" duration="5271000" />
     </task>
     <servers />
   </component>

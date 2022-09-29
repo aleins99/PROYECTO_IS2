@@ -33,7 +33,11 @@
                     <td>{{ proyecto.scrumMaster }}</td>
                     <td>{{ proyecto.fechainicio }}</td>
                     <td>
-                        <a href="{%url 'importarRol' idproyecto proyecto.id %}">Importar Rol</a>
+                        {% if flag == 0 %}
+                            <a href="{%url 'importarRol' idproyecto proyecto.id %}">Importar Rol</a>
+                        {% else %}
+                            <a href="{%url 'importarTipoUS' idproyecto proyecto.id %}">Importar Tipo US</a>
+                        {% endif %}
                     </td>
                 </tr>
 
