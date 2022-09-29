@@ -63,7 +63,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('nombre', models.CharField(max_length=250)),
-                ('descripcion', models.TextField()),
+                ('descripcion', models.TextField(blank=True, null=True)),
                 ('agregarUserStory', models.BooleanField(default=False)),
                 ('eliminarUserStory', models.BooleanField(default=False)),
                 ('modificarUserStory', models.BooleanField(default=False)),
@@ -78,7 +78,7 @@ class Migration(migrations.Migration):
                 ('finalizarSprint', models.BooleanField(default=False)),
                 ('agregarSprintBacklog', models.BooleanField(default=False)),
                 ('modificarSprintBacklog', models.BooleanField(default=False)),
-                ('idProyecto', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='Proyect_Agile.proyecto')),
+                ('idProyecto', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, to='Proyect_Agile.proyecto')),
             ],
         ),
         migrations.AddField(
@@ -96,7 +96,11 @@ class Migration(migrations.Migration):
             name='usuario',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, to=settings.AUTH_USER_MODEL),
         ),
-
+        migrations.AddField(
+            model_name='tipous',
+            name='estado',
+            field=models.TextField(default='Por hacer, En Proceso, Hecho, Cancelado'),
+        ),
         migrations.CreateModel(
             name='Sprint',
             fields=[
@@ -108,5 +112,22 @@ class Migration(migrations.Migration):
                 ('estado', models.CharField(choices=[('P', 'Pendiente'), ('E', 'En ejecucion'), ('F', 'Finalizado')], default='P', max_length=1)),
                 ('idproyecto', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='Proyect_Agile.proyecto')),
             ],
+        ),
+        migrations.AddField(
+            model_name='tipous',
+            name='idproyecto',
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.RESTRICT, to='Proyect_Agile.proyecto')
+        ),
+
+        migrations.AddField(
+            model_name='user_story',
+            name='idproyecto',
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.RESTRICT,
+                                    to='Proyect_Agile.proyecto'),
+        ),
+        migrations.AlterField(
+            model_name='user_story',
+            name='estado',
+            field=models.CharField(default='Pendiente', max_length=30),
         ),
     ]
