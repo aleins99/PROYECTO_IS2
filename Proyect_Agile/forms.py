@@ -51,6 +51,12 @@ class UserStoryForm(forms.ModelForm):
     class Meta:
         model = User_Story
         fields = '__all__'
+        labels = {'idproyecto': '', 'historial': '', 'estado':''}
+        widgets = {
+            'idproyecto': forms.HiddenInput(),
+            'historial': forms.HiddenInput(),
+            'estado': forms.HiddenInput(),
+        }
 
 
     def __init__(self, *args, **kwargs):

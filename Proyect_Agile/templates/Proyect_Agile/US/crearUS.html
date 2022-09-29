@@ -3,7 +3,7 @@
 {% block content %}
 
 
-    <form action="post" class="container">
+    <form method="post" class="container">
         <h1>Crear User Story</h1>
         {% csrf_token %}
         {% for campo in form %}

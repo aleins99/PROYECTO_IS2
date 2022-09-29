@@ -384,9 +384,18 @@ def crearTipoUS(request, id):
         return render(request, 'Proyect_Agile/US/crearTipoUS.html', context)
 
 ### USER STORY ###
-@method_decorator(permisoVista(permiso="agregarUserStory"), name='dispatch')
-class crearUser_Story(CreateView):
-    model = User_Story
-    template_name = 'Proyect_Agile/us.html'
-    form_class = UserStoryForm
-    extra_context = {'form': UserStoryForm }
+@permisoVista(permiso="agregarUserStory")
+def crearUser_Story(request,id):
+    proyecto = Proyecto.objects.get(id=id)
+    if request.method == 'POST':
+        form = tipoUSForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect('verproyecto', id)
+    else:
+        form = UserStoryForm()
+        form.fields['idproyecto'].initial = proyecto
+        context = {
+            'form': form
+        }
+        return render(request, 'Proyect_Agile/US/crearUS.html', context)

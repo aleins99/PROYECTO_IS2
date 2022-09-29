@@ -88,7 +88,11 @@ class TipoUS(models.Model):
     estado = models.TextField(default= 'Por hacer, En Proceso, Hecho, Cancelado')
 
 
+    def __str__(self):
+        return self.nombre
+
 class User_Story(models.Model):
+    idproyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT, null=True)
     nombre = models.CharField(max_length=200)
     descripcion = models.TextField()
     comentarios = models.TextField()
@@ -97,7 +101,10 @@ class User_Story(models.Model):
     UP = models.IntegerField()
     BV = models.IntegerField()
     tipo = models.ForeignKey(TipoUS , on_delete=models.RESTRICT)
-    estado = models.CharField(max_length=10,default='N')
+    estado = models.CharField(max_length=30,default='Pendiente')
+
+    def __str__(self):
+        return self.nombre
 
 
 class Sprint(models.Model):

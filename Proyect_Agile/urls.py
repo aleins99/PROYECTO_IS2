@@ -22,6 +22,6 @@ urlpatterns = [
     path('Proyecto/<id>/roles/importarRoles/', views.listarRolesProyecto, name='listarRolesProyecto'),
     path('Proyecto/<id>/tipoUS/', views.tipoUSProyecto,name='listarTipoUS'),
     path('Proyecto/<id>/tipoUS/crear',views.crearTipoUS, name='crearTipoUS'),
-    path('UserStory/', views.crearUser_Story.as_view(), name='crearUS'),
+    path('Proyecto/<id>/US/crear', views.crearUser_Story, name='crearUS'),
     path('home/documentacion' , views.verDocumentacion ,name='documentacion'),
 ]
