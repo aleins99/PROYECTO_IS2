@@ -23,7 +23,7 @@ urlpatterns = [
     path('Proyecto/<id>/tipoUS/', views.tipoUSProyecto,name='listarTipoUS'),
     path('Proyecto/<id>/tipoUS/crear',views.crearTipoUS, name='crearTipoUS'),
     path('Proyecto/<id>/US/crear', views.crearUser_Story, name='crearUS'),
-    path('Proyecto/<id>/listaUS', views.verListaUS, name= 'listarUS'),
+    path('Proyecto/<id>/listaUS/', views.verListaUS, name= 'listarUS'),
     path('Proyecto/<idproyecto>/listaUS/<pk>/editarUS/', views.verListaUS, name= 'editarUS'),
     path('home/documentacion' , views.verDocumentacion ,name='documentacion'),
 ]

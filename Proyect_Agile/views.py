@@ -242,9 +242,14 @@ class editarMiembro(UpdateView):
     model= Miembro
     template_name = 'Proyect_Agile/Miembros/editarMiembro.html'
     form_class = MiembroForm
-    # add extra context for roles
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        id = self.kwargs['idproyecto']
+        form.fields["idrol"].queryset = Rol.objects.filter(idProyecto=id).exclude(nombre="Scrum Master")
+        return form
+
+
     def get_context_data(self, **kwargs):
-        # get all the roles from the project      
         context = super().get_context_data(**kwargs)
         id = self.kwargs['idproyecto']
         permisos = obtenerPermisos(id, self.request.user)
@@ -333,16 +338,9 @@ def listarRolesProyecto(request, id):
     }
     return render(request,'Proyect_Agile/Rol/listarProyectoRol.html',context)
 
-@permisoVista(permiso="crearRol")
 def importarRol(request,id, idproyecto):
-    roles=Rol.objects.filter(idProyecto=idproyecto)
-    for rol in roles:
-        if not Rol.objects.filter(idProyecto=id, nombre=rol.nombre).exists():
-
-            #Rol.objects.create()
-            rol2 = rol
-            rol2.idProyecto = Proyecto.objects.get(id=id)
-            rol2.save()
+    rolImportado = importarRolProyecto(id, idproyecto)
+    rolImportado.save()
     return redirect('rolproyecto', id)
 
 

@@ -74,13 +74,15 @@ class MiembroForm(forms.ModelForm):
     class Meta:
         model = Miembro
         fields = '__all__'
-        labels = {'cargahoraria':'Carga Horaria', 'idrol': 'Rol', 'isActivo': 'Activo'}
+        labels = {'cargahoraria':'Carga Horaria', 'idrol': 'Rol', 'isActivo': 'Activo', 'usuario':'', 'idproyecto':''}
+
         widgets = {
             'usuario': forms.HiddenInput(),
             'idproyecto': forms.HiddenInput(),
+            'isActivo': forms.CheckboxInput(attrs={'class':''}),
         }
-    
-       
+
+
     def __init__(self, *args, **kwargs):
         """
         The function takes in a list of fields and a list of widgets, and returns a list of fields with
@@ -89,8 +91,14 @@ class MiembroForm(forms.ModelForm):
         super(MiembroForm, self).__init__(*args, **kwargs)
 
         for name, field in self.fields.items():
-            field.widget.attrs.update({'class':'form-control'})
+            if name == 'isActivo':
+                field.widget.attrs.update({'class':'form-check-input'})
+            else:
+                field.widget.attrs.update({'class':'form-control'})
 
+
+   
+    
 
 class rolForm(forms.ModelForm):
     class Meta:

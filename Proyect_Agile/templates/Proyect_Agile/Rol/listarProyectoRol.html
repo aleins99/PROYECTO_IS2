@@ -32,7 +32,9 @@
                     <td>{{ estados|get_item:proyecto.estado }}</td>
                     <td>{{ proyecto.scrumMaster }}</td>
                     <td>{{ proyecto.fechainicio }}</td>
-                    <td><input type="checkbox" name="importarRol" id="importarRol"></td>
+                    <td>
+                        <a href="{%url 'importarRol' idproyecto proyecto.id %}">Importar Rol</a>
+                    </td>
                 </tr>
 
             {% endfor %}
