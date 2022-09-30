@@ -386,6 +386,8 @@ def crearTipoUS(request, id):
 @permisoVista(permiso="agregarUserStory")
 def crearUser_Story(request,id):
     proyecto = Proyecto.objects.get(id=id)
+
+
     if request.method == 'POST':
         form =UserStoryForm(request.POST)
         if form.is_valid():
@@ -394,6 +396,7 @@ def crearUser_Story(request,id):
     else:
         form = UserStoryForm()
         form.fields['idproyecto'].initial = proyecto
+        form.fields['tipo'].queryset = TipoUS.objects.filter(idproyecto=proyecto)
         context = {
             'form': form
         }
