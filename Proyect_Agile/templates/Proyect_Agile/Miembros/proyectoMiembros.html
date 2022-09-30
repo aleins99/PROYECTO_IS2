@@ -34,11 +34,34 @@
                  <td>{{ miembro.idrol }}</td>
                  
                   {% if permisos|get_item:'modificarMiembro' %}
-                      <td> <a href="{% url 'editarmiembro' proyecto.id miembro.id %}"> Editar </a>  </td>
+                      <td class="text-center"> 
+                        <a href="{% url 'editarmiembro' proyecto.id miembro.id %}" class="btn btn-outline-primary ">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                      </td>
                   {% endif %}
 
                   {% if permisos|get_item:'eliminarMiembro' %}
-                      <td> <a href="{% url 'eliminarMiembro' proyecto.id miembro.id %}"> Eliminar </a>  </td>
+                        <td style="display: flex; justify-content:center; align-items:center">
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                      <!-- Modal -->
+                      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content bg-dark">
+                            <div class="modal-body text-white">
+                              Estas seguro que desea eliminar?
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-outline-secondary text-white" data-bs-dismiss="modal">Cancelar</button>
+                              <a href="{% url 'eliminarMiembro' proyecto.id miembro.id %}"><button type="button" class="btn btn-danger">Eliminar</button>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                   {% endif %}
              </tr>
          {% endif %}

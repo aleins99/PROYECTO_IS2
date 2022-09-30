@@ -16,7 +16,12 @@
              <td>{{ rol.nombre }}</td>
              <td>{{ rol.descripcion}}</td>
               {% if permisos|get_item:'modificarRol' %}
-                  <td> <a href="{% url 'editarRol' proyecto.id rol.id %}"> Editar </a>  </td>
+                  <td class="text-center"> 
+                    <a href="{% url 'editarRol' proyecto.id rol.id %}" class="btn btn-outline-primary ">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a> 
+                  </td>
+                  
               {% endif %}
          </tr>
 
