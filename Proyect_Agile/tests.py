@@ -13,7 +13,7 @@ class ProyectoTest(TestCase):
 	def test_proyecto(self):
 		usuario = get_user_model().objects.create(username="test", email="user@example.com")
 		proyecto = Proyecto.objects.create(nombre='Proyecto1', descripcion='Descripcion1', scrumMaster=usuario, fechainicio='2020-01-01', fechafin='2020-01-01')
-		self.assertEqual(proyecto.nombre, 'Proyecto1')
+		self.assertEqual(proyecto.nombre, 'Proyecto2')
 		self.assertEqual(proyecto.descripcion, 'Descripcion1')
 		self.assertEqual(proyecto.scrumMaster, usuario)
 		self.assertEqual(proyecto.fechainicio, '2020-01-01')
