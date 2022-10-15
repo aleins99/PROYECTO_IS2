@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc82abfe-1e11-4cfa-88ee-f8d83a81d086" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/crearSprint.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/agregarUSSprint.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/listarUS.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Proyect_Agile/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Proyect_Agile/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/models.py" afterDir="false" />
@@ -142,7 +143,8 @@
       <workItem from="1664481905049" duration="5839000" />
       <workItem from="1664555079388" duration="306000" />
       <workItem from="1664570483583" duration="651000" />
-      <workItem from="1665777109898" duration="18614000" />
+      <workItem from="1665777109898" duration="18620000" />
+      <workItem from="1665863555017" duration="10434000" />
     </task>
     <servers />
   </component>

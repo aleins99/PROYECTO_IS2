@@ -483,5 +483,41 @@ def crearSprint(request, id):
         }
     return render(request, 'Proyect_Agile/Sprint/crearSprint.html', context)
 
+def listarUS_para_Sprint(request,id,id_sprint):
+    USs = User_Story.objects.filter(idproyecto=id)
+
+    context = {
+        'USs': USs,
+        'id_sprint' : id_sprint,
+    }
+    return render(request, 'Proyect_Agile/Sprint/listarUS.html', context)
+
+def agregarUs_para_Sprint(request,id,id_us,id_sprint):
+    proyecto = get_object_or_404(Proyecto, pk=id)
+    if request.method == 'POST':
+
+        form = formCrearPlanningPoker(request.POST)
+        if form.is_valid():
+            form.save()
+
+        return redirect('verSprint', id)
+    else:
+        form = formCrearPlanningPoker()
+        form.fields["idproyecto"].initial = proyecto
+        form.fields["idUs"].initial = User_Story.objects.get(id=id_us)
+        form.fields["idSprint"].initial = Sprint.objects.get(id=id_sprint)  
+
+
+        # se excluye el rol
+        form.fields["encargado"].queryset = Miembro.objects.filter(idproyecto=proyecto)
+        context = {
+            'form': form,
+            'idProyecto': id,
+        }
+        return render(request, 'Proyect_Agile/Sprint/agregarUSSprint.html', context, None, 200)
+
+
+
+
 
 

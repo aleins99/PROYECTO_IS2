@@ -157,3 +157,40 @@ class SprintForm(forms.ModelForm):
 
         for name, field in self.fields.items():
             field.widget.attrs.update({'class':'form-control'})
+
+class formCrearPlanningPoker(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # para no hacer obligadatorios algunos campos
+        self.fields['estimacionEncargado'].required = False
+
+    # metodo para validar el dominio de los inputs de los campos
+    def clean(self, *args, **kwargs):
+        cleaned_data = super(formCrearPlanningPoker, self).clean(*args, **kwargs)
+        prioridad = cleaned_data.get('prioridad')
+        if prioridad is not None:
+            if prioridad < 1 or prioridad > 5:
+                self.add_error('prioridad', 'rango no valido')
+
+    class Meta:
+        model = PlanningPoker
+        fields = ['prioridad', 'estimacionSM', 'estimacionEncargado', 'estimacionFinal', 'miembroEncargado', 'idUs',
+                  'idSprint', ]
+        labels = {
+            'prioridad': 'Prioridad',
+            'estimacionSM': 'Estimacion del SM',
+            'estimacionEncargado': 'Estimacion del Encargado',
+            'miembroEncargado': 'Encargado',
+        }
+
+        widgets = {
+            'idUs': forms.HiddenInput(),  # oculta el label del idUserStory
+            'idSprint': forms.HiddenInput(),  # oculta el label del idSprint
+            'estimacionSM': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Ingrese estimacion en Horas', 'type': 'number'}),
+            'estimacionEncargado': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Ingrese estimacion en Horas', 'type': 'number'}),
+            'estimacionFinal': forms.HiddenInput(),
+            'prioridad': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': '1 (Muy Alta) a 5 (Muy Baja)'}),
+        }

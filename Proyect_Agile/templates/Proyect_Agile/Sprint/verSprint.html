@@ -38,11 +38,11 @@
                             <div class="btn-group" style="display:flex; gap: 10px;">
                                 {% if proyecto.estado != 'F' %}
                                     {% if sprint.estado == 'P' %}
-                                        <a
+                                        <a href="{% url 'listarUS_para_Sprint' proyecto_id sprint.id %}"
                                            title="Ver"
                                            type="button"
                                            class="btn btn-primary">
-                                            Agregar Us</a>
+                                            Agregar US</a>
 
                                         <a
                                            type="button"

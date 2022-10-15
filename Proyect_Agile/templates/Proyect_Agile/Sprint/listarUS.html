@@ -1,0 +1,43 @@
+{% extends 'account/base.html' %}
+
+
+{% block content %}
+
+    <div class="container mb-5">
+        <div class="py-5 text-center ">
+            <h1 class="text-light"> Lista de User Stories </h1>
+        </div>
+        <div class="bg-dark border rounded border-dark ">
+
+
+            <table class="table table-dark table-hover table-bordered border-muted">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Prioridad</th>
+                  {#    <th scope="col">Estimación</th> #}
+                   {#   <th scope="col">Encargado</th> #}
+
+                    <th scope="col">Acción</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for us in USs %}
+                        <tr>
+                            <td> {{ us.nombre }} </td>
+                            <td> {{ us.tipo }} </td>
+                            <td> {{ us.estado }} </td>
+                            <td> {{ us.prioridad }} </td>
+                            <td><a href="{% url 'agregarUs_para_Sprint' proyecto_id us.id id_sprint%}"> </a> Agregar </td>
+                        </tr>
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+{% endblock %}

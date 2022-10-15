@@ -103,6 +103,11 @@ class User_Story(models.Model):
     tipo = models.ForeignKey(TipoUS , on_delete=models.RESTRICT)
     estado = models.CharField(max_length=30,default='Pendiente')
 
+    estimacion = models.FloatField(null=True, blank=True)  # Estimacion del US, (en Horas)
+    tiempoDedicado = models.FloatField(default=0)  # Tiempo Dedicado al US, (en Horas)
+    prioridad = models.IntegerField(null=True, blank=True)  # Prioridad del US, del 1 al 5
+    encargado = models.ForeignKey(User, on_delete=models.RESTRICT, null=True, blank=True)  # Miembro encargado en trabajar el
+
     def __str__(self):
         return self.nombre
 
@@ -121,3 +126,26 @@ class Sprint(models.Model):
     estado = models.CharField(max_length=1, choices=ESTADOS, default='P')
     def __str__(self):
         return self.nombre
+
+class PlanningPoker(models.Model):
+    ESTADOS = (
+        ('N', 'Nuevo'),
+        ('PP', 'En Planning Pocker'),
+        ('P', 'Pendiente'),
+        ('EP', 'En Proceso'),
+        ('STSA', 'Sin Terminar Sprint Anterior'),
+        ('A', 'Aprobado'),
+        ('H', 'Hecho'),
+        ('C', 'Cancelado'),
+    )
+
+    estimacionSM = models.FloatField()  # Estimacion en horas
+    estimacionEncargado = models.FloatField(blank=True, null=True)  # Estimacion en horas
+    estimacionFinal = models.FloatField(blank=True, null=True)
+    prioridad = models.IntegerField()
+    # miembroSM = models.ForeignKey(miembros, on_delete=models.RESTRICT)
+    estado = models.CharField(max_length=4, choices=ESTADOS, default='N')
+    miembroEncargado = models.ForeignKey(Miembro, on_delete=models.RESTRICT)  # Al definirse debe de tener un encargado si o si
+    idUs = models.ForeignKey(User_Story, on_delete=models.RESTRICT)
+    idSprint = models.ForeignKey(Sprint, on_delete=models.RESTRICT)  # Debe pertenecer a un sprintPlanning#o idSprint
+
