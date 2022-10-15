@@ -32,7 +32,8 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link">Sprints</a>
+                                <a class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/verSprint/'%}active{%endif%}" href="{% url 'verSprint' proyecto.id %}">Sprint</a>
+
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link">Reportes</a>

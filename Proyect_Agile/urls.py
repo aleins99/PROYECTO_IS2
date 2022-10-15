@@ -21,11 +21,12 @@ urlpatterns = [
     path('Proyecto/<id>/roles/importarRoles/<idproyecto>/', views.importarRol, name='importarRol'),
     path('Proyecto/<id>/roles/importarRoles/', views.listarRolesProyecto, name='listarRolesProyecto'),
     path('Proyecto/<id>/tipoUS/', views.tipoUSProyecto, name='listarTipoUS'),
-    path('Proyecto/<id>/tipoUS/crear',views.crearTipoUS, name='crearTipoUS'),
-    path('Proyecto/<id>/US/crear', views.crearUser_Story, name='crearUS'),
+    path('Proyecto/<id>/tipoUS/crear/',views.crearTipoUS, name='crearTipoUS'),
+    path('Proyecto/<id>/US/crear/', views.crearUser_Story, name='crearUS'),
     path('Proyecto/<id>/listaUS/', views.verListaUS, name='listarUS'),
     path('Proyecto/<idproyecto>/listaUS/<pk>/editarUS/', views.verListaUS, name='editarUS'),
     path('Proyecto/<id>/tipoUS/importarTipoUS/<idproyecto>/', views.importarTipoUS, name='importarTipoUS'),
     path('Proyecto/<id>/tipoUS/importarTUS/', views.listarTUSproyectos, name='listarUSProyectos'),
-    path('home/documentacion', views.verDocumentacion, name='documentacion'),
+    path('home/documentacion/', views.verDocumentacion, name='documentacion'),
+    path('Proyecto/<id>/verSprint/', views.verSprint, name='verSprint')
 ]

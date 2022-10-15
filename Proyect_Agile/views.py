@@ -440,3 +440,21 @@ def importarTipoUS(request, id, idproyecto):
 
 
     return redirect('listarTipoUS' , id)
+
+def verSprint(request, id):
+    sprint = Sprint.objects.filter(idproyecto= id)
+    proyecto = Proyecto.objects.get(id=id)
+    usuario = request.user
+
+    context = {
+        'proyecto': proyecto,
+        'sprints' : sprint,
+        'usuario': usuario,
+        'estados': estados_Proyecto,
+        'proyecto_id': id,
+        'permisos': obtenerPermisos(id, request.user)
+    }
+    return render(request,'Proyect_Agile/Sprint/verSprint.html',context)
+
+
+
