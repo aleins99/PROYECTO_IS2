@@ -109,7 +109,6 @@ class User_Story(models.Model):
 
 class Sprint(models.Model):
     nombre = models.CharField(max_length=200)
-    descripcion = models.TextField()
     fechainicio = models.DateField(default=datetime.now)
     fechafin = models.DateField(blank=False, null=False)
     idproyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT)

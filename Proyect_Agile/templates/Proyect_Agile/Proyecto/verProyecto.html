@@ -28,7 +28,7 @@
 
 
                             <li class="nav-item">
-                             <a class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/listaUS/'%}active{%endif%}" href="{% url 'listarUS' proyecto.id %}">Backlog</a>
+                             <a class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/listaUS/'%}active{%endif%}" href="{% url 'listarUS' proyecto.id %}">Product Backlog</a>
                             </li>
 
                             <li class="nav-item">
@@ -59,38 +59,13 @@
                                     <input type="submit" class="btn btn-primary" style="margin-top: 18px;" value="Iniciar Proyecto">
                                 </div>
                             </form>
-                        {% elif proyecto.estado == 'C' %}
-                            <div class="container" style="margin-top: 10px;">
-                                <h2 class="text-center">User Story</h2>
-                            </div>
-                        {% else %}
 
-                            <div class="container" style="margin-top: 10px;">
-                                <h2 class="text-center">User Story</h2>
-                            </div>
-
-                            <div class="mb-3">
-                                <a class="btn btn-primary" href="{% url 'crearUS' proyecto.id %}" > Crear User Story </a>
-                            </div>
-
-                            <div class="mb-3">
-                                    <a class="btn btn-primary" href="#" > Importar User Story </a>
-                            </div>
                         {% endif %}
 
                     {% endif %}
-
-
-
+                    
                 </div>
-                {%if proyecto.estado == 'E' or proyecto.estado == 'C'%}
-                    <div class="container col-lg-3 border border-muted">
-                        <h2 class="text-center">Sprint Backlog</h2>
 
-                        
-
-                    </div>
-                {%endif%}
                 {% endblock %}
         </div>
     </div>

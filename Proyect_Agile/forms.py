@@ -133,12 +133,18 @@ class tipoUSForm(forms.ModelForm):
 class SprintForm(forms.ModelForm):
     class Meta:
         model = Sprint
-        fields = ['nombre', 'descripcion', 'fechainicio', 'fechafin', 'estado']
+        fields = ['nombre', 'numero', 'fechainicio', 'fechafin', 'estado', 'idproyecto']
         labels = {'fechainicio':'Fecha Inicio', 'fechafin':'Fecha Fin'}
         widgets = {
             'descripcion': forms.Textarea(attrs={'cols': 1, 'rows': 2}),
+            'numero': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Numero de sprint', 'type': 'number',
+                       'readonly': 'readonly'}),
             'fechainicio': forms.DateInput(attrs={'type': 'date'}),
             'fechafin': forms.DateInput(attrs={'type': 'date'}),
+            'idproyecto': forms.HiddenInput(),
+            'estado': forms.HiddenInput(),
+
         }
 
 

@@ -456,5 +456,32 @@ def verSprint(request, id):
     }
     return render(request,'Proyect_Agile/Sprint/verSprint.html',context)
 
+def crearSprint(request, id):
+
+    if request.method == 'POST':
+        form = SprintForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect('verSprint', id)
+    else:
+        nroultimosprint = Sprint.objects.filter(
+            idproyecto=id)
+        # Aqui obtiene el numero del ultimo sprint, para hacer "autoincrementable"
+        proyecto = get_object_or_404(Proyecto, pk=id)
+        ultimoSprint = Sprint.objects.filter(idproyecto=proyecto).order_by("-numero").first()
+        formSprint = SprintForm()
+        if nroultimosprint:
+            numero = nroultimosprint.order_by('numero').last().numero
+            formSprint.fields["numero"].initial = numero + 1
+        else:
+            formSprint.fields["numero"].initial = 1
+
+        formSprint.fields["idproyecto"].initial = proyecto
+
+        context = {
+            'form': formSprint
+        }
+    return render(request, 'Proyect_Agile/Sprint/crearSprint.html', context)
+
 
 

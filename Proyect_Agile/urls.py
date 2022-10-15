@@ -28,5 +28,6 @@ urlpatterns = [
     path('Proyecto/<id>/tipoUS/importarTipoUS/<idproyecto>/', views.importarTipoUS, name='importarTipoUS'),
     path('Proyecto/<id>/tipoUS/importarTUS/', views.listarTUSproyectos, name='listarUSProyectos'),
     path('home/documentacion/', views.verDocumentacion, name='documentacion'),
-    path('Proyecto/<id>/verSprint/', views.verSprint, name='verSprint')
+    path('Proyecto/<id>/verSprint/', views.verSprint, name='verSprint'),
+    path('Proyecto/<id>/crearSprint/', views.crearSprint, name='crearSprint'),
 ]
