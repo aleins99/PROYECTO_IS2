@@ -96,16 +96,10 @@ class User_Story(models.Model):
     nombre = models.CharField(max_length=200)
     descripcion = models.TextField()
     comentarios = models.TextField()
-    estimaciones = models.IntegerField()
     historial = models.TextField(blank=True)
-    UP = models.IntegerField()
-    BV = models.IntegerField()
     tipo = models.ForeignKey(TipoUS , on_delete=models.RESTRICT)
     estado = models.CharField(max_length=30,default='Pendiente')
 
-    estimacion = models.FloatField(null=True, blank=True)  # Estimacion del US, (en Horas)
-    tiempoDedicado = models.FloatField(default=0)  # Tiempo Dedicado al US, (en Horas)
-    prioridad = models.IntegerField(null=True, blank=True)  # Prioridad del US, del 1 al 5
     encargado = models.ForeignKey(User, on_delete=models.RESTRICT, null=True, blank=True)  # Miembro encargado en trabajar el
 
     def __str__(self):
@@ -139,10 +133,10 @@ class PlanningPoker(models.Model):
         ('C', 'Cancelado'),
     )
 
-    estimacionSM = models.FloatField()  # Estimacion en horas
-    estimacionEncargado = models.FloatField(blank=True, null=True)  # Estimacion en horas
-    estimacionFinal = models.FloatField(blank=True, null=True)
-    prioridad = models.IntegerField()
+    estimacion = models.FloatField()  # Estimacion en horas
+    UP= models.IntegerField(blank=True, null=True)  # Estimacion en horas
+    BV = models.IntegerField(blank=True, null=True)
+    prioridad = models.FloatField()
     # miembroSM = models.ForeignKey(miembros, on_delete=models.RESTRICT)
     estado = models.CharField(max_length=4, choices=ESTADOS, default='N')
     miembroEncargado = models.ForeignKey(Miembro, on_delete=models.RESTRICT)  # Al definirse debe de tener un encargado si o si

@@ -32,4 +32,5 @@ urlpatterns = [
     path('Proyecto/<id>/crearSprint/', views.crearSprint, name='crearSprint'),
     path('Proyecto/<id>/Sprint/<id_sprint>/listarUS_para_Sprint/',views.listarUS_para_Sprint, name='listarUS_para_Sprint' ),
     path('Proyecto/<id>/Sprint/<id_sprint>/agregarUs_para_Sprint/<id_us>/', views.agregarUs_para_Sprint, name='agregarUs_para_Sprint'),
+    path('Proyecto/<id>/Sprint/<id_sprint>/listaMiembroSprint/', views.listaMiembroSprint, name='miembroSprint'),
 ]

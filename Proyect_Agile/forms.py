@@ -174,23 +174,17 @@ class formCrearPlanningPoker(forms.ModelForm):
 
     class Meta:
         model = PlanningPoker
-        fields = ['prioridad', 'estimacionSM', 'estimacionEncargado', 'estimacionFinal', 'miembroEncargado', 'idUs',
+        fields = ['estimacion', 'miembroEncargado', 'idUs',
                   'idSprint', ]
         labels = {
             'prioridad': 'Prioridad',
-            'estimacionSM': 'Estimacion del SM',
-            'estimacionEncargado': 'Estimacion del Encargado',
             'miembroEncargado': 'Encargado',
         }
 
         widgets = {
             'idUs': forms.HiddenInput(),  # oculta el label del idUserStory
             'idSprint': forms.HiddenInput(),  # oculta el label del idSprint
-            'estimacionSM': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': 'Ingrese estimacion en Horas', 'type': 'number'}),
-            'estimacionEncargado': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': 'Ingrese estimacion en Horas', 'type': 'number'}),
-            'estimacionFinal': forms.HiddenInput(),
+            'estimacion': forms.HiddenInput(),
             'prioridad': forms.TextInput(
                 attrs={'class': 'form-control', 'placeholder': '1 (Muy Alta) a 5 (Muy Baja)'}),
         }

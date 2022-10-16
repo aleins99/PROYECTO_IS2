@@ -1,0 +1,29 @@
+{% extends 'account/base.html' %}
+{% block content %}
+<table class="table table-dark table-hover table-bordered border-muted">
+
+ <thead>
+ <tr>
+     <th scope="col">Nombre</th>
+     <th scope="col">Apellido</th>
+     <th scope="col">Correo</th>
+     <th scope="col">Carga Horaria</th>
+ </tr>
+
+ </thead>
+ <tbody>
+
+     {% for miembro in miembros %}
+         {% if miembro.isActivo %}
+             <tr>
+                 <td>{{ miembro.usuario.first_name }}</td>
+                 <td>{{ miembro.usuario.last_name}}</td>
+                 <td>{{ miembro.usuario.email }}</td>
+                 <td>{{ miembro.cargahoraria }}</td>
+             </tr>
+         {% endif %}
+     {% endfor %}
+ </tbody>
+</table>
+
+{% endblock %}

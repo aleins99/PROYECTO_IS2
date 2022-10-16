@@ -516,8 +516,22 @@ def agregarUs_para_Sprint(request,id,id_us,id_sprint):
         }
         return render(request, 'Proyect_Agile/Sprint/agregarUSSprint.html', context, None, 200)
 
+def listaMiembroSprint(request, id_Sprint):
+    sprint = Sprint.objects.get(id=id_Sprint)
+    listaUS = PlanningPoker.objects.filter(idSprint=sprint)
+    miembros =[]
+    for us in listaUS:
+        band=0
+        for miembro in miembros:
+            if miembro == us.miembroEncargado:
+                band=1
+        if band == 0:
+            miembros.append(us.miembroEncargado)
+
+    context = {
+        miembros,
+    }
+    return render(request, 'royect_Agile/Sprint/mostrarMiembrosSprint.html', context, None, 200)
 
 
-
-
-
+#def agregarMiembroSprint(request, id, id_sprint, id_miembro):
