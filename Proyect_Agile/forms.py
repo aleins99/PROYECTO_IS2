@@ -5,6 +5,7 @@ from django import forms
 from .models import *
 from django.contrib.auth.models import AbstractUser
 from allauth.utils import get_user_model
+#Formularios para la creacion instancias de los diferentes modelos
 class UsuarioForm(forms.ModelForm):
     class Meta:
         model = get_user_model()
@@ -46,7 +47,7 @@ class ProyectoForm(forms.ModelForm):
         for name, field in self.fields.items():
             field.widget.attrs.update({'class':'form-control'})
 
-
+# formulario para el modelo de us primitivo
 class UserStoryForm(forms.ModelForm):
     class Meta:
         model = User_Story
@@ -69,7 +70,7 @@ class UserStoryForm(forms.ModelForm):
         for name, field in self.fields.items():
             field.widget.attrs.update({'class':'form-control'})
 
-
+# formulario para agregar un miembro del proyecto
 class MiembroForm(forms.ModelForm):
     class Meta:
         model = Miembro
@@ -99,7 +100,7 @@ class MiembroForm(forms.ModelForm):
 
    
     
-
+# formulario para agregar roles dentro de un proyecto
 class rolForm(forms.ModelForm):
     class Meta:
         model= Rol
@@ -111,6 +112,7 @@ class rolForm(forms.ModelForm):
             'descripcion': forms.TextInput(attrs={'class':'form-control'}),  
         }
 
+# formulario para agregar un nuevo tipo de us al proyecto
 class tipoUSForm(forms.ModelForm):
     class Meta:
         model = TipoUS
@@ -130,6 +132,7 @@ class tipoUSForm(forms.ModelForm):
             field.widget.attrs.update({'class':'form-control'})
 
 
+# formulario para agregar un nuevo sprint al proyecto
 class SprintForm(forms.ModelForm):
     class Meta:
         model = Sprint
@@ -157,6 +160,8 @@ class SprintForm(forms.ModelForm):
 
         for name, field in self.fields.items():
             field.widget.attrs.update({'class':'form-control'})
+
+# formulario para el planning poker ( para los us que se agregan al sprint backlog )
 
 class formCrearPlanningPoker(forms.ModelForm):
     def __init__(self, *args, **kwargs):

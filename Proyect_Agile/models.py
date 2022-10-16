@@ -3,7 +3,9 @@ from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from allauth import app_settings
 from django.contrib.auth.models import Permission, User, GroupManager
-# Create your models here
+# Create your models here 
+
+# Modelo para los proyectos
 class Proyecto(models.Model):
     nombre = models.CharField(max_length=200, null=False, blank=False)
     descripcion = models.TextField(null= True, blank= True, max_length=200)
@@ -25,7 +27,7 @@ class Proyecto(models.Model):
     def get_absolute_url(self):
         return '/Proyecto'
 
-
+# Modelo para los miembros dentro de un proyecto en especifico
 class Miembro(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.RESTRICT, null=True, blank=True)
     cargahoraria = models.IntegerField(default=0)
@@ -37,6 +39,7 @@ class Miembro(models.Model):
         return self.usuario.first_name
 
 
+# Modelo para los roles dentro de un proyecto en especifico
 class Rol(models.Model):
     idProyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT, null=True , blank=True)  # Proyecto al que pertenece el rol
     nombre = models.CharField(max_length=250)
@@ -79,7 +82,7 @@ class Rol(models.Model):
     def __str__(self):
         return self.nombre
 
-
+# Modelo para los tipos de us dentro de un proyecto en especifico
 class TipoUS(models.Model):
 
     nombre= models.CharField(max_length=100)
@@ -91,6 +94,7 @@ class TipoUS(models.Model):
     def __str__(self):
         return self.nombre
 
+# Modelo para los us primitivos ( que aun no se agregan al sprint backlog )
 class User_Story(models.Model):
     idproyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT, null=True)
     nombre = models.CharField(max_length=200)
@@ -105,7 +109,7 @@ class User_Story(models.Model):
     def __str__(self):
         return self.nombre
 
-
+# Modelo para un sprint de un proyecto en especifico
 class Sprint(models.Model):
     nombre = models.CharField(max_length=200)
     fechainicio = models.DateField(default=datetime.now)
@@ -121,6 +125,8 @@ class Sprint(models.Model):
     def __str__(self):
         return self.nombre
 
+# Modelo para el planning poker de un proyecto ( se complementa el modelo de us primitivo con este )
+# Se trata de un modelo para los us que van a pasar al sprint backlog
 class PlanningPoker(models.Model):
     ESTADOS = (
         ('N', 'Nuevo'),

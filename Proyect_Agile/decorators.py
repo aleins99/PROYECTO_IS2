@@ -3,6 +3,7 @@ from calendar import c
 from .models import Proyecto, Miembro, Rol
 from django.http import HttpResponse
 
+#decorador encargado de controlar el acceso a las vistas segun los permisos que se tengan dentro del proyecto
 def permisoVista(permiso):
     def decorator(view_func):
         def wrapper_func(request,*args,**kwargs):
