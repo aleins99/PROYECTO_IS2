@@ -36,99 +36,32 @@
                         <form method="POST" action="{% url 'verSprint' proyecto_id %}">
                             {% csrf_token %}
                             <div class="btn-group" style="display:flex; gap: 10px;">
-                                {% if proyecto.estado != 'F' %}
-                                    {% if sprint.estado == 'P' %}
-                                        {# Empezar el sprint si se cuenta con permisos para ellos #}
-                                        {% if permisos|get_item:'empezarSprint' %}
-
-                                            <a href="{% url 'iniciarSprint' proyecto_id sprint.id %}"
-                                           title="Ver"
-                                           type="button"
-                                           class="btn btn-primary">Iniciar</a>
-
-                                        {% endif %}
-
-
+                                {% if proyecto.estado == 'P' %}
+                                    {% if permisos|get_item:'empezarSprint' %}
+                                        <a href="{% url 'iniciarSprint' proyecto_id sprint.id %}"
+                                        title="Ver"
+                                        type="button"
+                                        class="btn btn-primary">Iniciar</a>
                                         <a href="{% url 'listarUS_para_Sprint' proyecto_id sprint.id %}"
-                                           title="Ver"
-                                           type="button"
-                                           class="btn btn-primary">Agregar US</a>
-
-                                        <a href="{% url 'listarPlanningPoker' proyecto_id sprint.id %}"
-                                           type="button"
-                                           class="btn btn-primary ml-1">Ver SprintBacklog</a>
-
-                                        <a href="{% url 'miembroSprint' proyecto_id sprint.id %}"
-
-                                           type="button"
-                                           class="btn btn-primary ml-1">Miembros</a>
-
-                                        {# aca se pasan los parametros que se necesistan en view.py #}
-                                        {% if  bandSprint == False %}
-                                            <a
-                                               title="Editar"
-                                               type="button"
-                                               class="btn btn-success ml-1">
-                                                Empezar Sprint </a>
-                                        {% endif %}
-
-                                    {% elif sprint.estado == 'E' %}
-
-                                        <a
-                                           type="button"
-                                           class="btn btn-primary ml-1">
-                                            Kanban</a>
-
-                                        <a
-                                           type="button" class="btn btn-primary ml-1">
-                                            Burndown Chart</a>
-
-                                        <a href="{% url 'listarPlanningPoker' proyecto_id sprint.id %}"
-                                           type="button"
-                                           class="btn btn-info ml-1">Ver SprintBacklog</a>
-
-                                        <a
-                                           type="button"
-                                           class="btn btn-info ml-1">Miembros</a>
-
-                                        <a
-                                           title="Eliminar" type="button"
-                                           class="btn btn-danger ml-1">
-
-                                            Finalizar</a>
-
-                                    {% else %}
-                                        <a  title="Kanban"
-                                           type="button"
-                                           class="btn btn-primary ml-1">
-                                            Kanban</a>
-                                        <a title="BurndownChart"
-                                           type="button" class="btn btn-primary ml-1">
-                                            Burndown Chart</a>
-                                        <a
-                                           type="button"
-                                           class="btn btn-primary ml-1">Ver SprintBacklog</a>
-
-                                        <a
-                                           type="button"
-                                           class="btn btn-primary ml-1">Miembros</a>
-
+                                        title="Ver"
+                                        type="button"
+                                        class="btn btn-primary">Agregar US</a>
                                     {% endif %}
-                                {% else %}
-                                    <a  title="Kanban" type="button"
-                                       class="btn btn-primary ml-1">
-                                        Kanban</a>
-                                    <a  title="BurndownChart"
-                                       type="button" class="btn btn-primary ml-1">
-                                        Burndown Chart</a>
-                                    <a
-                                       type="button"
-                                       class="btn btn-info ml-1">Ver SprintBacklog</a>
-                                    <a
+                                {%else %}
+                                    <a  title="Kanban"type="button" class="btn btn-primary ml-1">Kanban</a>
+                                    <a title="BurndownChart" type="button" class="btn btn-primary ml-1">Burndown Chart</a>
+                                {%endif%}
+                                <a href="{% url 'listarPlanningPoker' proyecto_id sprint.id %}"
                                            type="button"
-                                           class="btn btn-primary ml-1">Miembros</a>
+                                           class="btn btn-primary ml-1">Ver SprintBacklog</a>
 
-                                {% endif %}
+                                <a href="{% url 'miembroSprint' proyecto_id sprint.id %}"
+                                    type="button"
+                                    class="btn btn-primary ml-1">Miembros</a>
+                                {%if proyecto.estado == 'E'%}
+                                    <a href="{%url 'finalizarSprint' proyecto_id sprint.id %}"title="Eliminar" type="button" class="btn btn-danger ml-1">
+                                    Finalizar</a>
+                                {%endif%}
                             </div>
                         </form>
                     </td>

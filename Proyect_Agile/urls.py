@@ -35,4 +35,7 @@ urlpatterns = [
     path('Proyecto/<id>/Sprint/<id_sprint>/listaMiembroSprint/', views.listaMiembroSprint, name='miembroSprint'), # vista para listar los miembros presentes dentro del sprint
     path('Proyecto/<id>/Sprint/<id_sprint>/listarPlanningPoker/', views.listarPlanningPoker, name='listarPlanningPoker'),
     path('Proyecto/<id>/Sprint/<id_sprint>/iniciarSprint/', views.iniciarSprint, name='iniciarSprint'),
+    path('Proyecto/<id>/Sprint/<id_sprint>/finalizarSprint/', views.finalizarSprint, name='finalizarSprint'),
+
+    
 ]
