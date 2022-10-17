@@ -13,21 +13,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='Sprint',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('nombre', models.CharField(max_length=200)),
-                ('descripcion', models.TextField()),
-                ('fechainicio', models.DateField(default=datetime.datetime.now)),
-                ('fechafin', models.DateField()),
-                ('estado',
-                 models.CharField(choices=[('P', 'Pendiente'), ('E', 'En ejecucion'), ('F', 'Finalizado')], default='P',
-                                  max_length=1)),
-                ('idproyecto',
-                 models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='Proyect_Agile.proyecto')),
-            ],
-        ),
         migrations.AddField(
             model_name='sprint',
             name='numero',

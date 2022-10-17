@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os.path
 from pathlib import Path
 import mimetypes
+from pickle import APPEND
 
 mimetypes.add_type("text/css", ".css", True)
 
@@ -28,6 +29,7 @@ SECRET_KEY = 'django-insecure-!)4-4e@-04l)q3l-7%d7@5fq9k@g3a2$1fj3rhn&9^n_$k@j*o
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '*']
+APPEND_SLASH = True
 
 # Application definition
 
