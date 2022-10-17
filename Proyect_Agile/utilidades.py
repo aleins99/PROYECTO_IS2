@@ -6,12 +6,9 @@ from django.shortcuts import get_object_or_404
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth.models import User
 
+# utlilidades para la creacion de las instancias de los modelos y otras facilidades
 
-
-
-
-
-
+#crea el rol y asigna todos los permisos que deberia tener el scrum master
 def crearRolScrumMaster(proyecto):
     sm = Rol()
     sm.idProyecto = proyecto
@@ -34,6 +31,8 @@ def crearRolScrumMaster(proyecto):
     sm.save()
     return Rol.objects.order_by('-id')[0]
 
+
+#crea el por defecto de equipo desarrollador
 def crearRolEquipoDesarrollador(proyecto):
     ed = Rol()
     ed.idProyecto = proyecto
@@ -43,7 +42,7 @@ def crearRolEquipoDesarrollador(proyecto):
     ed.save()
     return Rol.objects.order_by('-id')[0]
 
-
+# funcion para asignar el rol de scrum master
 def asignarRolScrumMaster(proyecto, usuario, rol ):
     sm = Miembro()
     sm.idrol = rol
@@ -54,6 +53,7 @@ def asignarRolScrumMaster(proyecto, usuario, rol ):
     sm.save()
 
 
+# funcion para obtener permisos de un miembro
 def obtenerPermisosProyecto(request, proyecto):
     # obtenemos los datos del miembro
     miembro = Miembro.objects.all().filter(idproyecto=proyecto, usuario=request.user).first()
@@ -98,9 +98,11 @@ def obtenerPermisosProyecto(request, proyecto):
     # retornamos una lista de permisos o una lista vacia
     return permisos
 
+# retorna el nombre del proyecto
+
 def nombreproyecto(proyecto):
     return proyecto.nombre
-
+# retorna la lista de los proyectos en el sistema, no se pueden ver los proyectos a los que no pertenece el usuario
 def obtenerlistaDeProyectosUser(request):
     listaDeProyectos = list(Proyecto.objects.filter(scrumMaster=request.user))
     miembro = Miembro.objects.filter(usuario=request.user, isActivo=True)

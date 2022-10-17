@@ -21,12 +21,15 @@ from allauth.account.models import EmailAddress
 from django.contrib.auth.models import AbstractUser
 from allauth.utils import get_user_model
 
+# estados por defecto de los proyectos
 estados_Proyecto = {
     'P':'Pendiente',
     'E':'En ejecucion',
     'C':'Cancelado',
     'F':'Finalizado',
 }
+
+# para decoradores
 
 @register.filter(name='has_group')
 def has_group(user,groupname):
@@ -60,13 +63,14 @@ def iniciosesion(request):
     return HttpResponseRedirect(login)
 
 
+# editar perfil de un usuario
 class editarPerfil(UpdateView):
     model = get_user_model()
     form_class = UsuarioForm
     template_name = 'Proyect_Agile/Usuario/editarUsuario.html'
     success_url = '/'
  
-
+# lista de usuarios en el sistema
 def ListarUsuarios(request, id):
     # lista de usuario del sistema autenticados por el sso
     listarUsuarios = SocialAccount.objects.order_by('id')
@@ -100,7 +104,7 @@ def crearProyecto(request):
     return render(request, 'Proyect_Agile/Proyecto/proyecto.html', context, None, 200)
 
 
-
+# Iniciar el proyecto
 class IniciarProyecto(View):
     def post(self, request, *args, **kwargs):
         obj = get_object_or_404(Proyecto, pk=self.kwargs['pk'])
@@ -108,6 +112,8 @@ class IniciarProyecto(View):
         obj.save()
         return redirect(reverse_lazy('<iniciarproyecto>', kwargs={'pk': obj.pk}))
 
+
+# lista de proyectos en el sistema
 @login_required(login_url="login")
 def listarProyectos(request):
 
@@ -124,14 +130,14 @@ def listarProyectos(request):
 
     return render(request, template_name, context)
 
-
+# editar un proyecto del sistema
 class editarProyecto(UpdateView):
     model= Proyecto
     template_name = 'Proyect_Agile/Proyecto/editarProyecto.html'
     form_class = ProyectoForm
     success_url = '/'
 
-
+# ver detalles de un proyecto del sistema
 def verproyecto(request,id):
     if request.method == 'POST':
         obj = Proyecto.objects.get(id=id)
@@ -176,7 +182,7 @@ def listarProyectosAdmin(request):
     return render(request, template_name, context)
 
 
-### MIMBRO ###
+### Miembro ###
 @login_required(login_url="login")
 def miembrosProyecto(request, id):
     proyecto = get_object_or_404(Proyecto, pk=id)
@@ -199,7 +205,7 @@ def miembrosProyecto(request, id):
         'permisos': permisosMiembro
     }
     return render(request, 'Proyect_Agile/Miembros/proyectoMiembros.html', context)
-
+# decorador para comprobar si el miembro tiene permisos para añadir mas miembros al proyecto
 @permisoVista(permiso="agregarMiembro")
 def formCrearMiembro(request, id, socialUserId):
     socialUser = get_object_or_404(SocialAccount, pk=socialUserId)
@@ -236,7 +242,7 @@ def formCrearMiembro(request, id, socialUserId):
             }
             return render(request, 'Proyect_Agile/Miembros/agregarMiembro.html', context, None, 200)
 
-
+# decorador y funciones para editar un miembro de proyecto
 @method_decorator(permisoVista(permiso="modificarMiembro"), name='dispatch')
 class editarMiembro(UpdateView):
     model= Miembro
@@ -261,7 +267,7 @@ class editarMiembro(UpdateView):
         id = self.kwargs['id']
         return reverse('miembrosproyecto',kwargs={'id':id})
 
-
+# decorador y funcion para eliminar un miembro de un proyecto
 @permisoVista(permiso="eliminarMiembro")
 def eliminarMiembro(request, id, idmiembro):
     proyecto = Proyecto.objects.get(id=id)
@@ -287,7 +293,7 @@ def crearRol(request, id):
         }
         return render(request, 'Proyect_Agile/Rol/crearRol.html', context)
 
-
+# ver los roles de un proyecto
 def verRolProyecto(request, id):
     proyecto = Proyecto.objects.get(id=id)
     usuario = request.user
@@ -303,7 +309,7 @@ def verRolProyecto(request, id):
     }
     return render(request, 'Proyect_Agile/Rol/verRolesProyecto.html', context)
 
-
+# editar un rol de un proyecto
 @method_decorator(permisoVista(permiso="modificarRol"), name='dispatch')
 class editarRol(UpdateView):
     model= Rol
@@ -327,7 +333,7 @@ class editarRol(UpdateView):
 
         return reverse('rolproyecto',kwargs={'id':id})
 
-
+# lista los roles de un proyecto
 @permisoVista(permiso="crearRol")
 def listarRolesProyecto(request, id):
     proyectos = Proyecto.objects.exclude(id=id)
@@ -339,6 +345,7 @@ def listarRolesProyecto(request, id):
     }
     return render(request,'Proyect_Agile/Rol/listarProyectoRol.html',context)
 
+# importar roles de otros proyectos al proyecto actual
 def importarRol(request,id, idproyecto):
     rolImportado = importarRolProyecto(id, idproyecto)
     rolImportado.save()
@@ -367,6 +374,7 @@ def tipoUSProyecto(request, id):
     }
     return render(request, 'Proyect_Agile/US/verTipoUS.html', context)
 
+# funcion para crear un nuevo tipo de us
 def crearTipoUS(request, id):
     proyecto = Proyecto.objects.get(id=id)
     if request.method == 'POST':
@@ -402,6 +410,7 @@ def crearUser_Story(request,id):
         }
         return render(request, 'Proyect_Agile/US/crearUS.html', context)
 
+# Lista de los us dentro de un proyecto
 
 def verListaUS(request, id):
     proyecto = Proyecto.objects.get(id=id)
@@ -418,6 +427,8 @@ def verListaUS(request, id):
     }
     return render(request, 'Proyect_Agile/US/listarUS.html', context)
 
+# Lista de tipo de us dentro de un proyecto
+
 def listarTUSproyectos(request, id):
     proyectos = Proyecto.objects.exclude(id=id)
     context = {
@@ -427,6 +438,8 @@ def listarTUSproyectos(request, id):
         'flag': 1,
     }
     return render(request, 'Proyect_Agile/Rol/listarProyectoRol.html', context)
+
+# Funcion para importar tipos de us de otro proyecto al actual
 
 def importarTipoUS(request, id, idproyecto):
     proyecto1 = Proyecto.objects.get(id=id)
@@ -440,6 +453,8 @@ def importarTipoUS(request, id, idproyecto):
 
 
     return redirect('listarTipoUS' , id)
+
+# Muestra el listado de sprints del proyecto
 
 def verSprint(request, id):
     sprint = Sprint.objects.filter(idproyecto= id)
@@ -459,6 +474,8 @@ def verSprint(request, id):
         'permisos': obtenerPermisos(id, request.user)
     }
     return render(request,'Proyect_Agile/Sprint/verSprint.html',context)
+
+# form para la creacion de sprints de un proyecto
 
 def crearSprint(request, id):
 
@@ -488,6 +505,8 @@ def crearSprint(request, id):
         }
     return render(request, 'Proyect_Agile/Sprint/crearSprint.html', context)
 
+# Muestra los us que se pueden agregar al sprint backlog
+
 def listarUS_para_Sprint(request,id,id_sprint):
     USs = User_Story.objects.filter(idproyecto=id)
 
@@ -497,6 +516,8 @@ def listarUS_para_Sprint(request,id,id_sprint):
         'id_sprint' : id_sprint,
     }
     return render(request, 'Proyect_Agile/Sprint/listarUS.html', context)
+
+# Para agregar un us al sprint backlog
 
 def agregarUs_para_Sprint(request,id,id_us,id_sprint):
     proyecto = get_object_or_404(Proyecto, pk=id)
@@ -538,6 +559,8 @@ def agregarUs_para_Sprint(request,id,id_us,id_sprint):
         }
         return render(request, 'Proyect_Agile/Sprint/agregarUSSprint.html', context, None, 200)
 
+# Muestra los miembros del proyecto que trabajan en ese sprint
+
 def listaMiembroSprint(request, id, id_sprint):
 
     miembros =[]
@@ -558,6 +581,7 @@ def listaMiembroSprint(request, id, id_sprint):
     }
     return render(request, 'Proyect_Agile/Sprint/mostrarMiembrosSprint.html', context, None, 200)
 
+# muestra los us del sprint backlog
 
 def listarPlanningPoker(request, id, id_sprint):
     planningPoker = PlanningPoker.objects.filter(idSprint=id_sprint).order_by('-prioridad')
@@ -571,12 +595,15 @@ def listarPlanningPoker(request, id, id_sprint):
     }
     return render(request,'Proyect_Agile/Sprint/listarPlanningPoker.html', context)
 
+# inicia el sprint del proyecto
 
 def iniciarSprint(request,id, id_sprint):
     sprint = Sprint.objects.get(id=id_sprint)
     sprint.estado = 'E'
     sprint.save()
     return redirect('verSprint', id)
+
+# finaliza el sprint del proyecto
 
 def finalizarSprint(request,id, id_sprint):
     sprint = Sprint.objects.get(id=id_sprint)
