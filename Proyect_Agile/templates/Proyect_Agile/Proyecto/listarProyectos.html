@@ -37,8 +37,7 @@
                     <td>{{ proyecto.fechainicio }}</td>
                     {% if proyecto.scrumMaster == usuario %}
                         {# Boton de editar #}
-                        <td class="text-center"> <a  class="btn btn-outline-primary "> <i class="fa-solid fa-pen-to-square"> </i> </a> </td>
-
+                        <td class="text-center"> <a href="{%url 'editarproyecto' proyecto.id%}"  class="btn btn-outline-primary "> <i class="fa-solid fa-pen-to-square"> </i> </a> </td>
                     {% endif %}
                 </tr>
 
