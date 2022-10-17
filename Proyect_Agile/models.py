@@ -104,7 +104,7 @@ class User_Story(models.Model):
     tipo = models.ForeignKey(TipoUS , on_delete=models.RESTRICT)
     estado = models.CharField(max_length=30,default='Pendiente')
 
-    encargado = models.ForeignKey(User, on_delete=models.RESTRICT, null=True, blank=True)  # Miembro encargado en trabajar el
+    #encargado = models.ForeignKey(User, on_delete=models.RESTRICT, null=True, blank=True)  # Miembro encargado en trabajar el
 
     def __str__(self):
         return self.nombre
@@ -133,7 +133,7 @@ class PlanningPoker(models.Model):
         ('PP', 'En Planning Pocker'),
         ('P', 'Pendiente'),
         ('EP', 'En Proceso'),
-        ('STSA', 'Sin Terminar Sprint Anterior'),
+        ('STSA', 'Sin Terminar en Sprint Anterior'),
         ('A', 'Aprobado'),
         ('H', 'Hecho'),
         ('C', 'Cancelado'),
@@ -142,7 +142,7 @@ class PlanningPoker(models.Model):
     estimacion = models.FloatField()  # Estimacion en horas
     UP= models.IntegerField(blank=True, null=True)  # Estimacion en horas
     BV = models.IntegerField(blank=True, null=True)
-    prioridad = models.FloatField()
+    prioridad = models.FloatField(blank=True, null=True)
     # miembroSM = models.ForeignKey(miembros, on_delete=models.RESTRICT)
     estado = models.CharField(max_length=4, choices=ESTADOS, default='N')
     miembroEncargado = models.ForeignKey(Miembro, on_delete=models.RESTRICT)  # Al definirse debe de tener un encargado si o si

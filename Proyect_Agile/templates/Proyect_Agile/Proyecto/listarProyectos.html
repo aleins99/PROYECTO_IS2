@@ -16,6 +16,8 @@
             <th scope="col">Estado</th>
             <th scope="col">ScrumMaster</th>
             <th scope="col">Fecha Inicio</th>
+            <th scope="col">Acción</th>
+
 
 
         </tr>
@@ -34,7 +36,9 @@
                     <td>{{ proyecto.scrumMaster }}</td>
                     <td>{{ proyecto.fechainicio }}</td>
                     {% if proyecto.scrumMaster == usuario %}
-                        <td> <a href="{% url 'editarproyecto' proyecto.id %}"> Editar </a>  </td>
+                        {# Boton de editar #}
+                        <td class="text-center"> <a  class="btn btn-outline-primary "> <i class="fa-solid fa-pen-to-square"> </i> </a> </td>
+
                     {% endif %}
                 </tr>
 

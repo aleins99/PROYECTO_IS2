@@ -164,32 +164,30 @@ class SprintForm(forms.ModelForm):
 # formulario para el planning poker ( para los us que se agregan al sprint backlog )
 
 class formCrearPlanningPoker(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # para no hacer obligadatorios algunos campos
-        self.fields['estimacionEncargado'].required = False
 
     # metodo para validar el dominio de los inputs de los campos
-    def clean(self, *args, **kwargs):
-        cleaned_data = super(formCrearPlanningPoker, self).clean(*args, **kwargs)
-        prioridad = cleaned_data.get('prioridad')
-        if prioridad is not None:
-            if prioridad < 1 or prioridad > 5:
-                self.add_error('prioridad', 'rango no valido')
+
 
     class Meta:
         model = PlanningPoker
-        fields = ['estimacion', 'miembroEncargado', 'idUs',
-                  'idSprint', ]
+        fields = '__all__'
         labels = {
-            'prioridad': 'Prioridad',
             'miembroEncargado': 'Encargado',
         }
 
         widgets = {
             'idUs': forms.HiddenInput(),  # oculta el label del idUserStory
             'idSprint': forms.HiddenInput(),  # oculta el label del idSprint
-            'estimacion': forms.HiddenInput(),
-            'prioridad': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': '1 (Muy Alta) a 5 (Muy Baja)'}),
+            'prioridad': forms.HiddenInput(), # oculta el label del priorida
+            'estado' : forms.HiddenInput(), # oculta el label del estado
         }
+
+    def __init__(self, *args, **kwargs):
+        """
+        The function takes in a list of fields and a list of widgets, and returns a list of fields with
+        the widgets replaced
+        """
+        super(formCrearPlanningPoker, self).__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})

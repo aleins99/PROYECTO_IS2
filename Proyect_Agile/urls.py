@@ -33,4 +33,6 @@ urlpatterns = [
     path('Proyecto/<id>/Sprint/<id_sprint>/listarUS_para_Sprint/',views.listarUS_para_Sprint, name='listarUS_para_Sprint' ), # vista para listar los us dentro del sprint backlog
     path('Proyecto/<id>/Sprint/<id_sprint>/agregarUs_para_Sprint/<id_us>/', views.agregarUs_para_Sprint, name='agregarUs_para_Sprint'), # vista para agregar us al sprint backlog
     path('Proyecto/<id>/Sprint/<id_sprint>/listaMiembroSprint/', views.listaMiembroSprint, name='miembroSprint'), # vista para listar los miembros presentes dentro del sprint
+    path('Proyecto/<id>/Sprint/<id_sprint>/listarPlanningPoker/', views.listarPlanningPoker, name='listarPlanningPoker'),
+    path('Proyecto/<id>/Sprint/<id_sprint>/iniciarSprint/', views.iniciarSprint, name='iniciarSprint'),
 ]

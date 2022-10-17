@@ -20,13 +20,13 @@
 
             <div class="d-flex align-items-center p-3 my-3 text-dark-50">
                 <div>
-                    <h6 class="mb-0 lh-100">UserStory: {{ User_Story.nombre }} </h6>
-                    <small>{{ User_Story.tipo }}</small>
+                    <h6 class="mb-0 lh-100">UserStory: {{ us.nombre }} </h6>
+                    <small>{{ us.tipo }}</small>
                 </div>
             </div>
 
             <form method="POST">
-                {{ formCrearPlanningPoker|crispy }}
+                {{ form }}
                 <button type="submit" class="btn btn-primary">Guardar</button>
 
                 {% csrf_token %}

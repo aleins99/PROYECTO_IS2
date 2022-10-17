@@ -33,18 +33,28 @@
                         {% endif %}
                     </td>
                     <td>
-                        <form method="POST" action="">
+                        <form method="POST" action="{% url 'verSprint' proyecto_id %}">
                             {% csrf_token %}
                             <div class="btn-group" style="display:flex; gap: 10px;">
                                 {% if proyecto.estado != 'F' %}
                                     {% if sprint.estado == 'P' %}
+                                        {# Empezar el sprint si se cuenta con permisos para ellos #}
+                                        {% if permisos|get_item:'empezarSprint' %}
+
+                                            <a href="{% url 'iniciarSprint' proyecto_id sprint.id %}"
+                                           title="Ver"
+                                           type="button"
+                                           class="btn btn-primary">Iniciar</a>
+
+                                        {% endif %}
+
+
                                         <a href="{% url 'listarUS_para_Sprint' proyecto_id sprint.id %}"
                                            title="Ver"
                                            type="button"
-                                           class="btn btn-primary">
-                                            Agregar US</a>
+                                           class="btn btn-primary">Agregar US</a>
 
-                                        <a
+                                        <a href="{% url 'listarPlanningPoker' proyecto_id sprint.id %}"
                                            type="button"
                                            class="btn btn-primary ml-1">Ver SprintBacklog</a>
 
@@ -73,7 +83,7 @@
                                            type="button" class="btn btn-primary ml-1">
                                             Burndown Chart</a>
 
-                                        <a
+                                        <a href="{% url 'listarPlanningPoker' proyecto_id sprint.id %}"
                                            type="button"
                                            class="btn btn-info ml-1">Ver SprintBacklog</a>
 
@@ -127,10 +137,16 @@
             </tbody>
         </table>
 
-    {% if permisos|get_item:'crearSprint' %}
+    {% if permisos|get_item:'crearSprint' and crear %}
         <div class="mb-3">
             <a class="btn btn-primary" href="{% url 'crearSprint' proyecto_id %}"> Planificar Sprint </a>
         </div>
     {% endif %}
+
+    {% if not crear  %}
+        <p>¡¡¡¡ATENCION!!!! Finalice su sprint antes de Iniciar otro</p>
+
+    {% endif %}
+
 
 {% endblock %}

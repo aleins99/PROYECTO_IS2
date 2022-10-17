@@ -8,6 +8,8 @@
      <th scope="col">Descripcion</th>
      <th scope="col">Tipo</th>
      <th scope="col">Estado</th>
+     <th scope="col">Acción</th>
+
 
  </tr>
 
@@ -20,7 +22,13 @@
              <td>{{ us.tipo}}</td>
              <td>{{ us.estado}}</td>
               {% if permisos|get_item:'modificarUserStory' %}
-                  <td> <a href="{% url 'editarUS' proyecto.id us.id %}"> Editar </a>  </td>
+
+                  <td class="text-center">
+                        <a href="{% url 'editarUS' proyecto.id us.id %}" class="btn btn-outline-primary ">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                      </td>
+
               {% endif %}
          </tr>
 

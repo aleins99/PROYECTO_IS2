@@ -19,8 +19,16 @@
          <tr>
             <td>{{ verUS.nombre }}</td>
             <td>{{ verUS.estado }}</td>
-            <td>Editar</td>
-            <td>Eliminar</td>
+
+             <td class="text-center"> <a
+                                         class="btn btn-outline-primary ">
+                                        <i class="fa-solid fa-pen-to-square"></i> </a> </td>
+
+             <td style="display: flex; justify-content:center; align-items:center">
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                <i class="fa-solid fa-trash"></i> </button> </td>
+            {# <td>Editar</td> #}
+            {# <td>Eliminar</td> #}
          </tr>
      {% endfor %}
 

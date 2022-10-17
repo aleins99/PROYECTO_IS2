@@ -445,9 +445,13 @@ def verSprint(request, id):
     sprint = Sprint.objects.filter(idproyecto= id)
     proyecto = Proyecto.objects.get(id=id)
     usuario = request.user
+    ban = True
+    if Sprint.objects.filter(estado='P').exists() or Sprint.objects.filter(estado='E').exists() :
+        ban= False
 
     context = {
         'proyecto': proyecto,
+        'crear' : ban,
         'sprints' : sprint,
         'usuario': usuario,
         'estados': estados_Proyecto,
@@ -488,6 +492,7 @@ def listarUS_para_Sprint(request,id,id_sprint):
 
     context = {
         'USs': USs,
+        'proyecto_id' : id,
         'id_sprint' : id_sprint,
     }
     return render(request, 'Proyect_Agile/Sprint/listarUS.html', context)
@@ -497,29 +502,48 @@ def agregarUs_para_Sprint(request,id,id_us,id_sprint):
     if request.method == 'POST':
 
         form = formCrearPlanningPoker(request.POST)
-        if form.is_valid():
-            form.save()
+        print("hasta aca llego")
 
-        return redirect('verSprint', id)
+        if form.is_valid():
+
+            form.save()
+        planning = PlanningPoker.objects.filter(idUs=id_us, idSprint=id_sprint).last()
+        UP = planning.UP
+        BV = planning.BV
+
+        if planning.estado != 'STSA':
+            planning.estado = 'PP'
+            planning.prioridad = ((0.6 * BV + 0.4 * UP) / 2)
+        else:
+            planning.prioridad = (0.6 * BV + 0.4 * UP) / 2 + 3
+
+        planning.save()
+        print("el estado del form es: ", form.cleaned_data["estado"])
+        print("la prioridad del form es: ", form.cleaned_data["prioridad"])
+
+        return redirect('listarPlanningPoker', id, id_sprint)
     else:
         form = formCrearPlanningPoker()
-        form.fields["idproyecto"].initial = proyecto
         form.fields["idUs"].initial = User_Story.objects.get(id=id_us)
         form.fields["idSprint"].initial = Sprint.objects.get(id=id_sprint)  
 
 
         # se excluye el rol
-        form.fields["encargado"].queryset = Miembro.objects.filter(idproyecto=proyecto)
+        form.fields["miembroEncargado"].queryset = Miembro.objects.filter(idproyecto=proyecto)
         context = {
             'form': form,
+            'us' : User_Story.objects.get(id=id_us),
             'idProyecto': id,
         }
         return render(request, 'Proyect_Agile/Sprint/agregarUSSprint.html', context, None, 200)
 
-def listaMiembroSprint(request, id_Sprint):
-    sprint = Sprint.objects.get(id=id_Sprint)
-    listaUS = PlanningPoker.objects.filter(idSprint=sprint)
+def listaMiembroSprint(request, id, id_sprint):
+
     miembros =[]
+    sprint = Sprint.objects.get(id=id_sprint)
+    listaUS = PlanningPoker.objects.filter(idSprint=sprint)
+
+
     for us in listaUS:
         band=0
         for miembro in miembros:
@@ -529,9 +553,34 @@ def listaMiembroSprint(request, id_Sprint):
             miembros.append(us.miembroEncargado)
 
     context = {
-        miembros,
+        'miembros' : miembros,
     }
-    return render(request, 'royect_Agile/Sprint/mostrarMiembrosSprint.html', context, None, 200)
+    return render(request, 'Proyect_Agile/Sprint/mostrarMiembrosSprint.html', context, None, 200)
 
+
+def listarPlanningPoker(request, id, id_sprint):
+    planningPoker = PlanningPoker.objects.filter(idSprint=id_sprint).order_by('-prioridad')
+
+    context = {
+
+        'proyecto_id' : id,
+        'USs' : planningPoker,
+        'id_sprint' : id_sprint,
+
+    }
+    return render(request,'Proyect_Agile/Sprint/listarPlanningPoker.html', context)
+
+
+def iniciarSprint(request,id, id_sprint):
+    sprint = Sprint.objects.get(id=id_sprint)
+    sprint.estado = 'E'
+    sprint.save()
+    return redirect('verSprint', id)
+
+def finalizarSprint(request,id, id_sprint):
+    sprint = Sprint.objects.get(id=id_sprint)
+    sprint.estado = 'F'
+    sprint.save()
+    return redirect('verSprint', id)
 
 #def agregarMiembroSprint(request, id, id_sprint, id_miembro):

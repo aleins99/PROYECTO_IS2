@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="container mb-5">
+        <br>
+        <br>
+        <div class="bg-light rounded border-dark p-3">
+            <h4>Sprint a iniciar</h4>
+            <table class="table table-bordered ">
+                <tbody>
+                <tr>
+                    <th scope="row" style="width:40%" style="width:40%">Numero de Sprint:</th>
+                    <td>{{ sprint.numero }}</td>
+                </tr>
+
+                <tr>
+                    <th scope="row" style="width:40%">Fecha de inicio</th>
+                    <td>{{ sprint.fechaInicio }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" style="width:40%">Fecha de fin</th>
+                    <td>{{ sprint.fechaFin }}</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h3>Sprint Backlog</h3>
+            <table class="table table-dark table-hover table-bordered border-muted">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Prioridad</th>
+                    <th scope="col">Estimación</th>
+                    <th scope="col">Encargado</th>
+
+                    <th scope="col">Acción</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for us in USs %}
+                        <tr>
+                            <td> {{ us.idUs.nombre }} </td>
+                            <td> {{ us.idUs.tipo }} </td>
+                            <td> {{ us.estado }} </td>
+                            <td> {{ us.prioridad }} </td>
+                            <td> {{ us.estimacion }} </td>
+                            <td> {{ us.miembroEncargado }} </td>
+
+                            <td><a href="{% url 'agregarUs_para_Sprint' proyecto_id id_sprint us.id %}"> Editar </a>  </td>
+                        </tr>
+                    {% endfor %}
+
+
+                </tbody>
+
+                <a href="{% url 'verSprint' proyecto_id %}"
+                   title="Ver"
+                   type="button"
+                   class="btn btn-primary">Iniciar</a>
+
+            </table>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+{% endblock %}
