@@ -8,14 +8,86 @@
     {% endif %}
     <div class="container mb-5">
 
+        <div id="idAlertaRangoFecha" style="display: none;">
+            <div class="alert alert-warning d-flex align-items-center" role="alert">
+                <svg class="bi flex-shrink-0 me-2 m-3" width="24" height="24" role="img" aria-label="Warning:">
+                    <use xlink:href="#exclamation-triangle-fill"></use>
+                </svg>
+                <div>
+                    Advertencia : Rango de fecha invalida
+                </div>
+            </div>
+        </div>
+
+
         <!-- escribir aqui -->
         <div class="bg-dark border rounded border-dark p-3">
             <form method="POST">
                 {{ form|crispy }}
-                <button type="submit" class="btn btn-primary">Crear Sprint </button>
+                <button type="submit" class="btn btn-primary" id="btnIniciarSprint" >Crear Sprint </button>
 
                 {% csrf_token %}
             </form>
         </div>
+
+
+
+
+
     </div>
+
+
+    <script async>
+
+        // Función externa para calcular si le alcanza el tiempo
+        function calcularFecha() {
+                // traemos obtenemos las fechas
+                var fechaini = new Date($("#id_fechainicio").val() + "T00:00:00");
+                var fechafin = new Date($("#id_fechafin").val() + "T00:00:00");
+                var dia = 0;
+                var mes = 0;
+                var ano = 0;
+                {% if ultimoSprint.fechafin %}
+                    var dia = {{ ultimoSprint.fechafin.day }};
+                    var mes ={{ ultimoSprint.fechafin.month }};
+                    var ano ={{ ultimoSprint.fechafin.year }};
+                    console.log(dia,mes,ano)
+                    console.log(document.getElementById("id_fechainicio"),fechafin)
+                {% endif%}
+                if (dia < 10) dia = "0" + dia.toString();
+                if (mes < 10) mes = "0" + mes.toString();
+                if (ano < 10) ano = "0" + ano.toString();
+                var fechaMinimo = new Date(ano + "-" + mes + "-" + dia + "T00:00:00");
+                document.getElementById("btnIniciarSprint").disabled = true;
+                if (fechaini <= fechaMinimo || fechafin <= fechaMinimo) {
+                    document.getElementById("btnIniciarSprint").disabled = true;
+                    document.getElementById("idAlertaRangoFecha").style.display = "block";
+                } else {
+                    if (fechafin <= fechaini) {
+                        document.getElementById("btnIniciarSprint").disabled = true;
+                        document.getElementById("idAlertaRangoFecha").style.display = "block";
+                    } else {
+                        document.getElementById("idAlertaRangoFecha").style.display = "none";
+                        document.getElementById("btnIniciarSprint").disabled = false;
+                    }
+                }
+
+
+        }
+
+        window.onload = function () {
+            calcularFecha();
+        }
+
+        // Asignar la función externa al elemento
+        document.getElementById("id_fechainicio").onchange = calcularFecha;
+        document.getElementById("id_fechafin").onchange = calcularFecha;
+
+
+
+
+
+    </script>
 {% endblock %}
+
+

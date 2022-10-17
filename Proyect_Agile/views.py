@@ -446,7 +446,7 @@ def verSprint(request, id):
     proyecto = Proyecto.objects.get(id=id)
     usuario = request.user
     ban = True
-    if Sprint.objects.filter(estado='P').exists() or Sprint.objects.filter(estado='E').exists() :
+    if Sprint.objects.filter(idproyecto= id,estado='P').exists() or Sprint.objects.filter(idproyecto= id,estado='E').exists() :
         ban= False
 
     context = {
@@ -483,7 +483,8 @@ def crearSprint(request, id):
         formSprint.fields["idproyecto"].initial = proyecto
 
         context = {
-            'form': formSprint
+            'form': formSprint,
+            'ultimoSprint' : Sprint.objects.filter(idproyecto=id).last()
         }
     return render(request, 'Proyect_Agile/Sprint/crearSprint.html', context)
 

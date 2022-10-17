@@ -36,7 +36,7 @@
                         <form method="POST" action="{% url 'verSprint' proyecto_id %}">
                             {% csrf_token %}
                             <div class="btn-group" style="display:flex; gap: 10px;">
-                                {% if proyecto.estado == 'P' %}
+                                {% if sprint.estado == 'P' %}
                                     {% if permisos|get_item:'empezarSprint' %}
                                         <a href="{% url 'iniciarSprint' proyecto_id sprint.id %}"
                                         title="Ver"
@@ -58,7 +58,7 @@
                                 <a href="{% url 'miembroSprint' proyecto_id sprint.id %}"
                                     type="button"
                                     class="btn btn-primary ml-1">Miembros</a>
-                                {%if proyecto.estado == 'E'%}
+                                {%if sprint.estado == 'E'%}
                                     <a href="{%url 'finalizarSprint' proyecto_id sprint.id %}"title="Eliminar" type="button" class="btn btn-danger ml-1">
                                     Finalizar</a>
                                 {%endif%}
