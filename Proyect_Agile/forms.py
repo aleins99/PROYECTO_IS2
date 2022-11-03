@@ -191,3 +191,24 @@ class formCrearPlanningPoker(forms.ModelForm):
 
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
+
+
+class formTarea(forms.ModelForm):
+    class Meta:
+        model = tarea
+        fields = '__all__'
+
+        widgets = {
+            'idUs': forms.HiddenInput(),  # oculta el label del idUserStory
+        }
+
+    def __init__(self, *args, **kwargs):
+        """
+        The function takes in a list of fields and a list of widgets, and returns a list of fields with
+        the widgets replaced
+        """
+        super(formTarea, self).__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+

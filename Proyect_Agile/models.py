@@ -149,3 +149,8 @@ class PlanningPoker(models.Model):
     idUs = models.ForeignKey(User_Story, on_delete=models.RESTRICT)
     idSprint = models.ForeignKey(Sprint, on_delete=models.RESTRICT)  # Debe pertenecer a un sprintPlanning#o idSprint
 
+class tarea(models.Model):
+    idUs = models.ForeignKey(User_Story, on_delete=models.RESTRICT)
+    nombre= models.TextField(blank=False)
+    descripcion= models.TextField()
+

@@ -30,6 +30,9 @@ estados_Proyecto = {
 }
 
 # para decoradores
+@register.filter
+def tareasUS(US):
+    return tarea.objects.filter(idUs=US)
 
 @register.filter(name='has_group')
 def has_group(user,groupname):
@@ -611,4 +614,33 @@ def finalizarSprint(request,id, id_sprint):
     sprint.save()
     return redirect('verSprint', id)
 
-#def agregarMiembroSprint(request, id, id_sprint, id_miembro):
+def crearTarea(request, id, id_us):
+    us = User_Story.objects.get(id=id_us)
+    if request.method == 'POST':
+
+        form = formTarea(request.POST)
+
+        if form.is_valid():
+
+            form.save()
+
+        return redirect('listarTarea', id, id_us)
+    else:
+        form = formTarea()
+        form.fields["idUs"].initial = User_Story.objects.get(id=id_us)
+
+        context = {
+            'form': form,
+            'tareas' : tarea.objects.get(id=id_us),
+            'idProyecto': id,
+        }
+        return render(request, 'Proyect_Agile/US/crearTarea.html', context, None, 200)
+
+def mostrarKanban(request, id):
+    us = User_Story.objects.filter(idproyecto=id)
+    context = {
+        'us': User_Story.objects.filter(idproyecto=id),
+        'idProyecto': id,
+        'tareas': tarea.objects.filter(idUs=us)
+    }
+    return render(request, 'Proyect_Agile/Sprint/kanban.html', context, None, 200)

@@ -5,16 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc82abfe-1e11-4cfa-88ee-f8d83a81d086" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/kanban.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/US/crearTarea.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/verSprint.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/verSprint.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Proyect_Agile/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/admin.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/decorators.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/decorators.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/forms.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/forms.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/models.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/models.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/tests.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/tests.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/urls.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/urls.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/utilidades.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/utilidades.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/views.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/views.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,6 +147,7 @@
       <workItem from="1665863555017" duration="10434000" />
       <workItem from="1665878901391" duration="10739000" />
       <workItem from="1666022870634" duration="1153000" />
+      <workItem from="1667435865696" duration="10857000" />
     </task>
     <servers />
   </component>
