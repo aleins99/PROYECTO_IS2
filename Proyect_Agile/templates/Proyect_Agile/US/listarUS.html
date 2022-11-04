@@ -7,6 +7,7 @@
      <th scope="col">Nombre</th>
      <th scope="col">Descripcion</th>
      <th scope="col">Tipo</th>
+     <th scope="col">Prioridad</th>
      <th scope="col">Estado</th>
      <th scope="col">Acción</th>
 
@@ -20,6 +21,7 @@
              <td>{{ us.nombre }}</td>
              <td>{{ us.descripcion}}</td>
              <td>{{ us.tipo}}</td>
+             <td>{{ us.prioridad}}</td>
              <td>{{ us.estado}}</td>
               {% if permisos|get_item:'modificarUserStory' %}
 

@@ -51,7 +51,7 @@ class ProyectoForm(forms.ModelForm):
 class UserStoryForm(forms.ModelForm):
     class Meta:
         model = User_Story
-        fields = '__all__'
+        fields = ['idproyecto', 'historial', 'estado', 'prioridad', 'UP', 'BV', 'nombre', 'descripcion', 'comentarios', 'historial', 'tipo']
         labels = {'idproyecto': '', 'historial': '', 'estado':''}
         widgets = {
             'idproyecto': forms.HiddenInput(),
@@ -170,14 +170,13 @@ class formCrearPlanningPoker(forms.ModelForm):
 
 
     class Meta:
-        model = PlanningPoker
-        fields = '__all__'
+        model = User_Story
+        fields = ['miembroEncargado', 'estado', 'estimacion', 'idSprint']
         labels = {
             'miembroEncargado': 'Encargado',
         }
 
         widgets = {
-            'idUs': forms.HiddenInput(),  # oculta el label del idUserStory
             'idSprint': forms.HiddenInput(),  # oculta el label del idSprint
             'estado': forms.HiddenInput(), #oculta el label del estado
 
@@ -194,44 +193,4 @@ class formCrearPlanningPoker(forms.ModelForm):
             field.widget.attrs.update({'class': 'form-control'})
 
 
-class formTarea(forms.ModelForm):
-    class Meta:
-        model = tarea
-        fields = '__all__'
-        labels = {
-            'idUs': '',
-            'estado': ''
-
-        }
-        widgets = {
-            'idUs': forms.HiddenInput(),  # oculta el label del idUserStory
-            'estado': forms.HiddenInput(), #oculta el label del estado de la tarea
-        }
-
-    def __init__(self, *args, **kwargs):
-        """
-        The function takes in a list of fields and a list of widgets, and returns a list of fields with
-        the widgets replaced
-        """
-        super(formTarea, self).__init__(*args, **kwargs)
-
-        for name, field in self.fields.items():
-            field.widget.attrs.update({'class': 'form-control'})
-
-
-class encargadoUSForm(forms.ModelForm):
-    class Meta:
-        model = User_Story
-        fields = ['miembroEncargado']
-
-
-    def __init__(self, *args, **kwargs):
-        """
-        The function takes in a list of fields and a list of widgets, and returns a list of fields with
-        the widgets replaced
-        """
-        super(encargadoUSForm, self).__init__(*args, **kwargs)
-
-        for name, field in self.fields.items():
-            field.widget.attrs.update({'class': 'form-control'})
 

@@ -24,7 +24,11 @@ from allauth.utils import get_user_model
 # estados por defecto de los proyectos
 estados_Proyecto = {
     'P':'Pendiente',
+    'PP':'En Planning Poker',
     'E':'En ejecucion',
+    'EP': 'En Proceso',
+    'STSA': 'Sin Terminar en Sprint Anterior',
+    'A': 'Aprobado',
     'C':'Cancelado',
     'F':'Finalizado',
 }
@@ -408,11 +412,7 @@ def crearUser_Story(request,id):
         UP = planning.UP
         BV = planning.BV
 
-        if planning.estado != 'STSA':
-            planning.estado = 'PP'
-            planning.prioridad = ((0.6 * BV + 0.4 * UP) / 2)
-        else:
-            planning.prioridad = (0.6 * BV + 0.4 * UP) / 2 + 3
+        planning.prioridad = ((0.6 * BV + 0.4 * UP) / 2)
 
         planning.save()
         print("el estado del form es: ", form.cleaned_data["estado"])
@@ -433,7 +433,12 @@ def crearUser_Story(request,id):
 def verListaUS(request, id):
     proyecto = Proyecto.objects.get(id=id)
     usuario = request.user
-    us = User_Story.objects.filter(idproyecto=proyecto)
+    us = User_Story.objects.filter(idproyecto=proyecto).order_by('-prioridad')
+    for u in us:
+        if u.estado == 'H':
+            u.prioridad = 0
+            u.save()
+    us = User_Story.objects.filter(idproyecto=proyecto).order_by('-prioridad')
 
     context = {
         'USs': us,
@@ -526,7 +531,7 @@ def crearSprint(request, id):
 # Muestra los us que se pueden agregar al sprint backlog
 
 def listarUS_para_Sprint(request,id,id_sprint):
-    USs = User_Story.objects.filter(idproyecto=id)
+    USs = User_Story.objects.filter(idproyecto=id, estado='N').order_by('-prioridad') | User_Story.objects.filter(idproyecto=id, estado='STSA').order_by('-prioridad')
 
     context = {
         'USs': USs,
@@ -543,31 +548,34 @@ def agregarUs_para_Sprint(request,id,id_us,id_sprint):
 
         form = formCrearPlanningPoker(request.POST)
         print("hasta aca llego")
-        encargadoform = encargadoUSForm(request.POST)
-        if encargadoform.is_valid():
-            encargado = encargadoform.cleaned_data["miembroEncargado"]
-            us = User_Story.objects.get(id=id_us)
-            us.miembroEncargado = encargado
-            us.save()
 
         if form.is_valid():
+            us = User_Story.objects.get(id=id_us)
+            us.miembroEncargado = form.cleaned_data['miembroEncargado']
+            estado = form.cleaned_data['estado']
 
-            form.save()
+            if estado == 'N' or estado == 'STSA':
+                us.estado = 'PP'
+
+            us.estimacion = form.cleaned_data['estimacion']
+            us.idSprint = form.cleaned_data['idSprint']
+
+
+
+            us.save()
 
         return redirect('listarPlanningPoker', id, id_sprint)
     else:
         form = formCrearPlanningPoker()
-        form.fields["idUs"].initial = User_Story.objects.get(id=id_us)
-        form.fields["idSprint"].initial = Sprint.objects.get(id=id_sprint)  
+        form.fields["idSprint"].initial = Sprint.objects.get(id=id_sprint)
 
 
         # se excluye el rol
-        encargado = encargadoUSForm()
-        encargado.fields["miembroEncargado"].queryset = Miembro.objects.filter(idproyecto=proyecto)
+        form.fields["miembroEncargado"].queryset = Miembro.objects.filter(idproyecto=proyecto)
 
         context = {
             'form': form,
-            'encargado' : encargado,
+
             'us' : User_Story.objects.get(id=id_us),
             'idProyecto': id,
         }
@@ -579,7 +587,7 @@ def listaMiembroSprint(request, id, id_sprint):
 
     miembros =[]
     sprint = Sprint.objects.get(id=id_sprint)
-    listaUS = PlanningPoker.objects.filter(idSprint=sprint)
+    listaUS = User_Story.objects.filter(idSprint=sprint)
 
 
     for us in listaUS:
@@ -598,7 +606,7 @@ def listaMiembroSprint(request, id, id_sprint):
 # muestra los us del sprint backlog
 
 def listarPlanningPoker(request, id, id_sprint):
-    planningPoker = User_Story.objects.filter(planningpoker__idSprint=id_sprint).order_by('-prioridad')
+    planningPoker = User_Story.objects.filter(idSprint=id_sprint).order_by('-prioridad')
 
     context = {
 
@@ -614,6 +622,10 @@ def listarPlanningPoker(request, id, id_sprint):
 def iniciarSprint(request,id, id_sprint):
     sprint = Sprint.objects.get(id=id_sprint)
     sprint.estado = 'E'
+    for us in User_Story.objects.filter(idSprint=id_sprint):
+        us.estado = 'P'
+        us.save()
+
     sprint.save()
     return redirect('verSprint', id)
 
@@ -623,12 +635,19 @@ def finalizarSprint(request,id, id_sprint):
     sprint = Sprint.objects.get(id=id_sprint)
     sprint.estado = 'F'
     sprint.save()
+    planning = User_Story.objects.filter(idSprint=id_sprint, estado='EP' ) | User_Story.objects.filter(idSprint=id_sprint, estado='P' )
+    for us in planning:
+        UP = us.UP
+        BV = us.BV
+        us.estado = 'STSA'
+        us.prioridad = ((0.6 * BV + 0.4 * UP) / 2) + 3
+        us.save()
     return redirect('verSprint', id)
 
 
 
 def mostrarKanban(request, id, id_sprint):
-    us = PlanningPoker.objects.filter(idSprint=id_sprint)
+    us = User_Story.objects.filter(idSprint=id_sprint)
     context = {
         'proyecto_id': id,
         'uss': us,
@@ -638,11 +657,11 @@ def mostrarKanban(request, id, id_sprint):
 
 def cambiarEstadoUS(request, id, id_sprint, estado, id_us):
     estados = {
-        'PP' : 'EP',
+        'P' : 'EP',
         'EP' : 'H',
         'H' : 'C'
     }
-    us= PlanningPoker.objects.get(id=id_us)
+    us= User_Story.objects.get(id=id_us)
     us.estado = estados.get(estado)
     us.save()
     return redirect('mostrarKanban', id, id_sprint)

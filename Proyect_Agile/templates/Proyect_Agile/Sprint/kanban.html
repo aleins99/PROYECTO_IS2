@@ -19,14 +19,13 @@
                   {#    <th scope="col">Estimación</th> #}
                    {#   <th scope="col">Encargado</th> #}
 
-                    <th scope="col">Acción</th>
                 </tr>
                 </thead>
                 <tbody>
                     {% for us in uss %}
                         <tr>
-                            {% if us.estado == 'P' or us.estado == 'PP' %}
-                                <td> {{ us.idUs.nombre}} <a href="{% url 'cambiarEstadoUS' proyecto_id sprint us.estado us.id %}"
+                            {% if us.estado == 'P' or us.estado == 'PP' or us.estado == 'N' %}
+                                <td> {{ us.nombre}} <a href="{% url 'cambiarEstadoUS' proyecto_id sprint us.estado us.id %}"
                                         title="Cambiar Estado"
                                         type="button"
                                         class="btn btn-primary">=></a></td>
@@ -34,7 +33,7 @@
                                 <td> </td>
                             {% elif us.estado == 'EP' %}
                                 <td> </td>
-                                <td>{{ us.idUs.nombre }} <a href="{% url 'cambiarEstadoUS' proyecto_id sprint us.estado us.id %}"
+                                <td>{{ us.nombre }} <a href="{% url 'cambiarEstadoUS' proyecto_id sprint us.estado us.id %}"
                                         title="Cambiar Estado"
                                         type="button"
                                         class="btn btn-primary">=></a> </td>
@@ -42,7 +41,7 @@
                             {% elif us.estado == 'H' %}
                                 <td> </td>
                                 <td> </td>
-                                <td> {{ us.idUs.nombre }} </td>
+                                <td> {{ us.nombre }} </td>
                             {% endif %}
 
                         </tr>

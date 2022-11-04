@@ -96,13 +96,28 @@ class TipoUS(models.Model):
 
 # Modelo para los us primitivos ( que aun no se agregan al sprint backlog )
 class User_Story(models.Model):
+    ESTADOS = (
+        ('N', 'Nuevo'),
+        ('PP', 'En Planning Pocker'),
+        ('P', 'Pendiente'),
+        ('EP', 'En Proceso'),
+        ('STSA', 'Sin Terminar en Sprint Anterior'),
+        ('A', 'Aprobado'),
+        ('H', 'Hecho'),
+        ('C', 'Cancelado'),
+    )
+    estimacion = models.FloatField(blank=True, null=True, max_length=20)  # Estimacion en horas
+
+    # miembroSM = models.ForeignKey(miembros, on_delete=models.RESTRICT)
+    estado = models.CharField(max_length=30, choices=ESTADOS, default='N')
+    idSprint = models.ForeignKey('Sprint', on_delete=models.RESTRICT,blank=True, null=True)  # Debe pertenecer a un sprintPlanning#o idSprint
+
     idproyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT, null=True)
     nombre = models.CharField(max_length=200)
     descripcion = models.TextField()
     comentarios = models.TextField()
     historial = models.TextField(blank=True)
     tipo = models.ForeignKey(TipoUS , on_delete=models.RESTRICT)
-    estado = models.CharField(max_length=30,default='Pendiente')
     UP = models.IntegerField(blank=True, null=True)  # Estimacion en horas
     BV = models.IntegerField(blank=True, null=True)
     prioridad = models.FloatField(blank=True, null=True)
@@ -130,26 +145,10 @@ class Sprint(models.Model):
     def __str__(self):
         return self.nombre
 
-# Modelo para el planning poker de un proyecto ( se complementa el modelo de us primitivo con este )
+
 # Se trata de un modelo para los us que van a pasar al sprint backlog
-class PlanningPoker(models.Model):
-    ESTADOS = (
-        ('N', 'Nuevo'),
-        ('PP', 'En Planning Pocker'),
-        ('P', 'Pendiente'),
-        ('EP', 'En Proceso'),
-        ('STSA', 'Sin Terminar en Sprint Anterior'),
-        ('A', 'Aprobado'),
-        ('H', 'Hecho'),
-        ('C', 'Cancelado'),
-    )
 
-    estimacion = models.FloatField()  # Estimacion en horas
 
-    # miembroSM = models.ForeignKey(miembros, on_delete=models.RESTRICT)
-    estado = models.CharField(max_length=4, choices=ESTADOS, default='N')
-    idUs = models.ForeignKey(User_Story, on_delete=models.RESTRICT)
-    idSprint = models.ForeignKey(Sprint, on_delete=models.RESTRICT)  # Debe pertenecer a un sprintPlanning#o idSprint
 
 class tarea(models.Model):
     ESTADOS = [
