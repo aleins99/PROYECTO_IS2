@@ -25,14 +25,9 @@ class modeloProyectoTest(TestCase):
         # Crear Tipo de Us
         TipoUS.objects.create(nombre='Tipo de Us de prueba', idproyecto=Proyecto.objects.get(id=1))
         # Crear User_Story
-        User_Story.objects.create(idproyecto=Proyecto.objects.get(id=1), nombre='Us de Prueba',
+        User_Story.objects.create(idproyecto=Proyecto.objects.get(id=1), UP=5,BV=7, idSprint=Sprint.objects.get(id=1), miembroEncargado= Miembro.objects.get(id=1), nombre='Us de Prueba',
                                  tipo=TipoUS.objects.get(id=1), descripcion='Descripcion de Us de prueba', comentarios="Descripcion de comentario")
-        # Crear Planning Poker
-        PlanningPoker.objects.create(idUs=User_Story.objects.get(id=1), idSprint=Sprint.objects.get(id=1),
-                                     miembroEncargado=Miembro.objects.get(id=1),
-                                     estimacion=10, UP=5, BV=7)
 
-        
 
     # Prueba de __str__() definidos en Proyecto.models
 
@@ -78,10 +73,10 @@ class modeloProyectoTest(TestCase):
      
         # Para User_Story
         us = User_Story.objects.get(id=1)
-        self.assertEquals(us.estado, 'Pendiente')
+        self.assertEquals(us.estado, 'N')
         # self.assertEquals(us.fechaIngreso, date.today)
         # Para planning Poker
-        us = PlanningPoker.objects.get(id=1)
+        us = User_Story.objects.get(id=1)
         self.assertEquals(us.estado, 'N')
         # self.assertEquals(actividad.hora, datetime.time())
 
@@ -127,11 +122,9 @@ class modeloProyectoTest(TestCase):
         us = User_Story.objects.get(id=1)
         m = Miembro.objects.get(id=1)
         s = Sprint.objects.get(id=1)
-        pp = PlanningPoker.objects.get(id=1)
-        self.assertEquals(pp.estimacion, 10)
+        pp = User_Story.objects.get(id=1)
         self.assertEqual(pp.UP, 5)
         self.assertEqual(pp.BV, 7)
-        self.assertEquals(pp.idUs, us)
         self.assertEquals(pp.idSprint, s)
         self.assertEquals(pp.miembroEncargado, m)
 

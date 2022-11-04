@@ -113,4 +113,44 @@ class TestUrls(TestCase):
 	def test_listar_us_importar_url_is_resolved(self):
 		url = reverse('listarUSProyectos', args=[1])
 		self.assertEquals(resolve(url).func, listarTUSproyectos)
-	
+
+	#test de verSprint
+	def test_ver_sprint_url_is_resolved(self):
+		url = reverse('verSprint', args=[1])
+		self.assertEquals(resolve(url).func, verSprint)
+
+	def test_crear_sprint_url_is_resolved(self):
+		url = reverse('crearSprint', args=[1])
+		self.assertEquals(resolve(url).func, crearSprint)
+
+	def test_listarUS_para_sprint_url_is_resolved(self):
+		url = reverse('listarUS_para_Sprint', args=[1,1])
+		self.assertEquals(resolve(url).func, listarUS_para_Sprint)
+
+	def test_agregarUS_para_sprint_url_is_resolved(self):
+		url = reverse('agregarUs_para_Sprint', args=[1,1,1])
+		self.assertEquals(resolve(url).func, agregarUs_para_Sprint)
+
+	def test_listar_miembro_sprint_url_is_resolved(self):
+		url = reverse('miembroSprint', args=[1,1])
+		self.assertEquals(resolve(url).func, listaMiembroSprint)
+
+	def test_listar_planning_poker_url_is_resolved(self):
+		url = reverse('listarPlanningPoker', args=[1,1])
+		self.assertEquals(resolve(url).func, listarPlanningPoker)
+
+	def test_iniciar_sprint_url_is_resolved(self):
+		url = reverse('iniciarSprint', args=[1,1])
+		self.assertEquals(resolve(url).func, iniciarSprint)
+
+	def test_finalizar_sprint_url_is_resolved(self):
+		url = reverse('finalizarSprint', args=[1,1])
+		self.assertEquals(resolve(url).func, finalizarSprint)
+
+	def test_mostrar_kanban_url_is_resolved(self):
+		url = reverse('mostrarKanban', args=[1,1])
+		self.assertEquals(resolve(url).func, mostrarKanban)
+
+	def test_cambiar_estadoUS_url_is_resolved(self):
+		url = reverse('cambiarEstadoUS', args=[1,1,1,1])
+		self.assertEquals(resolve(url).func, cambiarEstadoUS)
