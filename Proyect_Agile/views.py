@@ -403,6 +403,21 @@ def crearUser_Story(request,id):
         form =UserStoryForm(request.POST)
         if form.is_valid():
             form.save()
+
+        planning = User_Story.objects.filter(idproyecto=id).last()
+        UP = planning.UP
+        BV = planning.BV
+
+        if planning.estado != 'STSA':
+            planning.estado = 'PP'
+            planning.prioridad = ((0.6 * BV + 0.4 * UP) / 2)
+        else:
+            planning.prioridad = (0.6 * BV + 0.4 * UP) / 2 + 3
+
+        planning.save()
+        print("el estado del form es: ", form.cleaned_data["estado"])
+        print("la prioridad del form es: ", form.cleaned_data["prioridad"])
+
         return redirect('listarUS', id)
     else:
         form = UserStoryForm()
@@ -528,23 +543,16 @@ def agregarUs_para_Sprint(request,id,id_us,id_sprint):
 
         form = formCrearPlanningPoker(request.POST)
         print("hasta aca llego")
+        encargadoform = encargadoUSForm(request.POST)
+        if encargadoform.is_valid():
+            encargado = encargadoform.cleaned_data["miembroEncargado"]
+            us = User_Story.objects.get(id=id_us)
+            us.miembroEncargado = encargado
+            us.save()
 
         if form.is_valid():
 
             form.save()
-        planning = PlanningPoker.objects.filter(idUs=id_us, idSprint=id_sprint).last()
-        UP = planning.UP
-        BV = planning.BV
-
-        if planning.estado != 'STSA':
-            planning.estado = 'PP'
-            planning.prioridad = ((0.6 * BV + 0.4 * UP) / 2)
-        else:
-            planning.prioridad = (0.6 * BV + 0.4 * UP) / 2 + 3
-
-        planning.save()
-        print("el estado del form es: ", form.cleaned_data["estado"])
-        print("la prioridad del form es: ", form.cleaned_data["prioridad"])
 
         return redirect('listarPlanningPoker', id, id_sprint)
     else:
@@ -554,9 +562,12 @@ def agregarUs_para_Sprint(request,id,id_us,id_sprint):
 
 
         # se excluye el rol
-        form.fields["miembroEncargado"].queryset = Miembro.objects.filter(idproyecto=proyecto)
+        encargado = encargadoUSForm()
+        encargado.fields["miembroEncargado"].queryset = Miembro.objects.filter(idproyecto=proyecto)
+
         context = {
             'form': form,
+            'encargado' : encargado,
             'us' : User_Story.objects.get(id=id_us),
             'idProyecto': id,
         }
@@ -587,7 +598,7 @@ def listaMiembroSprint(request, id, id_sprint):
 # muestra los us del sprint backlog
 
 def listarPlanningPoker(request, id, id_sprint):
-    planningPoker = PlanningPoker.objects.filter(idSprint=id_sprint).order_by('-prioridad')
+    planningPoker = User_Story.objects.filter(planningpoker__idSprint=id_sprint).order_by('-prioridad')
 
     context = {
 
@@ -614,33 +625,25 @@ def finalizarSprint(request,id, id_sprint):
     sprint.save()
     return redirect('verSprint', id)
 
-def crearTarea(request, id, id_us):
-    us = User_Story.objects.get(id=id_us)
-    if request.method == 'POST':
 
-        form = formTarea(request.POST)
 
-        if form.is_valid():
-
-            form.save()
-
-        return redirect('listarTarea', id, id_us)
-    else:
-        form = formTarea()
-        form.fields["idUs"].initial = User_Story.objects.get(id=id_us)
-
-        context = {
-            'form': form,
-            'tareas' : tarea.objects.get(id=id_us),
-            'idProyecto': id,
-        }
-        return render(request, 'Proyect_Agile/US/crearTarea.html', context, None, 200)
-
-def mostrarKanban(request, id):
-    us = User_Story.objects.filter(idproyecto=id)
+def mostrarKanban(request, id, id_sprint):
+    us = PlanningPoker.objects.filter(idSprint=id_sprint)
     context = {
-        'us': User_Story.objects.filter(idproyecto=id),
-        'idProyecto': id,
-        'tareas': tarea.objects.filter(idUs=us)
+        'proyecto_id': id,
+        'uss': us,
+        'sprint' : id_sprint
     }
-    return render(request, 'Proyect_Agile/Sprint/kanban.html', context, None, 200)
+    return render(request, 'Proyect_Agile/Sprint/kanban.html', context)
+
+def cambiarEstadoUS(request, id, id_sprint, estado, id_us):
+    estados = {
+        'PP' : 'EP',
+        'EP' : 'H',
+        'H' : 'C'
+    }
+    us= PlanningPoker.objects.get(id=id_us)
+    us.estado = estados.get(estado)
+    us.save()
+    return redirect('mostrarKanban', id, id_sprint)
+

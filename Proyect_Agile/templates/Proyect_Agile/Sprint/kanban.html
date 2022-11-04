@@ -13,7 +13,6 @@
             <table class="table table-dark table-hover table-bordered border-muted">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Historias de Usuario</th>
                     <th scope="col">Por hacer</th>
                     <th scope="col">Haciendo</th>
                     <th scope="col">Hecho</th>
@@ -24,20 +23,36 @@
                 </tr>
                 </thead>
                 <tbody>
-                    {% for uss in us %}
+                    {% for us in uss %}
                         <tr>
-                            <td> {{ uss.nombre}} </td>
-                            {% for tarea in tareas %}
-                                {% if tarea.idUs == uss.id %}
-                                    <td> {{ tarea.nombre}} </td>
-                                {% endif %}
-                            {% endfor %}
+                            {% if us.estado == 'P' or us.estado == 'PP' %}
+                                <td> {{ us.idUs.nombre}} <a href="{% url 'cambiarEstadoUS' proyecto_id sprint us.estado us.id %}"
+                                        title="Cambiar Estado"
+                                        type="button"
+                                        class="btn btn-primary">=></a></td>
+                                <td> </td>
+                                <td> </td>
+                            {% elif us.estado == 'EP' %}
+                                <td> </td>
+                                <td>{{ us.idUs.nombre }} <a href="{% url 'cambiarEstadoUS' proyecto_id sprint us.estado us.id %}"
+                                        title="Cambiar Estado"
+                                        type="button"
+                                        class="btn btn-primary">=></a> </td>
+                                <td> </td>
+                            {% elif us.estado == 'H' %}
+                                <td> </td>
+                                <td> </td>
+                                <td> {{ us.idUs.nombre }} </td>
+                            {% endif %}
+
                         </tr>
                     {% endfor %}
 
                 </tbody>
 
             </table>
+                    <a href="{% url 'verSprint' proyecto_id %}" type="button" class="btn btn-primary ml-1">Volver al Sprint</a>
+
 
         </div>
     </div>

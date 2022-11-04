@@ -103,6 +103,11 @@ class User_Story(models.Model):
     historial = models.TextField(blank=True)
     tipo = models.ForeignKey(TipoUS , on_delete=models.RESTRICT)
     estado = models.CharField(max_length=30,default='Pendiente')
+    UP = models.IntegerField(blank=True, null=True)  # Estimacion en horas
+    BV = models.IntegerField(blank=True, null=True)
+    prioridad = models.FloatField(blank=True, null=True)
+
+    miembroEncargado = models.ForeignKey(Miembro, on_delete=models.RESTRICT, blank=True, null=True)  # Al definirse debe de tener un encargado si o si
 
     #encargado = models.ForeignKey(User, on_delete=models.RESTRICT, null=True, blank=True)  # Miembro encargado en trabajar el
 
@@ -140,17 +145,21 @@ class PlanningPoker(models.Model):
     )
 
     estimacion = models.FloatField()  # Estimacion en horas
-    UP= models.IntegerField(blank=True, null=True)  # Estimacion en horas
-    BV = models.IntegerField(blank=True, null=True)
-    prioridad = models.FloatField(blank=True, null=True)
+
     # miembroSM = models.ForeignKey(miembros, on_delete=models.RESTRICT)
     estado = models.CharField(max_length=4, choices=ESTADOS, default='N')
-    miembroEncargado = models.ForeignKey(Miembro, on_delete=models.RESTRICT)  # Al definirse debe de tener un encargado si o si
     idUs = models.ForeignKey(User_Story, on_delete=models.RESTRICT)
     idSprint = models.ForeignKey(Sprint, on_delete=models.RESTRICT)  # Debe pertenecer a un sprintPlanning#o idSprint
 
 class tarea(models.Model):
+    ESTADOS = [
+
+        ('PH','Por Hacer'),
+        ('H','Haciendo'),
+        ('HE','Hecho'),
+    ]
     idUs = models.ForeignKey(User_Story, on_delete=models.RESTRICT)
     nombre= models.TextField(blank=False)
     descripcion= models.TextField()
+    estado= models.CharField(max_length=4, choices=ESTADOS, default='PH')
 

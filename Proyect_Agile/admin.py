@@ -7,4 +7,5 @@ admin.site.register(Rol)
 admin.site.register(User_Story)
 admin.site.register(TipoUS)
 admin.site.register(Sprint)
+admin.site.register(PlanningPoker)
 

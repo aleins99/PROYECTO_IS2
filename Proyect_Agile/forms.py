@@ -57,6 +57,7 @@ class UserStoryForm(forms.ModelForm):
             'idproyecto': forms.HiddenInput(),
             'historial': forms.HiddenInput(),
             'estado': forms.HiddenInput(),
+            'prioridad': forms.HiddenInput(),  # oculta el label del priorida
         }
 
 
@@ -178,8 +179,8 @@ class formCrearPlanningPoker(forms.ModelForm):
         widgets = {
             'idUs': forms.HiddenInput(),  # oculta el label del idUserStory
             'idSprint': forms.HiddenInput(),  # oculta el label del idSprint
-            'prioridad': forms.HiddenInput(), # oculta el label del priorida
-            'estado' : forms.HiddenInput(), # oculta el label del estado
+            'estado': forms.HiddenInput(), #oculta el label del estado
+
         }
 
     def __init__(self, *args, **kwargs):
@@ -197,9 +198,14 @@ class formTarea(forms.ModelForm):
     class Meta:
         model = tarea
         fields = '__all__'
+        labels = {
+            'idUs': '',
+            'estado': ''
 
+        }
         widgets = {
             'idUs': forms.HiddenInput(),  # oculta el label del idUserStory
+            'estado': forms.HiddenInput(), #oculta el label del estado de la tarea
         }
 
     def __init__(self, *args, **kwargs):
@@ -208,6 +214,23 @@ class formTarea(forms.ModelForm):
         the widgets replaced
         """
         super(formTarea, self).__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+
+
+class encargadoUSForm(forms.ModelForm):
+    class Meta:
+        model = User_Story
+        fields = ['miembroEncargado']
+
+
+    def __init__(self, *args, **kwargs):
+        """
+        The function takes in a list of fields and a list of widgets, and returns a list of fields with
+        the widgets replaced
+        """
+        super(encargadoUSForm, self).__init__(*args, **kwargs)
 
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})

@@ -70,7 +70,7 @@ urlpatterns = [
     # vista para iniciar un nuevo sprint
     path('Proyecto/<id>/Sprint/<id_sprint>/finalizarSprint/', views.finalizarSprint, name='finalizarSprint'),
     # vista para finalizar el sprint
-    path('Proyecto/<id>/US/<id_us>/crearTarea/', views.crearTarea, name='crearTareas'),
-    path('Proyecto/<id>/Sprint/kanban/', views.mostrarKanban, name='mostrarKanban'),
+    path('Proyecto/<id>/Sprint/<id_sprint>/kanban/', views.mostrarKanban, name='mostrarKanban'),
+    path('Proyecto/<id>/Sprint/<id_sprint>/kanban/<estado>/estados/<id_us>/', views.cambiarEstadoUS, name='cambiarEstadoUS')
     
 ]
