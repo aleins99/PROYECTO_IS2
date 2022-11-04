@@ -149,7 +149,7 @@ class Sprint(models.Model):
 # Se trata de un modelo para los us que van a pasar al sprint backlog
 
 
-
+# Modelo para las tareas , no implementado para la iteracion 5 
 class tarea(models.Model):
     ESTADOS = [
 

@@ -583,14 +583,14 @@ def agregarUs_para_Sprint(request,id,id_us,id_sprint):
 
 # Muestra los miembros del proyecto que trabajan en ese sprint
 
-def listaMiembroSprint(request, id, id_sprint):
+def listaMiembroSprint(request, id, id_sprint): 
 
     miembros =[]
-    sprint = Sprint.objects.get(id=id_sprint)
-    listaUS = User_Story.objects.filter(idSprint=sprint)
+    sprint = Sprint.objects.get(id=id_sprint) # recupera el sprint
+    listaUS = User_Story.objects.filter(idSprint=sprint) # recupera us del sprint
 
 
-    for us in listaUS:
+    for us in listaUS: # itera por cada us los miembros encargados
         band=0
         for miembro in miembros:
             if miembro == us.miembroEncargado:
@@ -606,7 +606,7 @@ def listaMiembroSprint(request, id, id_sprint):
 # muestra los us del sprint backlog
 
 def listarPlanningPoker(request, id, id_sprint):
-    planningPoker = User_Story.objects.filter(idSprint=id_sprint).order_by('-prioridad')
+    planningPoker = User_Story.objects.filter(idSprint=id_sprint).order_by('-prioridad') # listar us dentro del sprint backlog
 
     context = {
 
@@ -620,9 +620,9 @@ def listarPlanningPoker(request, id, id_sprint):
 # inicia el sprint del proyecto
 
 def iniciarSprint(request,id, id_sprint):
-    sprint = Sprint.objects.get(id=id_sprint)
-    sprint.estado = 'E'
-    for us in User_Story.objects.filter(idSprint=id_sprint):
+    sprint = Sprint.objects.get(id=id_sprint) # para iniciar el sprint seleccionado
+    sprint.estado = 'E' # cambia el estado
+    for us in User_Story.objects.filter(idSprint=id_sprint): # cambia el estado de los us dentro del sprint
         us.estado = 'P'
         us.save()
 
@@ -632,9 +632,9 @@ def iniciarSprint(request,id, id_sprint):
 # finaliza el sprint del proyecto
 
 def finalizarSprint(request,id, id_sprint):
-    sprint = Sprint.objects.get(id=id_sprint)
-    sprint.estado = 'F'
-    sprint.save()
+    sprint = Sprint.objects.get(id=id_sprint) # tomar el sprint seleccionado
+    sprint.estado = 'F' # estado de finalizado
+    sprint.save() # guardar el estado
     planning = User_Story.objects.filter(idSprint=id_sprint, estado='EP' ) | User_Story.objects.filter(idSprint=id_sprint, estado='P' )
     for us in planning:
         UP = us.UP
@@ -645,9 +645,9 @@ def finalizarSprint(request,id, id_sprint):
     return redirect('verSprint', id)
 
 
-
+# Mostrar el kan ban dentro de la pestaña de sprint
 def mostrarKanban(request, id, id_sprint):
-    us = User_Story.objects.filter(idSprint=id_sprint)
+    us = User_Story.objects.filter(idSprint=id_sprint) # kan ban del sprint seleccionado
     context = {
         'proyecto_id': id,
         'uss': us,
@@ -655,14 +655,16 @@ def mostrarKanban(request, id, id_sprint):
     }
     return render(request, 'Proyect_Agile/Sprint/kanban.html', context)
 
+# Cambiar el estado del us dentro del tablero kan ban 
+
 def cambiarEstadoUS(request, id, id_sprint, estado, id_us):
     estados = {
         'P' : 'EP',
         'EP' : 'H',
         'H' : 'C'
     }
-    us= User_Story.objects.get(id=id_us)
-    us.estado = estados.get(estado)
-    us.save()
+    us= User_Story.objects.get(id=id_us) # id del us para cambiar el estado
+    us.estado = estados.get(estado) # asignar nuevo estado
+    us.save() # guardar cambios
     return redirect('mostrarKanban', id, id_sprint)
 
