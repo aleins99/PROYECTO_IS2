@@ -76,12 +76,14 @@ class MiembroForm(forms.ModelForm):
     class Meta:
         model = Miembro
         fields = '__all__'
-        labels = {'cargahoraria':'Carga Horaria', 'idrol': 'Rol', 'isActivo': 'Activo', 'usuario':'', 'idproyecto':''}
+        labels = {'cargahoraria':'Carga Horaria', 'idrol': 'Rol', 'isActivo': 'Activo', 'usuario':'', 'idproyecto':'', 'horasDisponibles':''}
 
         widgets = {
             'usuario': forms.HiddenInput(),
             'idproyecto': forms.HiddenInput(),
             'isActivo': forms.CheckboxInput(attrs={'class':''}),
+            'horasDisponibles': forms.HiddenInput(),
+
         }
 
 
@@ -167,6 +169,26 @@ class SprintForm(forms.ModelForm):
 class formCrearPlanningPoker(forms.ModelForm):
 
     # metodo para validar el dominio de los inputs de los campos
+
+    def clean(self):
+        us = super(formCrearPlanningPoker, self).clean()
+        estimacion = us.get('estimacion')
+        encargado = us.get('miembroEncargado')
+        print(encargado)
+        miembro = Miembro.objects.get(usuario= encargado.usuario, idproyecto= encargado.idproyecto )
+        horasDisponibles = miembro.horasDisponibles
+        cargahoraria = miembro.cargahoraria
+        if estimacion <= 0 and horasDisponibles > 0:
+
+            raise forms.ValidationError('ERROR!!!!. Estimación inválida, cargue un valor mayor a cero. Puede asignar hasta un máximo de: ' + str(horasDisponibles) + ' horas disponibles.')
+
+        elif horasDisponibles >= estimacion :
+            miembro.horasDisponibles = horasDisponibles - estimacion
+            miembro.save()
+        elif horasDisponibles == 0:
+            raise forms.ValidationError('ERROR!!!! NO QUEDAN HORAS DISPONIBLES PARA ESTE MIEMBRO')
+        else :
+            raise forms.ValidationError('ERROR!!!! LAS HORAS ASIGNADAS SON MAYORES A LAS HORAS DISPONIBLES.\n Puede asignar hasta un máximo de: '+ str(horasDisponibles) + ' horas disponibles.' )
 
 
     class Meta:

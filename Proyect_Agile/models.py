@@ -34,6 +34,7 @@ class Miembro(models.Model):
     idproyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT, null=True)
     idrol = models.ForeignKey('Rol', on_delete=models.RESTRICT, null=True, blank=True)
     isActivo = models.BooleanField(default=False)
+    horasDisponibles = models.IntegerField(default=0, blank=True, null=True)
 
     def __str__(self):
         return self.usuario.first_name

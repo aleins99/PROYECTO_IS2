@@ -12,6 +12,8 @@
         </div>
     {% endif %}
     <div class="container mb-5">
+
+
         <div class="py-5 text-center ">
             <h1 class="text-light"> Agregar  </h1>
         </div>
@@ -27,13 +29,14 @@
 
             <form method="POST">
                 {{ form }}
-                {{ encargado }}
+
                 <button type="submit" class="btn btn-primary">Guardar</button>
 
                 {% csrf_token %}
             </form>
         </div>
     </div>
+
 {% endblock %}
 
 

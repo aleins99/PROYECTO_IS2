@@ -223,8 +223,12 @@ def formCrearMiembro(request, id, socialUserId):
     if request.method == 'POST':
         # Se muestra el cuadro de crear miembro
         formMiembrosProyecto = MiembroForm(request.POST)
+        cargahoraria = formMiembrosProyecto['cargahoraria'].value()
         if formMiembrosProyecto.is_valid():
             formMiembrosProyecto.save()
+            miembro1 = Miembro.objects.filter(idproyecto=id).last()
+            miembro1.horasDisponibles = cargahoraria
+            miembro1.save()
         return redirect('miembrosproyecto', id)
     else:
         if miembro:
@@ -564,7 +568,17 @@ def agregarUs_para_Sprint(request,id,id_us,id_sprint):
 
             us.save()
 
-        return redirect('listarPlanningPoker', id, id_sprint)
+            return redirect('listarPlanningPoker', id, id_sprint)
+        else:
+            form = formCrearPlanningPoker(request.POST or None)
+            context = {
+                'form': form,
+
+                'us': User_Story.objects.get(id=id_us),
+                'idProyecto': id,
+            }
+            return render(request, 'Proyect_Agile/Sprint/agregarUSSprint.html', context, None, 200)
+
     else:
         form = formCrearPlanningPoker()
         form.fields["idSprint"].initial = Sprint.objects.get(id=id_sprint)
@@ -572,7 +586,6 @@ def agregarUs_para_Sprint(request,id,id_us,id_sprint):
 
         # se excluye el rol
         form.fields["miembroEncargado"].queryset = Miembro.objects.filter(idproyecto=proyecto)
-
         context = {
             'form': form,
 
@@ -668,3 +681,15 @@ def cambiarEstadoUS(request, id, id_sprint, estado, id_us):
     us.save() # guardar cambios
     return redirect('mostrarKanban', id, id_sprint)
 
+def quitarUSsprint(request, id, id_sprint, id_us):
+
+    us = User_Story.objects.get(id= id_us)
+    miembro = Miembro.objects.get(usuario= us.miembroEncargado.usuario, idproyecto= id)
+    miembro.horasDisponibles += us.estimacion
+    us.miembroEncargado = None
+    us.idSprint = None
+    us.estado = 'N'
+    miembro.save()
+    us.save()
+
+    return redirect('listarPlanningPoker', id, id_sprint)

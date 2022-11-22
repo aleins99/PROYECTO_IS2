@@ -169,12 +169,13 @@ the widgets replaced</p>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">model</span> <span class="o">=</span> <span class="n">User_Story</span>
-        <span class="n">fields</span> <span class="o">=</span> <span class="s1">&#39;__all__&#39;</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;idproyecto&#39;</span><span class="p">,</span> <span class="s1">&#39;historial&#39;</span><span class="p">,</span> <span class="s1">&#39;estado&#39;</span><span class="p">,</span> <span class="s1">&#39;prioridad&#39;</span><span class="p">,</span> <span class="s1">&#39;UP&#39;</span><span class="p">,</span> <span class="s1">&#39;BV&#39;</span><span class="p">,</span> <span class="s1">&#39;nombre&#39;</span><span class="p">,</span> <span class="s1">&#39;descripcion&#39;</span><span class="p">,</span> <span class="s1">&#39;comentarios&#39;</span><span class="p">,</span> <span class="s1">&#39;historial&#39;</span><span class="p">,</span> <span class="s1">&#39;tipo&#39;</span><span class="p">]</span>
         <span class="n">labels</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;idproyecto&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;historial&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;estado&#39;</span><span class="p">:</span><span class="s1">&#39;&#39;</span><span class="p">}</span>
         <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;idproyecto&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span>
             <span class="s1">&#39;historial&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span>
             <span class="s1">&#39;estado&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span>
+            <span class="s1">&#39;prioridad&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span>  <span class="c1"># oculta el label del priorida</span>
         <span class="p">}</span></pre></div>
     </div>
   </div>
@@ -471,17 +472,16 @@ the widgets replaced</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="n">PlanningPoker</span>
-        <span class="n">fields</span> <span class="o">=</span> <span class="s1">&#39;__all__&#39;</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">User_Story</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;miembroEncargado&#39;</span><span class="p">,</span> <span class="s1">&#39;estado&#39;</span><span class="p">,</span> <span class="s1">&#39;estimacion&#39;</span><span class="p">,</span> <span class="s1">&#39;idSprint&#39;</span><span class="p">]</span>
         <span class="n">labels</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;miembroEncargado&#39;</span><span class="p">:</span> <span class="s1">&#39;Encargado&#39;</span><span class="p">,</span>
         <span class="p">}</span>
 
         <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;idUs&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span>  <span class="c1"># oculta el label del idUserStory</span>
             <span class="s1">&#39;idSprint&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span>  <span class="c1"># oculta el label del idSprint</span>
-            <span class="s1">&#39;prioridad&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span> <span class="c1"># oculta el label del priorida</span>
-            <span class="s1">&#39;estado&#39;</span> <span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span> <span class="c1"># oculta el label del estado</span>
+            <span class="s1">&#39;estado&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span> <span class="c1">#oculta el label del estado</span>
+
         <span class="p">}</span></pre></div>
     </div>
   </div>
