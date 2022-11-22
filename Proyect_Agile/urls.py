@@ -60,7 +60,7 @@ urlpatterns = [
     # form en donde se permite la creacion de un sprint en un proyecto
     path('Proyecto/<id>/Sprint/<id_sprint>/listarUS_para_Sprint/',views.listarUS_para_Sprint, name='listarUS_para_Sprint' ),
     # vista para listar los us dentro del sprint backlog
-    path('Proyecto/<id>/Sprint/<id_sprint>/agregarUs_para_Sprint/<id_us>/', views.agregarUs_para_Sprint, name='agregarUs_para_Sprint'),
+    path('Proyecto/<id>/Sprint/<id_sprint>/agregarUs_para_Sprint/<id_us>/<estimacion>/', views.agregarUs_para_Sprint, name='agregarUs_para_Sprint'),
     # vista para agregar us al sprint backlog
     path('Proyecto/<id>/Sprint/<id_sprint>/listaMiembroSprint/', views.listaMiembroSprint, name='miembroSprint'),
     # vista para listar los miembros presentes dentro del sprint

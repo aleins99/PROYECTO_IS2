@@ -546,7 +546,7 @@ def listarUS_para_Sprint(request,id,id_sprint):
 
 # Para agregar un us al sprint backlog
 
-def agregarUs_para_Sprint(request,id,id_us,id_sprint):
+def agregarUs_para_Sprint(request,id,id_us,id_sprint,estimacion):
     proyecto = get_object_or_404(Proyecto, pk=id)
     if request.method == 'POST':
 
@@ -557,6 +557,7 @@ def agregarUs_para_Sprint(request,id,id_us,id_sprint):
             us = User_Story.objects.get(id=id_us)
             us.miembroEncargado = form.cleaned_data['miembroEncargado']
             estado = form.cleaned_data['estado']
+
 
             if estado == 'N' or estado == 'STSA':
                 us.estado = 'PP'
@@ -580,6 +581,12 @@ def agregarUs_para_Sprint(request,id,id_us,id_sprint):
             return render(request, 'Proyect_Agile/Sprint/agregarUSSprint.html', context, None, 200)
 
     else:
+        if int (float (estimacion)) > 0:
+            us = User_Story.objects.get(id=id_us)
+            miembro = Miembro.objects.get(usuario=us.miembroEncargado.usuario, idproyecto=id)
+            miembro.horasDisponibles += int (float (estimacion))
+            miembro.save()
+
         form = formCrearPlanningPoker()
         form.fields["idSprint"].initial = Sprint.objects.get(id=id_sprint)
 
@@ -682,7 +689,7 @@ def cambiarEstadoUS(request, id, id_sprint, estado, id_us):
     return redirect('mostrarKanban', id, id_sprint)
 
 def quitarUSsprint(request, id, id_sprint, id_us):
-
+    print(id_sprint, " ", id_us)
     us = User_Story.objects.get(id= id_us)
     miembro = Miembro.objects.get(usuario= us.miembroEncargado.usuario, idproyecto= id)
     miembro.horasDisponibles += us.estimacion

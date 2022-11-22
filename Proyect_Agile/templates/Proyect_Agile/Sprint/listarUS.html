@@ -29,7 +29,7 @@
                             <td> {{ us.tipo }} </td>
                             <td> {{ us.estado }} </td>
                             <td> {{ us.prioridad }} </td>
-                            <td><a href="{% url 'agregarUs_para_Sprint' proyecto_id id_sprint us.id %}"> Agregar </a>  </td>
+                            <td><a href="{% url 'agregarUs_para_Sprint' proyecto_id id_sprint us.id 0 %}"> Agregar </a>  </td>
                         </tr>
                     {% endfor %}
 

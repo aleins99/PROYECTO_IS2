@@ -20,7 +20,7 @@
                     <th scope="col">Estimación</th>
                     <th scope="col">Encargado</th>
 
-                    <th scope="col">Acción</th>
+                    <th scope="col" class="text-center" colspan="2">Acción</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -35,32 +35,18 @@
 
                             {# editar #}
                             <td class="text-center">
-                                <a href="{% url 'agregarUs_para_Sprint' proyecto_id id_sprint us.id %}" class="btn btn-outline-primary ">
+                                <a href="{% url 'agregarUs_para_Sprint' proyecto_id id_sprint us.id us.estimacion%}" class="btn btn-outline-primary ">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
                             </td>
 
                             {# Quitar #}
-                            <td style="display: flex; justify-content:center; align-items:center">
-                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            <td class="text-center">
+                                <a href="{% url 'quitarUSsprint' proyecto_id id_sprint us.id %}" class="btn btn-outline-danger ">
                                     <i class="fa-solid fa-trash"></i>
-                                </button>
+                                </a>
                             </td>
-                              <!-- Modal -->
-                              <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                  <div class="modal-content bg-dark">
-                                    <div class="modal-body text-white">
-                                      Estas seguro que desea eliminar?
-                                    </div>
-                                    <div class="modal-footer">
-                                      <button type="button" class="btn btn-outline-secondary text-white" data-bs-dismiss="modal">Cancelar</button>
-                                      <a href="{% url 'quitarUSsprint' proyecto_id id_sprint us.id %}"><button type="button" class="btn btn-danger">Eliminar</button>
-                                      </a>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
+
 
                         </tr>
                     {% endfor %}
