@@ -300,7 +300,8 @@ def crearRol(request, id):
         formrol = rolForm()
         formrol.fields['idProyecto'].initial = proyecto
         context = {
-            'form': formrol
+            'form': formrol,
+            'proyecto_id' : id,
         }
         return render(request, 'Proyect_Agile/Rol/crearRol.html', context)
 
@@ -397,7 +398,8 @@ def crearTipoUS(request, id):
         form = tipoUSForm()
         form.fields['idproyecto'].initial = proyecto
         context = {
-            'form': form
+            'form': form,
+            'idProyecto' : id,
         }
         return render(request, 'Proyect_Agile/US/crearTipoUS.html', context)
 
@@ -620,6 +622,7 @@ def listaMiembroSprint(request, id, id_sprint):
 
     context = {
         'miembros' : miembros,
+        'proyecto_id' : id,
     }
     return render(request, 'Proyect_Agile/Sprint/mostrarMiembrosSprint.html', context, None, 200)
 

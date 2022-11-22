@@ -6,11 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="fc82abfe-1e11-4cfa-88ee-f8d83a81d086" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/listarPlanningPoker.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/listarPlanningPoker.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Miembros/agregarMiembro.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Miembros/agregarMiembro.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Miembros/editarMiembro.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Miembros/editarMiembro.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Rol/crearRol.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Rol/crearRol.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Rol/editarRol.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Rol/editarRol.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Rol/listarProyectoRol.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Rol/listarProyectoRol.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/agregarUSSprint.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/agregarUSSprint.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/crearSprint.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/crearSprint.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/listarUS.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/listarUS.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/US/listarUS.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/US/listarUS.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/mostrarMiembrosSprint.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/mostrarMiembrosSprint.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/US/crearTipoUS.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/US/crearTipoUS.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Usuario/listarUsuarios.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Usuario/listarUsuarios.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Proyect_Agile/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

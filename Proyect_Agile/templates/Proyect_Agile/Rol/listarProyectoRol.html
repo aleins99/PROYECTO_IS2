@@ -49,7 +49,11 @@
     </table>
 
     <div class="mb-3">
-        <a class="btn btn-primary" href="{% url 'rolproyecto' idproyecto %}" > Cancelar </a>
+        {% if flag == 0 %}
+            <a class="btn btn-primary" href="{% url 'rolproyecto' idproyecto %}" > Cancelar </a>
+        {% else %}
+            <a href="{% url 'listarTipoUS' idproyecto %}" type="button" class="btn btn-primary ml-1">Cancelar</a>
+        {% endif %}
     </div>
 
 {% endblock %}
