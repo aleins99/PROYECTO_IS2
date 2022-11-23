@@ -26,3 +26,19 @@ body {
 .table a:hover {
     text-decoration: underline;
 }
+
+.menu-contenedor{
+    width: 100%;
+    border: 1px solid #ffffff;
+}
+
+.menu-contenedor ul{
+    display: flex;
+    gap: 10px;
+}
+li {
+    list-style-type: none;
+}
+li a{
+    color: #fff;
+}

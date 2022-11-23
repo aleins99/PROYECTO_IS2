@@ -7,15 +7,24 @@
         <div class="py-5 text-center ">
             <h1 class="text-light"> Tablero KANBAN </h1>
         </div>
+    <div class="menu-contenedor">
+        <ul>
+            {% for us in tipos %}
+                <li><a href="{% url 'mostrarKanban' proyecto_id sprint us.tipo.id %}">{{ us.tipo.nombre }}</a></li>
+            {% endfor %}
+        </ul>
+
+    </div>
         <div class="bg-dark border rounded border-dark ">
 
 
             <table class="table table-dark table-hover table-bordered border-muted">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Por hacer</th>
-                    <th scope="col">Haciendo</th>
-                    <th scope="col">Hecho</th>
+                    {% for estado in tipo %}
+
+                    <th scope="col">{{ estado }}</th>
+                    {% endfor %}
                   {#    <th scope="col">Estimación</th> #}
                    {#   <th scope="col">Encargado</th> #}
 

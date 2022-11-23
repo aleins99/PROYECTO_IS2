@@ -70,7 +70,7 @@ urlpatterns = [
     # vista para iniciar un nuevo sprint
     path('Proyecto/<id>/Sprint/<id_sprint>/finalizarSprint/', views.finalizarSprint, name='finalizarSprint'),
     # vista para finalizar el sprint
-    path('Proyecto/<id>/Sprint/<id_sprint>/kanban/', views.mostrarKanban, name='mostrarKanban'),
+    path('Proyecto/<id>/Sprint/<id_sprint>/kanban/tipo/<id_tipo>', views.mostrarKanban, name='mostrarKanban'),
     # vista para el tablero kan ban dentro de la pestaña de sprint 
     path('Proyecto/<id>/Sprint/<id_sprint>/kanban/<estado>/estados/<id_us>/', views.cambiarEstadoUS, name='cambiarEstadoUS'),
     # vista para el cambio de estado dentro del tablero kan ban

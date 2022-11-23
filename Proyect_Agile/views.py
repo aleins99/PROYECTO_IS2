@@ -490,6 +490,8 @@ def verSprint(request, id):
     proyecto = Proyecto.objects.get(id=id)
     usuario = request.user
     ban = True
+
+
     if Sprint.objects.filter(idproyecto= id,estado='P').exists() or Sprint.objects.filter(idproyecto= id,estado='E').exists() :
         ban= False
 
@@ -501,6 +503,7 @@ def verSprint(request, id):
         'estados': estados_Proyecto,
         'proyecto_id': id,
         'permisos': obtenerPermisos(id, request.user)
+
     }
     return render(request,'Proyect_Agile/Sprint/verSprint.html',context)
 
@@ -530,7 +533,8 @@ def crearSprint(request, id):
 
         context = {
             'form': formSprint,
-            'ultimoSprint' : Sprint.objects.filter(idproyecto=id).last()
+            'ultimoSprint' : Sprint.objects.filter(idproyecto=id).last(),
+            'proyecto_id' : id
         }
     return render(request, 'Proyect_Agile/Sprint/crearSprint.html', context)
 
@@ -669,12 +673,24 @@ def finalizarSprint(request,id, id_sprint):
 
 
 # Mostrar el kan ban dentro de la pestaña de sprint
-def mostrarKanban(request, id, id_sprint):
-    us = User_Story.objects.filter(idSprint=id_sprint) # kan ban del sprint seleccionado
+def mostrarKanban(request, id, id_sprint, id_tipo):
+
+    if id_tipo == '0':
+        us = User_Story.objects.filter(idSprint=id_sprint).first()
+        tipo = us.tipo
+    else:
+        tipo = TipoUS.objects.get(id=id_tipo)
+    estados = tipo.estado.split(', ')
+    print(tipo.estado)
+    print(estados)
+    us = User_Story.objects.filter(idSprint=id_sprint, tipo=tipo) # kan ban del sprint seleccionado
     context = {
         'proyecto_id': id,
         'uss': us,
-        'sprint' : id_sprint
+        'sprint' : id_sprint,
+        'tipo' : estados,
+        'tipos' : User_Story.objects.filter(idSprint = id_sprint)
+
     }
     return render(request, 'Proyect_Agile/Sprint/kanban.html', context)
 

@@ -90,7 +90,7 @@ class TipoUS(models.Model):
 
     idproyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT, null=True)
     estado = models.TextField(default= 'Por hacer, En Proceso, Hecho, Cancelado')
-
+  #  idsprint = models.ForeignKey(Sprint, on_delete=models.RESTRICT, null=True)
 
     def __str__(self):
         return self.nombre
