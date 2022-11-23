@@ -8,6 +8,8 @@
      <th scope="col">Apellido</th>
      <th scope="col">Correo</th>
      <th scope="col">Carga Horaria</th>
+     <th scope="col">Horas Disponibles</th>
+
  </tr>
 
  </thead>
@@ -20,6 +22,9 @@
                  <td>{{ miembro.usuario.last_name}}</td>
                  <td>{{ miembro.usuario.email }}</td>
                  <td>{{ miembro.cargahoraria }}</td>
+                 <td>{{ miembro.horasDisponibles }}</td>
+
+
              </tr>
          {% endif %}
      {% endfor %}

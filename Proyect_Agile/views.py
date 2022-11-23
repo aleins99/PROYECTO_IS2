@@ -556,6 +556,13 @@ def agregarUs_para_Sprint(request,id,id_us,id_sprint,estimacion):
     proyecto = get_object_or_404(Proyecto, pk=id)
     if request.method == 'POST':
 
+        if int (float (estimacion)) > 0:
+            us = User_Story.objects.get(id=id_us)
+            miembro = Miembro.objects.get(usuario=us.miembroEncargado.usuario, idproyecto=id)
+            miembro.horasDisponibles += int (float (estimacion))
+            miembro.save()
+
+
         form = formCrearPlanningPoker(request.POST)
         print("hasta aca llego")
 
@@ -578,32 +585,32 @@ def agregarUs_para_Sprint(request,id,id_us,id_sprint,estimacion):
             return redirect('listarPlanningPoker', id, id_sprint)
         else:
             form = formCrearPlanningPoker(request.POST or None)
+            form.fields["miembroEncargado"].queryset = Miembro.objects.filter(idproyecto=id)
+
             context = {
                 'form': form,
 
                 'us': User_Story.objects.get(id=id_us),
                 'idProyecto': id,
+                'idSprint' : id_sprint,
             }
             return render(request, 'Proyect_Agile/Sprint/agregarUSSprint.html', context, None, 200)
 
     else:
-        if int (float (estimacion)) > 0:
-            us = User_Story.objects.get(id=id_us)
-            miembro = Miembro.objects.get(usuario=us.miembroEncargado.usuario, idproyecto=id)
-            miembro.horasDisponibles += int (float (estimacion))
-            miembro.save()
 
         form = formCrearPlanningPoker()
         form.fields["idSprint"].initial = Sprint.objects.get(id=id_sprint)
 
 
         # se excluye el rol
-        form.fields["miembroEncargado"].queryset = Miembro.objects.filter(idproyecto=proyecto)
+        form.fields["miembroEncargado"].queryset = Miembro.objects.filter(idproyecto=id)
         context = {
             'form': form,
 
             'us' : User_Story.objects.get(id=id_us),
             'idProyecto': id,
+            'idSprint': id_sprint,
+
         }
         return render(request, 'Proyect_Agile/Sprint/agregarUSSprint.html', context, None, 200)
 
@@ -676,7 +683,7 @@ def finalizarSprint(request,id, id_sprint):
 def mostrarKanban(request, id, id_sprint, id_tipo):
 
     if id_tipo == '0':
-        us = User_Story.objects.filter(idSprint=id_sprint).first()
+        us = User_Story.objects.filter(idSprint=id_sprint).last()
         tipo = us.tipo
     else:
         tipo = TipoUS.objects.get(id=id_tipo)
@@ -684,12 +691,16 @@ def mostrarKanban(request, id, id_sprint, id_tipo):
     print(tipo.estado)
     print(estados)
     us = User_Story.objects.filter(idSprint=id_sprint, tipo=tipo) # kan ban del sprint seleccionado
+    USs = []
+    for i in User_Story.objects.filter(idSprint = id_sprint):
+        if not i.tipo in USs:
+            USs.append(i.tipo)
     context = {
         'proyecto_id': id,
         'uss': us,
         'sprint' : id_sprint,
         'tipo' : estados,
-        'tipos' : User_Story.objects.filter(idSprint = id_sprint)
+        'tipos' : USs,
 
     }
     return render(request, 'Proyect_Agile/Sprint/kanban.html', context)
