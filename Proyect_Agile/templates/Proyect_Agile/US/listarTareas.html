@@ -1,0 +1,39 @@
+{% extends 'account/base.html' %}
+
+
+{% block content %}
+
+    <div class="container mb-5">
+        <div class="py-5 text-center ">
+            <h1 class="text-light"> Lista de Tareas </h1>
+        </div>
+        <div class="bg-dark border rounded border-dark ">
+
+
+            <table class="table table-dark table-hover table-bordered border-muted">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Duracion</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                    {% for tarea in tareas %}
+                        <tr>
+                            <td> {{ tarea.nombre }} </td>
+                            <td> {{ tarea.duracion }} </td>
+                        </tr>
+                    {% endfor %}
+
+
+                </tbody>
+
+
+            </table>
+
+            <a href="{% url 'mostrarKanban' idproyecto sprint tipo %}" type="button" class="btn btn-primary ml-1">Volver al Tablero</a>
+            <a href="{% url 'crearTarea' idproyecto sprint us %}" type="button" class="btn btn-primary ml-1">Agregar Tarea</a>
+        </div>
+    </div>
+{% endblock %}

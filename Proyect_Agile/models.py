@@ -151,15 +151,8 @@ class Sprint(models.Model):
 
 
 # Modelo para las tareas , no implementado para la iteracion 5 
-class tarea(models.Model):
-    ESTADOS = [
-
-        ('PH','Por Hacer'),
-        ('H','Haciendo'),
-        ('HE','Hecho'),
-    ]
+class Tarea(models.Model):
     idUs = models.ForeignKey(User_Story, on_delete=models.RESTRICT)
     nombre= models.TextField(blank=False)
-    descripcion= models.TextField()
-    estado= models.CharField(max_length=4, choices=ESTADOS, default='PH')
+    duracion = models.IntegerField(blank=False, default=0)
 

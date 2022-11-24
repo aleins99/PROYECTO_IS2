@@ -214,5 +214,40 @@ class formCrearPlanningPoker(forms.ModelForm):
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
 
+class FormTarea(forms.ModelForm):
 
+    def clean(self):
+        tarea= super(FormTarea, self).clean()
+        estimacion = tarea.get('idUs').estimacion
+        duracion = tarea.get('duracion')
+        if duracion <= 0 and estimacion > 0:
+
+            raise forms.ValidationError('ERROR!!!!. Estimación inválida, cargue un valor mayor a cero. Puede asignar hasta un máximo de: ' + str(estimacion) + ' duracion.')
+
+        elif duracion <= estimacion:
+            us = tarea.get('idUs')
+            us.estimacion = estimacion - duracion
+            us.save()
+        elif estimacion == 0:
+            raise forms.ValidationError('ERROR!!!! NO QUEDAN HORAS DISPONIBLES PARA ESTE US')
+        else:
+            raise forms.ValidationError('ERROR!!!! LAS HORAS ASIGNADAS SON MAYORES A LAS HORAS DISPONIBLES.\n Puede asignar hasta un máximo de: '+ str(estimacion) + ' horas disponibles.' )
+
+    class Meta:
+        model = Tarea
+        fields = '__all__'
+        labels = {'idUs':''}
+        widgets = {
+            'idUs': forms.HiddenInput()
+        }
+
+    def __init__(self, *args, **kwargs):
+        """
+        The function takes in a list of fields and a list of widgets, and returns a list of fields with
+        the widgets replaced
+        """
+        super(FormTarea, self).__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
 

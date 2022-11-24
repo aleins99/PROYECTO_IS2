@@ -33,6 +33,10 @@ estados_Proyecto = {
     'F':'Finalizado',
 }
 
+@register.filter
+def idtipo(idsprint):
+    us = User_Story.objects.filter(idSprint=idsprint).last()
+    return us.tipo.id
 # para decoradores
 @register.filter
 def tareasUS(US):
@@ -716,7 +720,7 @@ def cambiarEstadoUS(request, id, id_sprint, estado, id_us):
     us= User_Story.objects.get(id=id_us) # id del us para cambiar el estado
     us.estado = estados.get(estado) # asignar nuevo estado
     us.save() # guardar cambios
-    return redirect('mostrarKanban', id, id_sprint)
+    return redirect('mostrarKanban', id, id_sprint, us.tipo.id)
 
 def quitarUSsprint(request, id, id_sprint, id_us):
     print(id_sprint, " ", id_us)
@@ -730,3 +734,40 @@ def quitarUSsprint(request, id, id_sprint, id_us):
     us.save()
 
     return redirect('listarPlanningPoker', id, id_sprint)
+
+def crearTarea(request, id, id_sprint, id_us):
+    if request.method == 'POST':
+        form = FormTarea(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('listarTareas',id, id_sprint, id_us)
+        else:
+            form = FormTarea(request.POST or None)
+            context = {
+                'form': form,
+                'us': id_us,
+                'sprint': id_sprint,
+                'idproyecto': id
+            }
+            return render(request, 'Proyect_Agile/US/crearTarea.html', context)
+    else:
+        form = FormTarea()
+        form.fields['idUs'].initial = id_us
+        context = {
+            'form': form,
+            'us': id_us,
+            'sprint': id_sprint,
+            'idproyecto': id
+        }
+        return render(request, 'Proyect_Agile/US/crearTarea.html', context)
+
+def listarTareas(request, id, id_sprint, id_us):
+    tareas = Tarea.objects.filter(idUs = id_us)
+    context = {
+        'idproyecto': id,
+        'us': id_us,
+        'sprint': id_sprint,
+        'tareas': tareas,
+        'tipo': User_Story.objects.get(id=id_us).tipo.id
+    }
+    return render(request, 'Proyect_Agile/US/listarTareas.html', context)

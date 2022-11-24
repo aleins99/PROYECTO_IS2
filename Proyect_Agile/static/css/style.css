@@ -40,5 +40,12 @@ li {
     list-style-type: none;
 }
 li a{
-    color: #fff;
+    color: #808080;
+    text-decoration: none;
 }
+.activo{
+    color: #fff;
+    text-decoration: underline;
+}
+
+

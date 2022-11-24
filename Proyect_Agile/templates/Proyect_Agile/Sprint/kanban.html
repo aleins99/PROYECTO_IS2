@@ -10,7 +10,7 @@
     <div class="menu-contenedor">
         <ul>
             {% for tipo in tipos %}
-                <li><a href="{% url 'mostrarKanban' proyecto_id sprint tipo.id %}">{{ tipo.nombre }}</a></li>
+                <li><a class="{% if request.path == 'Proyecto/'|add:proyecto_id|add:'/Sprint/'|add:sprint|add:'/kanban/tipo/'|add:tipo.id %} activo {% endif %}" href="{% url 'mostrarKanban' proyecto_id sprint tipo.id %}">{{ tipo.nombre }}</a></li>
             {% endfor %}
         </ul>
 
@@ -25,30 +25,35 @@
 
                     <th scope="col">{{ estado }}</th>
                     {% endfor %}
-
+                    <th scope="col">Finalizado</th>
                 </tr>
                 </thead>
                 <tbody>
                     {% for us in uss %}
                         <tr>
                             {% if us.estado == 'P' or us.estado == 'PP' or us.estado == 'N' %}
-                                <td> {{ us.nombre}} <a href="{% url 'cambiarEstadoUS' proyecto_id sprint us.estado us.id %}"
+                                <td> {{ us.nombre}} <br> Encargado:{{us.miembroEncargado}} <br>Capacidad:{{ us.estimacion }} <br>
+                                    <a href="{% url 'listarTareas' proyecto_id sprint us.id %}">TAREAS</a><a href="{% url 'cambiarEstadoUS' proyecto_id sprint us.estado us.id %}"
                                         title="Cambiar Estado"
                                         type="button"
                                         class="btn btn-primary">=></a></td>
                                 <td> </td>
                                 <td> </td>
+                                <td> </td>
                             {% elif us.estado == 'EP' %}
                                 <td> </td>
-                                <td>{{ us.nombre }} <a href="{% url 'cambiarEstadoUS' proyecto_id sprint us.estado us.id %}"
+                                <td>{{ us.nombre }} <br>Encargado:{{us.miembroEncargado}}<br> Capacidad:{{ us.estimacion }}<a href="{% url 'cambiarEstadoUS' proyecto_id sprint us.estado us.id %}"
                                         title="Cambiar Estado"
                                         type="button"
-                                        class="btn btn-primary">=></a> </td>
+                                        class="btn btn-primary">=></a> <br>
+                                    <a href="{% url 'listarTareas' proyecto_id sprint us.id %}">TAREAS</a> </td>
+                                <td> </td>
                                 <td> </td>
                             {% elif us.estado == 'H' %}
                                 <td> </td>
                                 <td> </td>
-                                <td> {{ us.nombre }} </td>
+                                <td> {{ us.nombre }} <br>Encargado:{{us.miembroEncargado}}<br> Capacidad:{{ us.estimacion }} <br><a href="{% url 'listarTareas' proyecto_id sprint us.id %}">TAREAS</a></td>
+                                <td> </td>
                             {% endif %}
 
                         </tr>

@@ -74,6 +74,7 @@ urlpatterns = [
     # vista para el tablero kan ban dentro de la pestaña de sprint 
     path('Proyecto/<id>/Sprint/<id_sprint>/kanban/<estado>/estados/<id_us>/', views.cambiarEstadoUS, name='cambiarEstadoUS'),
     # vista para el cambio de estado dentro del tablero kan ban
-    path('Proyecto/<id>/Sprint/<id_sprint>/us/<id_us>/quitar/',views.quitarUSsprint, name='quitarUSsprint')
-    
+    path('Proyecto/<id>/Sprint/<id_sprint>/us/<id_us>/quitar/',views.quitarUSsprint, name='quitarUSsprint'),
+    path('Proyecto/<id>/Sprint/<id_sprint>/us/<id_us>/tareas/',views.listarTareas, name='listarTareas'),
+    path('Proyecto/<id>/Sprint/<id_sprint>/us/<id_us>/tareas/crearTarea/',views.crearTarea, name='crearTarea')
 ]
