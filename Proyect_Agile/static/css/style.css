@@ -1,51 +1,50 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
 body {
-    background-color: #202529;
-    color: #fff;
-    font-family: 'Inter', sans-serif;
+	background-color: #202529;
+	color: #fff;
+	font-family: 'Inter', sans-serif;
 }
 
 .btn-d {
-    color: #fff;
-    border-radius: 8px;
-    padding: 12px;
-    border: none;
-    font-weight: bold;
-    background-color: #1b1b1b;
+	color: #fff;
+	border-radius: 8px;
+	padding: 12px;
+	border: none;
+	font-weight: bold;
+	background-color: #1b1b1b;
 }
 
 .btn-d:hover {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .table a {
-    color: #fff;
-    text-decoration: none;
+	color: #fff;
+	text-decoration: none;
 }
 
 .table a:hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }
 
-.menu-contenedor{
-    width: 100%;
-    border: 1px solid #ffffff;
+.menu-contenedor {
+	width: 100%;
+	border: 1px solid #ffffff;
 }
 
-.menu-contenedor ul{
-    display: flex;
-    gap: 10px;
+.menu-contenedor ul {
+	display: flex;
+	gap: 10px;
+	padding: 10px;
+	margin: 0;
 }
 li {
-    list-style-type: none;
+	list-style-type: none;
 }
-li a{
-    color: #808080;
-    text-decoration: none;
+li a {
+	color: #808080;
+	text-decoration: none;
 }
-.activo{
-    color: #fff;
-    text-decoration: underline;
+.activo {
+	color: #fff;
 }
-
-

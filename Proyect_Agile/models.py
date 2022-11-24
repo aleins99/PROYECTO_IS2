@@ -89,7 +89,7 @@ class TipoUS(models.Model):
     nombre= models.CharField(max_length=100)
 
     idproyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT, null=True)
-    estado = models.TextField(default= 'Por hacer, En Proceso, Hecho, Cancelado')
+    estado = models.TextField(default= 'Por hacer, En Proceso, Hecho, Finalizado')
   #  idsprint = models.ForeignKey(Sprint, on_delete=models.RESTRICT, null=True)
 
     def __str__(self):
@@ -97,22 +97,10 @@ class TipoUS(models.Model):
 
 # Modelo para los us primitivos ( que aun no se agregan al sprint backlog )
 class User_Story(models.Model):
-    ESTADOS = (
-        ('N', 'Nuevo'),
-        ('PP', 'En Planning Pocker'),
-        ('P', 'Pendiente'),
-        ('EP', 'En Proceso'),
-        ('STSA', 'Sin Terminar en Sprint Anterior'),
-        ('A', 'Aprobado'),
-        ('H', 'Hecho'),
-        ('C', 'Cancelado'),
-    )
     estimacion = models.FloatField(blank=True, null=True, max_length=20)  # Estimacion en horas
 
     # miembroSM = models.ForeignKey(miembros, on_delete=models.RESTRICT)
-    estado = models.CharField(max_length=30, choices=ESTADOS, default='N')
     idSprint = models.ForeignKey('Sprint', on_delete=models.RESTRICT,blank=True, null=True)  # Debe pertenecer a un sprintPlanning#o idSprint
-
     idproyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT, null=True)
     nombre = models.CharField(max_length=200)
     descripcion = models.TextField()

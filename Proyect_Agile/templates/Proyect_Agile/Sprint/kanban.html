@@ -10,10 +10,9 @@
     <div class="menu-contenedor">
         <ul>
             {% for tipo in tipos %}
-                <li><a class="{% if request.path == 'Proyecto/'|add:proyecto_id|add:'/Sprint/'|add:sprint|add:'/kanban/tipo/'|add:tipo.id %} activo {% endif %}" href="{% url 'mostrarKanban' proyecto_id sprint tipo.id %}">{{ tipo.nombre }}</a></li>
+                <li><a class="{% if ruta == tipo.id|toString%} activo {%else%} pruebas? {% endif %}" href="{% url 'mostrarKanban' proyecto_id sprint tipo.id %}">{{ tipo.nombre }}</a></li>
             {% endfor %}
         </ul>
-
     </div>
         <div class="bg-dark border rounded border-dark ">
 
@@ -32,11 +31,13 @@
                     {% for us in uss %}
                         <tr>
                             {% if us.estado == 'P' or us.estado == 'PP' or us.estado == 'N' %}
-                                <td> {{ us.nombre}} <br> Encargado:{{us.miembroEncargado}} <br>Capacidad:{{ us.estimacion }} <br>
-                                    <a href="{% url 'listarTareas' proyecto_id sprint us.id %}">TAREAS</a><a href="{% url 'cambiarEstadoUS' proyecto_id sprint us.estado us.id %}"
+                                <td> {{ us.nombre}} <br> Encargado:{{us.miembroEncargado}} <a href="{% url 'cambiarEstadoUS' proyecto_id sprint us.estado us.id %}"
                                         title="Cambiar Estado"
                                         type="button"
-                                        class="btn btn-primary">=></a></td>
+                                        class="btn btn-primary"
+                                        style="margin-left: 15px;">=></a> <br>Capacidad:{{ us.estimacion }} <br>
+                                    <a href="{% url 'listarTareas' proyecto_id sprint us.id %}">TAREAS</a</td>
+                                        
                                 <td> </td>
                                 <td> </td>
                                 <td> </td>

@@ -27,13 +27,13 @@
 
             <form method="POST">
                 {{ formMiembroProyecto|crispy }}
+                <a href="{% url 'miembrosproyecto' proyecto_id %}" type="button" class="btn btn-primary ml-1">Cancelar</a>
                 <button type="submit" class="btn btn-primary">Guardar</button>
 
                 {% csrf_token %}
             </form>
         </div>
 
-        <a href="{% url 'miembrosproyecto' proyecto_id %}" type="button" class="btn btn-primary ml-1">Cancelar</a>
 
     </div>
 

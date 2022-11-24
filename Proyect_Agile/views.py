@@ -35,8 +35,12 @@ estados_Proyecto = {
 
 @register.filter
 def idtipo(idsprint):
-    us = User_Story.objects.filter(idSprint=idsprint).last()
+    us = User_Story.objects.filter(idSprint=idsprint).first()
     return us.tipo.id
+
+@register.filter
+def toString(value):
+    return str(value)
 # para decoradores
 @register.filter
 def tareasUS(US):
@@ -71,6 +75,10 @@ def esMiembroEnProyecto(element, idProyecto):
 ### USUARIO ###
 def iniciosesion(request):
     login = reverse('account_login')
+    if request.user.id == 1:
+        # create a group for the user admin
+        group, created = Group.objects.get_or_create(name='Administrador')
+        rol, created = Rol.objects.get_or_create(nombre='admin')
     return HttpResponseRedirect(login)
 
 
@@ -252,7 +260,7 @@ def formCrearMiembro(request, id, socialUserId):
                 nombre="Scrum Master")
             context = {
                 'formMiembroProyecto': formMiembrosProyecto,
-                'idProyecto': id,
+                'proyecto_id': id,
                 'Usuario': user
             }
             return render(request, 'Proyect_Agile/Miembros/agregarMiembro.html', context, None, 200)
@@ -685,21 +693,19 @@ def finalizarSprint(request,id, id_sprint):
 
 # Mostrar el kan ban dentro de la pestaña de sprint
 def mostrarKanban(request, id, id_sprint, id_tipo):
-
     if id_tipo == '0':
         us = User_Story.objects.filter(idSprint=id_sprint).last()
         tipo = us.tipo
     else:
         tipo = TipoUS.objects.get(id=id_tipo)
     estados = tipo.estado.split(', ')
-    print(tipo.estado)
-    print(estados)
     us = User_Story.objects.filter(idSprint=id_sprint, tipo=tipo) # kan ban del sprint seleccionado
     USs = []
     for i in User_Story.objects.filter(idSprint = id_sprint):
         if not i.tipo in USs:
             USs.append(i.tipo)
     context = {
+        'ruta': request.path[-2],
         'proyecto_id': id,
         'uss': us,
         'sprint' : id_sprint,
