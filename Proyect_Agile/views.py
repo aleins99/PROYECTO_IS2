@@ -20,7 +20,6 @@ from django.utils.decorators import method_decorator
 from allauth.account.models import EmailAddress
 from django.contrib.auth.models import AbstractUser
 from allauth.utils import get_user_model
-
 # estados por defecto de los proyectos
 estados_Proyecto = {
     'P':'Pendiente',
@@ -35,12 +34,16 @@ estados_Proyecto = {
 
 @register.filter
 def idtipo(idsprint):
-    us = User_Story.objects.filter(idSprint=idsprint).first()
-    return us.tipo.id
+        # get the us of the sprint with estado != F
+    if idsprint.estado != 'F':
+        us = User_Story.objects.filter(idSprint=idsprint).first()
+        return us.tipo.id
+    return 1
 
 @register.filter
 def toString(value):
-    return str(value)
+    text = str(value) 
+    return text
 # para decoradores
 @register.filter
 def tareasUS(US):
@@ -271,6 +274,20 @@ class editarMiembro(UpdateView):
     model= Miembro
     template_name = 'Proyect_Agile/Miembros/editarMiembro.html'
     form_class = MiembroForm
+    # change the value of the miembro.horasDisponibles when is edited
+    def form_valid(self, form):
+        miembro = Miembro.objects.get(id=self.kwargs['pk'])
+        # get the previous value of miembro.cargahoraria
+        cargahoraria = miembro.cargahoraria
+        # get the new value of miembro.cargahoraria
+        cargahoraria2 = form.cleaned_data['cargahoraria']
+        print(cargahoraria2)
+        print(cargahoraria)
+        miembro.horasDisponibles = miembro.horasDisponibles + (cargahoraria2 - cargahoraria)
+        print(miembro.horasDisponibles)
+        # save the new value of miembro.cargahoraria
+        miembro.save()
+        return super().form_valid(form)
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
         id = self.kwargs['id']
@@ -502,20 +519,22 @@ def verSprint(request, id):
     proyecto = Proyecto.objects.get(id=id)
     usuario = request.user
     ban = True
+    scrum = False
+    if request.user == proyecto.scrumMaster:
+        scrum = True
 
-
-    if Sprint.objects.filter(idproyecto= id,estado='P').exists() or Sprint.objects.filter(idproyecto= id,estado='E').exists() :
+    if Sprint.objects.filter(idproyecto= id,estado='E').exists() and Sprint.objects.filter(idproyecto= id,estado='P').exists() :
         ban= False
-
     context = {
         'proyecto': proyecto,
         'crear' : ban,
+        'error': "",
+        'scrum': scrum,
         'sprints' : sprint,
         'usuario': usuario,
         'estados': estados_Proyecto,
         'proyecto_id': id,
         'permisos': obtenerPermisos(id, request.user)
-
     }
     return render(request,'Proyect_Agile/Sprint/verSprint.html',context)
 
@@ -585,7 +604,7 @@ def agregarUs_para_Sprint(request,id,id_us,id_sprint,estimacion):
 
 
             if estado == 'N' or estado == 'STSA':
-                us.estado = 'PP'
+                us.estado = 'Por hacer'
 
             us.estimacion = form.cleaned_data['estimacion']
             us.idSprint = form.cleaned_data['idSprint']
@@ -598,7 +617,6 @@ def agregarUs_para_Sprint(request,id,id_us,id_sprint,estimacion):
         else:
             form = formCrearPlanningPoker(request.POST or None)
             form.fields["miembroEncargado"].queryset = Miembro.objects.filter(idproyecto=id)
-
             context = {
                 'form': form,
 
@@ -666,10 +684,29 @@ def listarPlanningPoker(request, id, id_sprint):
 # inicia el sprint del proyecto
 
 def iniciarSprint(request,id, id_sprint):
+    
+    if Sprint.objects.filter(idproyecto=id, estado="E").exists() or not User_Story.objects.filter(idSprint=id_sprint, estado="Por hacer").exists():
+        # throw error
+        sprint = Sprint.objects.filter(idproyecto= id)
+        proyecto = Proyecto.objects.get(id=id)
+        usuario = request.user
+        ban = False
+        context = {
+        'proyecto': proyecto,
+        'crear' : ban,
+        'error': "¡¡¡¡ATENCION!!!! Para poner iniciar el Sprint finalize el anterior o compruebe si su Sprint contiene US",
+        'sprints' : sprint,
+        'usuario': usuario,
+        'estados': estados_Proyecto,
+        'proyecto_id': id,
+        'permisos': obtenerPermisos(id, request.user)
+        }
+        return render(request,'Proyect_Agile/Sprint/verSprint.html',context)
     sprint = Sprint.objects.get(id=id_sprint) # para iniciar el sprint seleccionado
     sprint.estado = 'E' # cambia el estado
     for us in User_Story.objects.filter(idSprint=id_sprint): # cambia el estado de los us dentro del sprint
-        us.estado = 'P'
+        tipo = us.tipo.estado.split(', ')
+        us.estado = tipo[0]
         us.save()
 
     sprint.save()
@@ -678,10 +715,27 @@ def iniciarSprint(request,id, id_sprint):
 # finaliza el sprint del proyecto
 
 def finalizarSprint(request,id, id_sprint):
+    #check if us of the sprint are in state "N" or "STSA" or "PP"
+    if User_Story.objects.filter(idSprint=id_sprint,estado__in=['Por hacer','En Proceso','Hecho']).exists():
+        sprint = Sprint.objects.filter(idproyecto= id)
+        proyecto = Proyecto.objects.get(id=id)
+        usuario = request.user
+        ban = False
+        context = {
+        'proyecto': proyecto,
+        'crear' : ban,
+        'error': "¡¡¡¡ATENCION!!!! Complete sus US para poder finalizar el Sprint",
+        'sprints' : sprint,
+        'usuario': usuario,
+        'estados': estados_Proyecto,
+        'proyecto_id': id,
+        'permisos': obtenerPermisos(id, request.user)
+        }
+        return render(request,'Proyect_Agile/Sprint/verSprint.html',context)
     sprint = Sprint.objects.get(id=id_sprint) # tomar el sprint seleccionado
     sprint.estado = 'F' # estado de finalizado
     sprint.save() # guardar el estado
-    planning = User_Story.objects.filter(idSprint=id_sprint, estado='EP' ) | User_Story.objects.filter(idSprint=id_sprint, estado='P' )
+    planning = User_Story.objects.filter(idSprint=id_sprint, estado='Cancelado' )
     for us in planning:
         UP = us.UP
         BV = us.BV
@@ -701,11 +755,12 @@ def mostrarKanban(request, id, id_sprint, id_tipo):
     estados = tipo.estado.split(', ')
     us = User_Story.objects.filter(idSprint=id_sprint, tipo=tipo) # kan ban del sprint seleccionado
     USs = []
+    ruta = request.path.index("tipo")
     for i in User_Story.objects.filter(idSprint = id_sprint):
         if not i.tipo in USs:
             USs.append(i.tipo)
     context = {
-        'ruta': request.path[-2],
+        'ruta': request.path[ruta+5:-1],
         'proyecto_id': id,
         'uss': us,
         'sprint' : id_sprint,
@@ -718,13 +773,12 @@ def mostrarKanban(request, id, id_sprint, id_tipo):
 # Cambiar el estado del us dentro del tablero kan ban 
 
 def cambiarEstadoUS(request, id, id_sprint, estado, id_us):
-    estados = {
-        'P' : 'EP',
-        'EP' : 'H',
-        'H' : 'C'
-    }
+
     us= User_Story.objects.get(id=id_us) # id del us para cambiar el estado
-    us.estado = estados.get(estado) # asignar nuevo estado
+    estado = us.estado
+    tipo = us.tipo.estado.split(', ')
+    sig_estado = tipo[tipo.index(estado) + 1]
+    us.estado = sig_estado# asignar nuevo estado
     us.save() # guardar cambios
     return redirect('mostrarKanban', id, id_sprint, us.tipo.id)
 
@@ -771,9 +825,33 @@ def listarTareas(request, id, id_sprint, id_us):
     tareas = Tarea.objects.filter(idUs = id_us)
     context = {
         'idproyecto': id,
-        'us': id_us,
+        'us': User_Story.objects.get(id=id_us),
         'sprint': id_sprint,
         'tareas': tareas,
         'tipo': User_Story.objects.get(id=id_us).tipo.id
     }
     return render(request, 'Proyect_Agile/US/listarTareas.html', context)
+
+def revisionUs(request, id):
+    us = User_Story.objects.filter(idproyecto=id, estado='Hecho')
+    proyecto = Proyecto.objects.get(id=id)
+    scrum = False 
+    if request.user == proyecto.scrumMaster:
+        scrum = True
+    context = {
+        'us': us,
+        'proyecto_id': id,
+        'scrum': scrum
+    }
+    return render(request, 'Proyect_Agile/US/revisionUs.html', context)
+
+def decisionScrumUS(request, id, opcion, id_us):
+    if opcion == '1':
+        us = User_Story.objects.get(id=id_us)
+        us.estado = 'Finalizado'
+        us.save()
+    else:
+        us = User_Story.objects.get(id=id_us)
+        us.estado = 'Cancelado'
+        us.save()
+    return redirect('revisionUs', id)

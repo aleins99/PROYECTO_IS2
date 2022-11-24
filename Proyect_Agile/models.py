@@ -98,7 +98,7 @@ class TipoUS(models.Model):
 # Modelo para los us primitivos ( que aun no se agregan al sprint backlog )
 class User_Story(models.Model):
     estimacion = models.FloatField(blank=True, null=True, max_length=20)  # Estimacion en horas
-
+    estado = models.CharField(max_length=30, default="N")
     # miembroSM = models.ForeignKey(miembros, on_delete=models.RESTRICT)
     idSprint = models.ForeignKey('Sprint', on_delete=models.RESTRICT,blank=True, null=True)  # Debe pertenecer a un sprintPlanning#o idSprint
     idproyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT, null=True)

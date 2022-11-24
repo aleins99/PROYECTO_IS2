@@ -78,9 +78,10 @@
     {% endif %}
 
     {% if not crear  %}
-        <p>¡¡¡¡ATENCION!!!! Finalice su sprint antes de Iniciar otro</p>
-
+        <p>¡¡¡¡ATENCION!!!! No puede crear otro Sprint porque ya tiene un Sprint en Planificación y otro En Ejecución</p>
     {% endif %}
-
+    {% if error != ""%}
+        <p>{{error}}</p>
+    {%endif%}
 
 {% endblock %}

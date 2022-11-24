@@ -15,8 +15,6 @@
         </ul>
     </div>
         <div class="bg-dark border rounded border-dark ">
-
-
             <table class="table table-dark table-hover table-bordered border-muted">
                 <thead class="thead-dark">
                 <tr>
@@ -30,7 +28,7 @@
                 <tbody>
                     {% for us in uss %}
                         <tr>
-                            {% if us.estado == 'P' or us.estado == 'PP' or us.estado == 'N' %}
+                            {% if us.estado == 'Por hacer' %}
                                 <td> {{ us.nombre}} <br> Encargado:{{us.miembroEncargado}} <a href="{% url 'cambiarEstadoUS' proyecto_id sprint us.estado us.id %}"
                                         title="Cambiar Estado"
                                         type="button"
@@ -41,7 +39,7 @@
                                 <td> </td>
                                 <td> </td>
                                 <td> </td>
-                            {% elif us.estado == 'EP' %}
+                            {% elif us.estado == 'En Proceso' %}
                                 <td> </td>
                                 <td>{{ us.nombre }} <br>Encargado:{{us.miembroEncargado}}<br> Capacidad:{{ us.estimacion }}<a href="{% url 'cambiarEstadoUS' proyecto_id sprint us.estado us.id %}"
                                         title="Cambiar Estado"
@@ -50,7 +48,7 @@
                                     <a href="{% url 'listarTareas' proyecto_id sprint us.id %}">TAREAS</a> </td>
                                 <td> </td>
                                 <td> </td>
-                            {% elif us.estado == 'H' %}
+                            {% elif us.estado == 'Hecho' %}
                                 <td> </td>
                                 <td> </td>
                                 <td> {{ us.nombre }} <br>Encargado:{{us.miembroEncargado}}<br> Capacidad:{{ us.estimacion }} <br><a href="{% url 'listarTareas' proyecto_id sprint us.id %}">TAREAS</a></td>

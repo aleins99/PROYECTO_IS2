@@ -21,9 +21,9 @@
                         <li class="nav-item">
                             <a class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/roles/'%}active{%endif%}" href="{% url 'rolproyecto' proyecto.id %}">Roles</a>
                         </li>
-                         <li class="nav-item">
-                             <a class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/tipoUS/'%}active{%endif%}" href="{% url 'listarTipoUS' proyecto.id %}">Tipo US</a>
-                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/tipoUS/'%}active{%endif%}" href="{% url 'listarTipoUS' proyecto.id %}">Tipo US</a>
+                        </li>
                         {% if proyecto.estado == 'E' or proyecto.estado == 'C'%}
 
 
@@ -41,6 +41,11 @@
                             <li class="nav-item">
                                 <a class="nav-link">Historial</a>
                             </li>
+                            {% if scrum%}
+                                <li class="nav-item">
+                                    <a class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/revisionUs/'%}active{%endif%}" href="{% url 'revisionUs' proyecto.id %}">Revision de US</a>
+                                </li>
+                            {%endif%}
                         {%endif%}
                         </ul>
                     </div>
