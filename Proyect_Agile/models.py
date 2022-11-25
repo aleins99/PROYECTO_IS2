@@ -37,7 +37,8 @@ class Miembro(models.Model):
     horasDisponibles = models.IntegerField(default=0, blank=True, null=True)
 
     def __str__(self):
-        return self.usuario.first_name
+        # return usuario correo
+        return self.usuario.username
 
 
 # Modelo para los roles dentro de un proyecto en especifico

@@ -70,10 +70,12 @@
  </tbody>
 </table>
 
-    {% if permisos|get_item:'agregarMiembro' %}
+    {% if permisos|get_item:'agregarMiembro' and not error %}
         <div class="mb-3">
             <a class="btn btn-primary" href="{% url 'listarUsuarios' proyecto.id %}" > Agregar Miembro </a>
         </div>
+    {%elif scrum and error%}
+      <p>ATENCIÓN!!Necesita crear roles para poder asignarlos a los miembros</p>
     {% endif %}
 
 {% endblock %}

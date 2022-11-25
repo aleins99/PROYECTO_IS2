@@ -29,7 +29,7 @@
                     {% for us in uss %}
                         <tr>
                             {% if us.estado == 'Por hacer' %}
-                                <td> {{ us.nombre}} <br> Encargado:{{us.miembroEncargado}} {% if us.miembroEncargado.usuario == usuario%} <a href="{% url 'cambiarEstadoUS' proyecto_id sprint us.estado us.id %}"
+                                <td> {{ us.nombre}} <br> Encargado:{{us.miembroEncargado}} {% if us.miembroEncargado.usuario == usuario and us|tarea%} <a href="{% url 'cambiarEstadoUS' proyecto_id sprint us.estado us.id %}"
                                         title="Cambiar Estado"
                                         type="button"
                                         class="btn btn-primary"
@@ -39,9 +39,10 @@
                                 <td> </td>
                                 <td> </td>
                                 <td> </td>
+                                <td> </td>
                             {% elif us.estado == 'En Proceso' %}
                                 <td> </td>
-                                <td>{{ us.nombre }} <br>Encargado:{{us.miembroEncargado}}<br> Capacidad:{{ us.estimacion }}{% if us.miembroEncargado.usuario == usuario%} <a href="{% url 'cambiarEstadoUS' proyecto_id sprint us.estado us.id %}"
+                                <td>{{ us.nombre }} <br>Encargado:{{us.miembroEncargado}}<br> Capacidad:{{ us.estimacion }}{% if us.miembroEncargado.usuario == usuario %} <a href="{% url 'cambiarEstadoUS' proyecto_id sprint us.estado us.id %}"
                                     title="Cambiar Estado"
                                     type="button"
                                     class="btn btn-primary"
@@ -59,7 +60,6 @@
                                 <td> </td>
                                 <td> </td>
                                 <td> {{ us.nombre }} <br>Encargado:{{us.miembroEncargado}}<br> Capacidad:{{ us.estimacion }} <br><a href="{% url 'listarTareas' proyecto_id us.id %}">TAREAS</a></td>
-
                             {% endif %}
 
                         </tr>

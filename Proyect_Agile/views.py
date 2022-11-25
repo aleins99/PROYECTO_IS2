@@ -31,7 +31,14 @@ estados_Proyecto = {
     'C':'Cancelado',
     'F':'Finalizado',
 }
-
+@register.filter
+def tarea(us):
+    tareas = Tarea.objects.filter(idUs=us)
+    if tareas:
+        print("true")
+        return True
+    print("false")
+    return False
 @register.filter
 def idtipo(idsprint):
         # get the us of the sprint with estado != F
@@ -212,13 +219,15 @@ def miembrosProyecto(request, id):
     rol = Rol.objects.filter(idProyecto=id, nombre="Scrum Master").first()
     listaMiembros = Miembro.objects.filter(idproyecto=proyecto).exclude(idrol=rol)
     usuario = request.user
-    scrum= False
-
+    scrum= False    
+    error = True
     if request.user == proyecto.scrumMaster:
         scrum = True
-
+    if scrum and Rol.objects.filter(idProyecto=id).count() > 1:
+        error = False
     permisosMiembro = obtenerPermisos(id, request.user)
     context = {
+        'error': error,
         'proyecto':proyecto,
         'estados': estados_Proyecto,
         'proyecto_id':id,
@@ -340,10 +349,13 @@ def verRolProyecto(request, id):
     proyecto = Proyecto.objects.get(id=id)
     usuario = request.user
     roles = Rol.objects.filter(idProyecto=proyecto)
-
+    scrum = False
+    if request.user == proyecto.scrumMaster:
+        scrum = True
     context = {
         'roles': roles,
         'proyecto': proyecto,
+        'scrum': scrum,
         'usuario': usuario,
         'estados': estados_Proyecto,
         'proyecto_id': id,
@@ -379,10 +391,16 @@ class editarRol(UpdateView):
 @permisoVista(permiso="crearRol")
 def listarRolesProyecto(request, id):
     proyectos = Proyecto.objects.exclude(id=id)
+    proyecto = Proyecto.objects.get(id=id)
+    scrum = False
+    if request.user == proyecto.scrumMaster:
+        scrum = True
     context = {
         'proyectos': proyectos,
         'estados': estados_Proyecto,
         'idproyecto': id,
+        'scrum':scrum,
+        'usuario': request.user,
         'flag': 0,
     }
     return render(request,'Proyect_Agile/Rol/listarProyectoRol.html',context)
@@ -407,7 +425,11 @@ def tipoUSProyecto(request, id):
     proyecto = get_object_or_404(Proyecto, pk=id)
     tipoUS = TipoUS.objects.filter(idproyecto=proyecto)
     permisosMiembro = obtenerPermisos(id, request.user)
+    scrum = False
+    if request.user == proyecto.scrumMaster:
+        scrum = True
     context = {
+        'scrum': scrum,
         'proyecto':proyecto,
         'estados': estados_Proyecto,
         'tiposUS':tipoUS,
@@ -475,8 +497,11 @@ def verListaUS(request, id):
             u.prioridad = 0
             u.save()
     us = User_Story.objects.filter(idproyecto=proyecto).order_by('-prioridad')
-
+    scrum = False
+    if request.user == proyecto.scrumMaster:
+        scrum = True
     context = {
+        'scrum': scrum,
         'USs': us,
         'proyecto': proyecto,
         'usuario': usuario,
@@ -707,7 +732,7 @@ def finalizarSprint(request,id, id_sprint):
     sprint = Sprint.objects.get(id=id_sprint) # tomar el sprint seleccionado
     sprint.estado = 'F' # estado de finalizado
     sprint.save() # guardar el estado
-    planning = User_Story.objects.filter(idSprint=id_sprint, estado__in=['Por hacer', 'En Ṕroceso'] )
+    planning = User_Story.objects.filter(idSprint=id_sprint, estado__in=['Por hacer', 'En Ṕroceso','Cancelado'] )
     for us in planning:
         UP = us.UP
         BV = us.BV
@@ -796,10 +821,15 @@ def crearTarea(request, id, id_us):
 
 def listarTareas(request, id, id_us):
     tareas = Tarea.objects.filter(idUs = id_us)
+    proyecto = Proyecto.objects.get(id = id)
+    scrum = False
+    if proyecto.scrumMaster == request.user:
+        scrum= True
     context = {
         'idproyecto': id,
+        'scrum': scrum,
         'us': User_Story.objects.get(id=id_us),
-
+        'usuario': request.user,
         'tareas': tareas,
         'tipo': User_Story.objects.get(id=id_us).tipo.id
     }
@@ -813,6 +843,7 @@ def revisionUs(request, id):
         scrum = True
     context = {
         'USs': us,
+        'proyecto': proyecto,
         'proyecto_id': id,
         'scrum': scrum,
         'usuario': request.user,
@@ -826,6 +857,9 @@ def decisionScrumUS(request, id, opcion, id_us):
         us.save()
     else:
         us = User_Story.objects.get(id=id_us)
+        UP = us.UP
+        BV = us.BV
+        us.prioridad = ((0.6 * BV + 0.4 * UP) / 2) + 3
         us.estado = 'Cancelado'
         us.save()
     return redirect('revisionUs', id)

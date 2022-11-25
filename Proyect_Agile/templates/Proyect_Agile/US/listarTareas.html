@@ -29,11 +29,14 @@
 
 
             </table>
-            {%if sprint != 0%}
-                <a href="{% url 'mostrarKanban' idproyecto us.idSprint.id tipo %}" type="button" class="btn btn-primary ml-1">Volver al Tablero</a>
+            {%if scrum and us.estado == "Hecho"%}
+                <a  type="button" class="btn btn-primary ml-1" href="{%url 'revisionUs' idproyecto%}">Ir a la Revision del US</a>
             {%endif%}
-            {%if us.estado == "Por hacer" or us.estado == "En Proceso" and us.estimacion > 0 %}
+            <a href="{% url 'mostrarKanban' idproyecto us.idSprint.id tipo %}" type="button" class="btn btn-primary ml-1">Ir al Tablero</a>
+            {%if us.estado == "Por hacer" or us.estado == "En Proceso" %}
+                {%if us.miembroEncargado.usuario == usuario %}
                 <a href="{% url 'crearTarea' idproyecto us.id %}" type="button" class="btn btn-primary ml-1">Agregar Tarea</a>
+                {%endif%}
             {%endif%}    
         </div>
     </div>
