@@ -65,10 +65,12 @@ def has_group(user,groupname):
 def get_at_index(list, index):
     return list[index]
 
+
 @register.filter
 def get_item(dictionary, key):
     return dictionary[key]
 
+# comprueba si el miembro es parte del proyecto en cuestion
 @register.filter
 def esMiembroEnProyecto(element, idProyecto):
     user = User.objects.get(email__icontains=element.extra_data['email'])
@@ -795,6 +797,7 @@ def quitarUSsprint(request, id, id_sprint, id_us):
 
     return redirect('listarPlanningPoker', id, id_sprint)
 
+# crear tareas para un us 
 def crearTarea(request, id, id_us):
     if request.method == 'POST':
         form = FormTarea(request.POST)
@@ -820,7 +823,7 @@ def crearTarea(request, id, id_us):
             'idproyecto': id
         }
         return render(request, 'Proyect_Agile/US/crearTarea.html', context)
-
+# listar las tareas de un us 
 def listarTareas(request, id, id_us):
     tareas = Tarea.objects.filter(idUs = id_us)
     proyecto = Proyecto.objects.get(id = id)
@@ -837,6 +840,8 @@ def listarTareas(request, id, id_us):
     }
     return render(request, 'Proyect_Agile/US/listarTareas.html', context)
 
+
+# revision del us , el scrum master debe aprobar el us para que su estado pase a finalizado
 def revisionUs(request, id):
     us = User_Story.objects.filter(idproyecto=id, estado='Hecho')
     proyecto = Proyecto.objects.get(id=id)
@@ -852,6 +857,7 @@ def revisionUs(request, id):
     }
     return render(request, 'Proyect_Agile/US/revisionUs.html', context)
 
+# comprueba la descicion del scrum para cancelar o aprovar el us
 def decisionScrumUS(request, id, opcion, id_us):
     if opcion == '1':
         us = User_Story.objects.get(id=id_us)
@@ -866,7 +872,7 @@ def decisionScrumUS(request, id, opcion, id_us):
         us.save()
     return redirect('revisionUs', id)
 
-
+# cambia el encargado de un us en un sprint
 def cambiarEncargado(request, id, id_sprint, id_miembro):
     if request.method == "POST":
         form = FormCambiarEncargado(request.POST)

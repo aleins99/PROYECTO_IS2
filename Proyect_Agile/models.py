@@ -139,7 +139,7 @@ class Sprint(models.Model):
 # Se trata de un modelo para los us que van a pasar al sprint backlog
 
 
-# Modelo para las tareas , no implementado para la iteracion 5 
+# Modelo para las tareas 
 class Tarea(models.Model):
     idUs = models.ForeignKey(User_Story, on_delete=models.RESTRICT)
     nombre= models.TextField(blank=False)

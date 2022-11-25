@@ -75,9 +75,15 @@ urlpatterns = [
     path('Proyecto/<id>/Sprint/<id_sprint>/kanban/<estado>/estados/<id_us>/', views.cambiarEstadoUS, name='cambiarEstadoUS'),
     # vista para el cambio de estado dentro del tablero kan ban
     path('Proyecto/<id>/Sprint/<id_sprint>/us/<id_us>/quitar/',views.quitarUSsprint, name='quitarUSsprint'),
+    # vista para quitar un us del kan ban
     path('Proyecto/<id>/us/<id_us>/tareas/',views.listarTareas, name='listarTareas'),
+    # vista para listar las tareas de un us dentro de un sprint
     path('Proyecto/<id>/us/<id_us>/tareas/crearTarea/',views.crearTarea, name='crearTarea'),
+    # vista para crear una tarea para un us
     path('Proyecto/<id>/revisionUs/',views.revisionUs,name='revisionUs'),
+    # vista para la revision de un us como scrum master , el scrum master debe aprobar el us o cancelarlo
     path('Proyecto/<id>/Sprint/<id_sprint>/cambiarEncargardo/<id_miembro>/', views.cambiarEncargado, name="cambiarEncargado") ,
+    # vista para cambiar el encargado de un us en un sprint , todos los us a los que pertenecia se reasignan al nuevo encargado
     path('Proyecto/<id>/decision/<opcion>/us/<id_us>/', views.decisionScrumUS, name= 'decisionUS'),
+    # vista para la aprobacion del us o su cancelacion
 ]

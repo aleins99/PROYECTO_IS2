@@ -214,6 +214,7 @@ class formCrearPlanningPoker(forms.ModelForm):
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
 
+# formulario para la creacion de tareas
 class FormTarea(forms.ModelForm):
 
     def clean(self):
@@ -251,6 +252,7 @@ class FormTarea(forms.ModelForm):
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
 
+# form para cambiar el encargado de un us dentro de un sprint
 class FormCambiarEncargado(forms.ModelForm):
     class Meta:
         model = User_Story
