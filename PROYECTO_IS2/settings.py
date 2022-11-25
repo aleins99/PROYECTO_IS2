@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'PROYECTO_IS2.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'agileproject',
+        'NAME': 'producciondb',
         'USER': 'usuario',
         'PASSWORD': 'admin',
         'HOST': 'localhost',

@@ -16,7 +16,9 @@ if [ "$1" = "-t" ]; then
 	DB_NAME="producciondb"
 	DB_FILE_NAME="desarrollo.sql"
 
-	#psql -h localhost -p 5432  -U usuario $DB_NAME < $DB_FILE_NAME	 # poblar BD
+	echo "Poblando Base de Datos"
 
-	python3 manage.py runserver
+	psql -h localhost -p 5432  -U usuario $DB_NAME < $DB_FILE_NAME	 # poblar BD
+	python3 manage.py migrate
+	python3 manage.py runserver 8080 
 fi
