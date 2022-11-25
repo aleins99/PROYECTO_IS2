@@ -646,7 +646,9 @@ def agregarUs_para_Sprint(request,id,id_us,id_sprint,estimacion):
             return redirect('listarPlanningPoker', id, id_sprint)
         else:
             form = formCrearPlanningPoker(request.POST or None)
-            form.fields["miembroEncargado"].queryset = Miembro.objects.filter(idproyecto=id)
+            # get all the members of the project except the scrum master
+            miembros = Miembro.objects.filter(idproyecto=id).exclude(usuario=proyecto.scrumMaster)
+            form.fields["miembroEncargado"].queryset = Miembro.objects.filter(idproyecto=id).exclude(usuario=proyecto.scrumMaster)
             context = {
                 'form': form,
 
