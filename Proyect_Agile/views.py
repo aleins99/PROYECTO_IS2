@@ -577,8 +577,8 @@ def crearSprint(request, id):
 # Muestra los us que se pueden agregar al sprint backlog
 
 def listarUS_para_Sprint(request,id,id_sprint):
-    USs = User_Story.objects.filter(idproyecto=id, estado='N').order_by('-prioridad') | User_Story.objects.filter(idproyecto=id, estado='STSA').order_by('-prioridad')
-
+    #USs = User_Story.objects.filter(idproyecto=id, estado='N').order_by('-prioridad') | User_Story.objects.filter(idproyecto=id, estado='STSA').order_by('-prioridad') | User_Story.objects.filter(idproyecto=id, estado='Cancelado').order_by('-prioridad')
+    USs = User_Story.objects.filter(idproyecto= id, estado__in=['N','STSA','Cancelado']).order_by('-prioridad')
     context = {
         'USs': USs,
         'proyecto_id' : id,
@@ -768,18 +768,18 @@ def quitarUSsprint(request, id, id_sprint, id_us):
 
     return redirect('listarPlanningPoker', id, id_sprint)
 
-def crearTarea(request, id, id_sprint, id_us):
+def crearTarea(request, id, id_us):
     if request.method == 'POST':
         form = FormTarea(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('listarTareas',id, id_sprint, id_us)
+            return redirect('listarTareas',id, id_us)
         else:
             form = FormTarea(request.POST or None)
             context = {
                 'form': form,
-                'us': id_us,
-                'sprint': id_sprint,
+                'us': User_Story.objects.get(id=id_us),
+
                 'idproyecto': id
             }
             return render(request, 'Proyect_Agile/US/crearTarea.html', context)
@@ -788,18 +788,18 @@ def crearTarea(request, id, id_sprint, id_us):
         form.fields['idUs'].initial = id_us
         context = {
             'form': form,
-            'us': id_us,
-            'sprint': id_sprint,
+            'us': User_Story.objects.get(id=id_us),
+
             'idproyecto': id
         }
         return render(request, 'Proyect_Agile/US/crearTarea.html', context)
 
-def listarTareas(request, id, id_sprint, id_us):
+def listarTareas(request, id, id_us):
     tareas = Tarea.objects.filter(idUs = id_us)
     context = {
         'idproyecto': id,
         'us': User_Story.objects.get(id=id_us),
-        'sprint': id_sprint,
+
         'tareas': tareas,
         'tipo': User_Story.objects.get(id=id_us).tipo.id
     }
@@ -844,7 +844,12 @@ def cambiarEncargado(request, id, id_sprint, id_miembro):
 
     else:
         form = FormCambiarEncargado()
-        form.fields["miembroEncargado"].queryset = User_Story.objects.filter(idSprint=id_sprint).exclude(miembroEncargado=id_miembro)
+        miembros = []
+        USs = User_Story.objects.filter(idSprint=id_sprint).exclude(miembroEncargado=id_miembro)
+        for us in USs:
+            miembros.append(us.miembroEncargado.id)
+
+        form.fields["miembroEncargado"].queryset = Miembro.objects.filter(id__in=miembros)
         context = {
             'form': form,
             'proyecto_id': id,

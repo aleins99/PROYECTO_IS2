@@ -6,14 +6,14 @@
 
     <br/>
 
-    <h1>Lista de proyectos</h1>
+    <h1>Revisión de User Stories</h1>
 
     <table class="table table-dark table-hover table-bordered border-muted">
 
         <thead>
           <tr>
               <th scope="col">Nombre</th>
-              <th scope="col">Tareas</th>
+              <th scope="col">Lista de Tareas</th>
               <th scope="col" colspan="2">Acción</th>
           </tr>
         </thead>
@@ -21,9 +21,11 @@
         {% for us in USs %}
 
                 <tr>
-                    <td> us.nombre </td>
-                    <td> <a href="{%  %}"></a></td>
-                    
+                    <td> {{ us.nombre }} </td>
+                    <td> <a href="{% url 'listarTareas' proyecto_id us.id %}"> Tareas del US </a></td>
+                    <td><a href="{% url 'decisionUS' proyecto_id 1 us.id %}"> Aprobar </a> </td>
+                    <td><a href="{% url 'decisionUS' proyecto_id 0 us.id %}"> Rechazar </a> </td>
+
                 </tr>
 
             {% endfor %}

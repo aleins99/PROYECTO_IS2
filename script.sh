@@ -11,12 +11,12 @@ cd Desktop/IS2/PROYECTO_IS2/
 if [ "$1" = "-t" ]; then
 
 	git fetch
-	git checkout $2
+	#git checkout $2
 
 	DB_NAME="producciondb"
 	DB_FILE_NAME="desarrollo.sql"
 
-	psql -h localhost -p 5432  -U usuario $DB_NAME < $DB_FILE_NAME	 # poblar BD
+	#psql -h localhost -p 5432  -U usuario $DB_NAME < $DB_FILE_NAME	 # poblar BD
 
 	python3 manage.py runserver
 fi

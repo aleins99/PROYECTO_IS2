@@ -34,7 +34,7 @@
                                         type="button"
                                         class="btn btn-primary"
                                         style="margin-left: 15px;">=></a> {%endif%} <br>Capacidad:{{ us.estimacion }} <br>
-                                    <a href="{% url 'listarTareas' proyecto_id sprint us.id %}">TAREAS</a</td>
+                                    <a href="{% url 'listarTareas' proyecto_id  us.id %}">TAREAS</a</td>
                                         
                                 <td> </td>
                                 <td> </td>
@@ -46,14 +46,20 @@
                                     type="button"
                                     class="btn btn-primary"
                                     style="margin-left: 15px;">=></a> {%endif%}  <br>
-                                    <a href="{% url 'listarTareas' proyecto_id sprint us.id %}">TAREAS</a> </td>
+                                    <a href="{% url 'listarTareas' proyecto_id  us.id %}">TAREAS</a> </td>
                                 <td> </td>
                                 <td> </td>
                             {% elif us.estado == 'Hecho' %}
                                 <td> </td>
                                 <td> </td>
-                                <td> {{ us.nombre }} <br>Encargado:{{us.miembroEncargado}}<br> Capacidad:{{ us.estimacion }} <br><a href="{% url 'listarTareas' proyecto_id sprint us.id %}">TAREAS</a></td>
+                                <td> {{ us.nombre }} <br>Encargado:{{us.miembroEncargado}}<br> Capacidad:{{ us.estimacion }} <br><a href="{% url 'listarTareas' proyecto_id us.id %}">TAREAS</a></td>
                                 <td> </td>
+                            {% elif us.estado == 'Finalizado' %}
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                                <td> {{ us.nombre }} <br>Encargado:{{us.miembroEncargado}}<br> Capacidad:{{ us.estimacion }} <br><a href="{% url 'listarTareas' proyecto_id us.id %}">TAREAS</a></td>
+
                             {% endif %}
 
                         </tr>
