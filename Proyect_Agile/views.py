@@ -731,6 +731,7 @@ def mostrarKanban(request, id, id_sprint, id_tipo):
     for i in User_Story.objects.filter(idSprint = id_sprint):
         if not i.tipo in USs:
             USs.append(i.tipo)
+    
     context = {
         'ruta': request.path[ruta+5:-1],
         'proyecto_id': id,
@@ -738,7 +739,7 @@ def mostrarKanban(request, id, id_sprint, id_tipo):
         'sprint' : id_sprint,
         'tipo' : estados,
         'tipos' : USs,
-
+        'usuario': request.user,
     }
     return render(request, 'Proyect_Agile/Sprint/kanban.html', context)
 
