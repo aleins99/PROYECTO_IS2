@@ -25,14 +25,13 @@
                             <td> {{ tarea.duracion }} </td>
                         </tr>
                     {% endfor %}
-
-
                 </tbody>
 
 
             </table>
-
-            <a href="{% url 'mostrarKanban' idproyecto sprint tipo %}" type="button" class="btn btn-primary ml-1">Volver al Tablero</a>
+            {%if sprint != 0%}
+                <a href="{% url 'mostrarKanban' idproyecto sprint tipo %}" type="button" class="btn btn-primary ml-1">Volver al Tablero</a>
+            {%endif%}
             {%if us.estado == "Por hacer" or us.estado == "En Proceso" and us.estimacion > 0 %}
                 <a href="{% url 'crearTarea' idproyecto sprint us.id %}" type="button" class="btn btn-primary ml-1">Agregar Tarea</a>
             {%endif%}    

@@ -9,6 +9,7 @@
      <th scope="col">Correo</th>
      <th scope="col">Carga Horaria</th>
      <th scope="col">Horas Disponibles</th>
+     <th scope="col">Acción</th>
 
  </tr>
 
@@ -23,7 +24,7 @@
                  <td>{{ miembro.usuario.email }}</td>
                  <td>{{ miembro.cargahoraria }}</td>
                  <td>{{ miembro.horasDisponibles }}</td>
-
+                 <td><a href="{% url 'cambiarEncargado' proyecto_id id_sprint miembro.id%}">Cambiar Encargado</a></td>
 
              </tr>
          {% endif %}

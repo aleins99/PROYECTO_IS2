@@ -38,7 +38,7 @@
                             {% csrf_token %}
                             <div class="btn-group" style="display:flex; gap: 10px;">
                                 {% if sprint.estado == 'P' %}
-                                    {% if permisos|get_item:'empezarSprint' %}
+                                    {% if permisos|get_item:'empezarSprint' and iniciar %}
                                         <a href="{% url 'iniciarSprint' proyecto_id sprint.id %}"
                                         title="Ver"
                                         type="button"
@@ -80,8 +80,6 @@
     {% if not crear  %}
         <p>¡¡¡¡ATENCION!!!! No puede crear otro Sprint porque ya tiene un Sprint en Planificación y otro En Ejecución</p>
     {% endif %}
-    {% if error != ""%}
-        <p>{{error}}</p>
-    {%endif%}
+    
 
 {% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'account/base.html' %}
+
+{% block content %}
+
+    <h1>Bienvenido : {{ usuario.first_name }} {{ usuario.last_name }}</h1>
+
+    <br/>
+
+    <h1>Lista de proyectos</h1>
+
+    <table class="table table-dark table-hover table-bordered border-muted">
+
+        <thead>
+          <tr>
+              <th scope="col">Nombre</th>
+              <th scope="col">Tareas</th>
+              <th scope="col" colspan="2">Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for us in USs %}
+
+                <tr>
+                    <td> us.nombre </td>
+                    <td> <a href="{%  %}"></a></td>
+                    
+                </tr>
+
+            {% endfor %}
+
+
+
+        </tbody>
+    </table>
+
+    {% if Administrador %}
+
+     <div class="mb-3">
+         <a class="btn btn-primary" href="{% url 'crearproyecto' %}">Crear Proyecto</a>
+     </div>
+    {% endif %}
+{% endblock %}

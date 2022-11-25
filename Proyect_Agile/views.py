@@ -37,7 +37,8 @@ def idtipo(idsprint):
         # get the us of the sprint with estado != F
     if idsprint.estado != 'F':
         us = User_Story.objects.filter(idSprint=idsprint).first()
-        return us.tipo.id
+        if us:
+            return us.tipo.id
     return 1
 
 @register.filter
@@ -515,6 +516,10 @@ def importarTipoUS(request, id, idproyecto):
 # Muestra el listado de sprints del proyecto
 
 def verSprint(request, id):
+    iniciar = True
+    if Sprint.objects.filter(idproyecto=id, estado="E").exists():
+        # throw error
+        iniciar = False
     sprint = Sprint.objects.filter(idproyecto= id)
     proyecto = Proyecto.objects.get(id=id)
     usuario = request.user
@@ -524,11 +529,11 @@ def verSprint(request, id):
         scrum = True
 
     if Sprint.objects.filter(idproyecto= id,estado='E').exists() and Sprint.objects.filter(idproyecto= id,estado='P').exists() :
-        ban= False
+        ban = False
     context = {
         'proyecto': proyecto,
         'crear' : ban,
-        'error': "",
+        'iniciar': iniciar,
         'scrum': scrum,
         'sprints' : sprint,
         'usuario': usuario,
@@ -664,6 +669,7 @@ def listaMiembroSprint(request, id, id_sprint):
     context = {
         'miembros' : miembros,
         'proyecto_id' : id,
+        'id_sprint': id_sprint
     }
     return render(request, 'Proyect_Agile/Sprint/mostrarMiembrosSprint.html', context, None, 200)
 
@@ -684,24 +690,6 @@ def listarPlanningPoker(request, id, id_sprint):
 # inicia el sprint del proyecto
 
 def iniciarSprint(request,id, id_sprint):
-    
-    if Sprint.objects.filter(idproyecto=id, estado="E").exists() or not User_Story.objects.filter(idSprint=id_sprint, estado="Por hacer").exists():
-        # throw error
-        sprint = Sprint.objects.filter(idproyecto= id)
-        proyecto = Proyecto.objects.get(id=id)
-        usuario = request.user
-        ban = False
-        context = {
-        'proyecto': proyecto,
-        'crear' : ban,
-        'error': "¡¡¡¡ATENCION!!!! Para poner iniciar el Sprint finalize el anterior o compruebe si su Sprint contiene US",
-        'sprints' : sprint,
-        'usuario': usuario,
-        'estados': estados_Proyecto,
-        'proyecto_id': id,
-        'permisos': obtenerPermisos(id, request.user)
-        }
-        return render(request,'Proyect_Agile/Sprint/verSprint.html',context)
     sprint = Sprint.objects.get(id=id_sprint) # para iniciar el sprint seleccionado
     sprint.estado = 'E' # cambia el estado
     for us in User_Story.objects.filter(idSprint=id_sprint): # cambia el estado de los us dentro del sprint
@@ -716,26 +704,10 @@ def iniciarSprint(request,id, id_sprint):
 
 def finalizarSprint(request,id, id_sprint):
     #check if us of the sprint are in state "N" or "STSA" or "PP"
-    if User_Story.objects.filter(idSprint=id_sprint,estado__in=['Por hacer','En Proceso','Hecho']).exists():
-        sprint = Sprint.objects.filter(idproyecto= id)
-        proyecto = Proyecto.objects.get(id=id)
-        usuario = request.user
-        ban = False
-        context = {
-        'proyecto': proyecto,
-        'crear' : ban,
-        'error': "¡¡¡¡ATENCION!!!! Complete sus US para poder finalizar el Sprint",
-        'sprints' : sprint,
-        'usuario': usuario,
-        'estados': estados_Proyecto,
-        'proyecto_id': id,
-        'permisos': obtenerPermisos(id, request.user)
-        }
-        return render(request,'Proyect_Agile/Sprint/verSprint.html',context)
     sprint = Sprint.objects.get(id=id_sprint) # tomar el sprint seleccionado
     sprint.estado = 'F' # estado de finalizado
     sprint.save() # guardar el estado
-    planning = User_Story.objects.filter(idSprint=id_sprint, estado='Cancelado' )
+    planning = User_Story.objects.filter(idSprint=id_sprint, estado__in=['Por hacer', 'En Ṕroceso'] )
     for us in planning:
         UP = us.UP
         BV = us.BV
@@ -839,9 +811,10 @@ def revisionUs(request, id):
     if request.user == proyecto.scrumMaster:
         scrum = True
     context = {
-        'us': us,
+        'USs': us,
         'proyecto_id': id,
-        'scrum': scrum
+        'scrum': scrum,
+        'usuario': request.user,
     }
     return render(request, 'Proyect_Agile/US/revisionUs.html', context)
 
@@ -855,3 +828,25 @@ def decisionScrumUS(request, id, opcion, id_us):
         us.estado = 'Cancelado'
         us.save()
     return redirect('revisionUs', id)
+
+
+def cambiarEncargado(request, id, id_sprint, id_miembro):
+    if request.method == "POST":
+        form = FormCambiarEncargado(request.POST)
+        if form.is_valid():
+            uss = User_Story.objects.filter(idSprint=id_sprint, miembroEncargado=id_miembro)
+            miembro = form.cleaned_data['miembroEncargado']
+            for us in uss:
+                us.miembroEncargado = miembro
+                us.save()
+            return redirect('miembroSprint', id, id_sprint)
+
+    else:
+        form = FormCambiarEncargado()
+        form.fields["miembroEncargado"].queryset = User_Story.objects.filter(idSprint=id_sprint).exclude(miembroEncargado=id_miembro)
+        context = {
+            'form': form,
+            'proyecto_id': id,
+            'id_sprint': id_sprint
+        }
+        return render(request, 'Proyect_Agile/Sprint/cambiarEncargado.html', context)

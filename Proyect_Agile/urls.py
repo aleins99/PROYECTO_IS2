@@ -78,4 +78,5 @@ urlpatterns = [
     path('Proyecto/<id>/Sprint/<id_sprint>/us/<id_us>/tareas/',views.listarTareas, name='listarTareas'),
     path('Proyecto/<id>/Sprint/<id_sprint>/us/<id_us>/tareas/crearTarea/',views.crearTarea, name='crearTarea'),
     path('Proyecto/<id>/revisionUs/',views.revisionUs,name='revisionUs'),
+    path('Proyecto/<id>/Sprint/<id_sprint>/cambiarEncargardo/<id_miembro>/', views.cambiarEncargado, name="cambiarEncargado")    
 ]
