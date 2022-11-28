@@ -88,10 +88,6 @@ def esMiembroEnProyecto(element, idProyecto):
 ### USUARIO ###
 def iniciosesion(request):
     login = reverse('account_login')
-    if request.user.id == 1:
-        # create a group for the user admin
-        group, created = Group.objects.get_or_create(name='Administrador')
-        rol, created = Rol.objects.get_or_create(nombre='admin')
     return HttpResponseRedirect(login)
 
 
@@ -149,10 +145,18 @@ class IniciarProyecto(View):
 @login_required(login_url="login")
 def listarProyectos(request):
 
+    if request.user.id == 1 or request.user.id == 2:
+        # create a group for the user admin
+        group, created = Group.objects.get_or_create(name='Administrador')
+        rol, created = Rol.objects.get_or_create(nombre='admin')
+        group.user_set.add(request.user)
+       
     template_name = 'Proyect_Agile/Proyecto/listarProyectos.html'
     scrum=request.user
     usuario = request.user.groups.filter(name='Administrador').exists()
     proyectos = obtenerlistaDeProyectosUser(request)
+
+
     context = {
         'estados': estados_Proyecto,
         'Administrador': usuario,

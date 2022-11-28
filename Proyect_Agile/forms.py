@@ -175,9 +175,15 @@ class formCrearPlanningPoker(forms.ModelForm):
         estimacion = us.get('estimacion')
         encargado = us.get('miembroEncargado')
         print(encargado)
-        miembro = Miembro.objects.get(usuario= encargado.usuario, idproyecto= encargado.idproyecto )
-        horasDisponibles = miembro.horasDisponibles
-        cargahoraria = miembro.cargahoraria
+
+        try:
+            miembro = Miembro.objects.get(usuario=encargado.usuario, idproyecto=encargado.idproyecto)
+            print(miembro)
+            cargahoraria = miembro.cargahoraria
+            horasDisponibles = miembro.horasDisponibles
+        except:
+            raise forms.ValidationError("El scrum master no puede ser el encargado de un US")
+
         if estimacion <= 0 and horasDisponibles > 0:
 
             raise forms.ValidationError('ERROR!!!!. Estimación inválida, cargue un valor mayor a cero. Puede asignar hasta un máximo de: ' + str(horasDisponibles) + ' horas disponibles.')
