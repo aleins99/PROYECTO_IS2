@@ -52,7 +52,7 @@ class UserStoryForm(forms.ModelForm):
     class Meta:
         model = User_Story
         fields = ['idproyecto', 'historial', 'estado', 'prioridad', 'UP', 'BV', 'nombre', 'descripcion', 'comentarios', 'historial', 'tipo']
-        labels = {'idproyecto': '', 'historial': '', 'estado':''}
+        labels = {'idproyecto': '', 'historial': '', 'estado':'', 'prioridad':''}
         widgets = {
             'idproyecto': forms.HiddenInput(),
             'historial': forms.HiddenInput(),
