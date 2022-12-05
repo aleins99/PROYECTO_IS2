@@ -260,7 +260,14 @@ def formCrearMiembro(request, id, socialUserId):
             miembro1 = Miembro.objects.filter(idproyecto=id).last()
             miembro1.horasDisponibles = cargahoraria
             miembro1.save()
-        return redirect('miembrosproyecto', id)
+            return redirect('miembrosproyecto', id)
+        else:
+            context = {
+                'formMiembroProyecto': MiembroForm(request.POST or None),
+                'proyecto_id': id,
+                'Usuario': user,
+            }
+            return render(request, 'Proyect_Agile/Miembros/agregarMiembro.html', context, None, 200)
     else:
         if miembro:
             miembro.isActivo = True
@@ -471,6 +478,11 @@ def crearUser_Story(request,id):
         form =UserStoryForm(request.POST)
         if form.is_valid():
             form.save()
+        else:
+            context = {
+                'form': UserStoryForm(request.POST or None)
+            }
+            return render(request, 'Proyect_Agile/US/crearUS.html', context)
 
         planning = User_Story.objects.filter(idproyecto=id).last()
         UP = planning.UP
