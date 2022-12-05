@@ -52,7 +52,6 @@ urlpatterns = [
     # vista para importar tipos de us de otros proyectos
     path('Proyecto/<id>/tipoUS/importarTUS/', views.listarTUSproyectos, name='listarUSProyectos'),
     # vista para listar los us de un proyecto
-    path('home/documentacion/', views.verDocumentacion, name='documentacion'),
     # vista en donde se muestran la documentacion
     path('Proyecto/<id>/verSprint/', views.verSprint, name='verSprint'),
     # vista en donde se puede ver un sprint en especifico

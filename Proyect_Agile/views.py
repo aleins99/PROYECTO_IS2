@@ -161,7 +161,7 @@ def listarProyectos(request):
         'estados': estados_Proyecto,
         'Administrador': usuario,
         'proyectos': proyectos,
-        'usuario' : scrum
+        'usuario' : scrum,
     }
 
     return render(request, template_name, context)
@@ -417,13 +417,6 @@ def importarRol(request,id, idproyecto):
     rolImportado.save()
     return redirect('rolproyecto', id)
 
-
-### DOCUMENTACION ###
-def verDocumentacion(request):
-
-    context={}
-
-    return render(request,'Proyect_Agile/Docs/Documentacion_index.html',context)
 
 
 #### TIPO US ####

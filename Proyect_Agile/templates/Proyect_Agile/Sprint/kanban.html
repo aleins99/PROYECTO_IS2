@@ -1,6 +1,5 @@
 {% extends 'account/base.html' %}
 
-
 {% block content %}
 
     <div class="container mb-5">
@@ -15,62 +14,42 @@
         </ul>
     </div>
         <div class="bg-dark border rounded border-dark ">
-            <table class="table table-dark table-hover table-bordered border-muted">
-                <thead class="thead-dark">
-                <tr>
+           <div>
+                <ul class="d-flex" style="border: 1px solid gray; padding: 0 !important;" >
                     {% for estado in tipo %}
-
-                    <th scope="col">{{ estado }}</th>
+                        <li class="p-2" style="padding:0 !important;border-right: 1px solid gray;flex-basis: calc(100% / {{  tipo|length}})">
+                            <span>
+                                <h3 style="border-bottom: 1px solid #fff; text-align: center; padding: 5px;">{{ estado }}</h3>
+                            </span>
+                            <ul id="{{ estado }}-list" style="padding: 0;" >
+                                {%  for us in uss %}
+                                    {% if estado == us.estado %}
+                                        <li style="padding: 5px; border-bottom: 1px solid gray; margin-top: 8px;">{{ us.nombre }} <br>Encargado:{{us.miembroEncargado}}<br> Capacidad:{{ us.estimacion }}{% if us.miembroEncargado.usuario == usuario and us.estado != "Hecho"%}
+                                            <a href="{% url 'cambiarEstadoUS' proyecto_id sprint us.estado us.id %}"
+                                            title="Cambiar Estado"
+                                            type="button"
+                                            class="btn btn-primary"
+                                            style="margin-left: 15px;">=></a> {%endif%}  <br>
+                                            <a class="link-primary"href="{% url 'listarTareas' proyecto_id  us.id %}">TAREAS</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </li>
                     {% endfor %}
-                    <th scope="col">Finalizado</th>
-                </tr>
-                </thead>
-                <tbody>
-                    {% for us in uss %}
-                        <tr>
-                            {% if us.estado == 'Por hacer' %}
-                                <td> {{ us.nombre}} <br> Encargado:{{us.miembroEncargado}} {% if us.miembroEncargado.usuario == usuario and us|tarea%} <a href="{% url 'cambiarEstadoUS' proyecto_id sprint us.estado us.id %}"
-                                        title="Cambiar Estado"
-                                        type="button"
-                                        class="btn btn-primary"
-                                        style="margin-left: 15px;">=></a> {%endif%} <br>Capacidad:{{ us.estimacion }} <br>
-                                    <a href="{% url 'listarTareas' proyecto_id  us.id %}">TAREAS</a</td>
-                                        
-                                <td> </td>
-                                <td> </td>
-                                <td> </td>
-                                <td> </td>
-                            {% elif us.estado == 'En Proceso' %}
-                                <td> </td>
-                                <td>{{ us.nombre }} <br>Encargado:{{us.miembroEncargado}}<br> Capacidad:{{ us.estimacion }}{% if us.miembroEncargado.usuario == usuario %} <a href="{% url 'cambiarEstadoUS' proyecto_id sprint us.estado us.id %}"
-                                    title="Cambiar Estado"
-                                    type="button"
-                                    class="btn btn-primary"
-                                    style="margin-left: 15px;">=></a> {%endif%}  <br>
-                                    <a href="{% url 'listarTareas' proyecto_id  us.id %}">TAREAS</a> </td>
-                                <td> </td>
-                                <td> </td>
-                            {% elif us.estado == 'Hecho' %}
-                                <td> </td>
-                                <td> </td>
-                                <td> {{ us.nombre }} <br>Encargado:{{us.miembroEncargado}}<br> Capacidad:{{ us.estimacion }} <br><a href="{% url 'listarTareas' proyecto_id us.id %}">TAREAS</a></td>
-                                <td> </td>
-                            {% elif us.estado == 'Finalizado' %}
-                                <td> </td>
-                                <td> </td>
-                                <td> </td>
-                                <td> {{ us.nombre }} <br>Encargado:{{us.miembroEncargado}}<br> Capacidad:{{ us.estimacion }} <br><a href="{% url 'listarTareas' proyecto_id us.id %}">TAREAS</a></td>
-                            {% endif %}
+                </ul>
+           </div>
 
-                        </tr>
-                    {% endfor %}
-
-                </tbody>
-
-            </table>
-                    <a href="{% url 'verSprint' proyecto_id %}" type="button" class="btn btn-primary ml-1">Volver al Sprint</a>
-
-
+            <a href="{% url 'verSprint' proyecto_id %}" type="button" class="btn btn-primary ml-1">Volver al Sprint</a>
         </div>
     </div>
+    <script async>
+        let estados = []
+        let i = 0
+        {% for us in uss %}
+            estados[i] = "{{ us.estado }}"
+            i++;
+        {% endfor %}
+        console.log(estados)
+    </script>
 {% endblock %}
