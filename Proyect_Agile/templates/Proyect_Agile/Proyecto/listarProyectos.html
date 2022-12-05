@@ -16,7 +16,9 @@
             <th scope="col">Estado</th>
             <th scope="col">ScrumMaster</th>
             <th scope="col">Fecha Inicio</th>
-            <th scope="col">Acción</th>
+            {% if proyecto.scrumMaste == usuario %}
+                <th scope="col">Acción</th>
+            {% endif %}
 
 
 

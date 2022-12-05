@@ -902,3 +902,4 @@ def cambiarEncargado(request, id, id_sprint, id_miembro):
             'id_sprint': id_sprint
         }
         return render(request, 'Proyect_Agile/Sprint/cambiarEncargado.html', context)
+

@@ -6,7 +6,9 @@
  <tr>
      <th scope="col">Nombre</th>
      <th scope="col">Descripcion</th>
-     <th scope="col">Permisos</th>
+     {% if permisos|get_item:'modificarRol' %}
+        <th scope="col">Permisos</th>
+     {% endif %}
  </tr>
 
  </thead>

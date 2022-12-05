@@ -9,7 +9,9 @@
      <th scope="col">Tipo</th>
      <th scope="col">Prioridad</th>
      <th scope="col">Estado</th>
-     <th scope="col">Acción</th>
+     {% if permisos|get_item:'eliminarUserStory' or permisos|get_item:'modificarUserStory' %}
+        <th scope="col">Acción</th>
+     {% endif %}
 
 
  </tr>
@@ -18,28 +20,24 @@
  <tbody>
      {% for us in USs %}
          <tr>
-             <td>{{ us.nombre }}</td>
-             <td>{{ us.descripcion}}</td>
-             <td>{{ us.tipo}}</td>
-             <td>{{ us.prioridad}}</td>
-             <td>{{ us.estado}}</td>
-              {% if permisos|get_item:'modificarUserStory' %}
-
-                  <td class="text-center">
-                        <a href="{% url 'editarUS' proyecto.id us.id %}" class="btn btn-outline-primary ">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                      </td>
-
-              {% endif %}
+            <td>{{ us.nombre }}</td>
+            <td>{{ us.descripcion}}</td>
+            <td>{{ us.tipo}}</td>
+            <td>{{ us.prioridad}}</td>
+            <td>{{ us.estado}}</td>
+            {% if permisos|get_item:'modificarUserStory' %}
+                <td class="text-center">
+                    <a href="{% url 'editarUS' proyecto.id us.id %}" class="btn btn-outline-primary ">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                </td>
+            {% endif %}
          </tr>
-
      {% endfor %}
 
  </tbody>
 </table>
     {% if permisos|get_item:'agregarUserStory' %}
-
         <div class="mb-3">
             <a class="btn btn-primary" href="{% url 'crearUS' proyecto.id %}" > Crear User Story </a>
         </div>

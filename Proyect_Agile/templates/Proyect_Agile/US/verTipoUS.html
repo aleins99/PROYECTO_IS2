@@ -3,30 +3,34 @@
 <table class="table table-dark table-hover table-bordered border-muted">
 
  <thead>
- <tr>
-     <th scope="col">Nombre</th>
-     <th scope="col">Estados</th>
-     <th scope="col" colspan="2" class="text-center">Accion</th>
-
- </tr>
-
+     <tr>
+         <th scope="col">Nombre</th>
+         <th scope="col">Estados</th>
+         {% if permisos|get_item:'eliminarUserStory' or permisos|get_item:'modificarUserStory' %}
+            <th scope="col" colspan="2" class="text-center">Accion</th>
+        {% endif %}
+     </tr>
  </thead>
  <tbody>
-
-
-
      {% for verUS in tiposUS %}
          <tr>
             <td>{{ verUS.nombre }}</td>
             <td>{{ verUS.estado }}</td>
             {# <td>{{ verUS.id }}</td> #}
-             <td class="text-center"> <a
-                                         class="btn btn-outline-primary ">
-                                        <i class="fa-solid fa-pen-to-square"></i> </a> </td>
-
+             {% if permisos|get_item:'modificarUserStory' %}
+                 <td class="text-center">
+                     <a class="btn btn-outline-primary ">
+                         <i class="fa-solid fa-pen-to-square"></i>
+                     </a>
+                 </td>
+            {% endif %}
+            {% if permisos|get_item:'eliminarUserStory'%}
              <td style="display: flex; justify-content:center; align-items:center">
-                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                <i class="fa-solid fa-trash"></i> </button> </td>
+                 <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                     <i class="fa-solid fa-trash"></i>
+                 </button>
+             </td>
+            {% endif %}
             {# <td>Editar</td> #}
             {# <td>Eliminar</td> #}
          </tr>
