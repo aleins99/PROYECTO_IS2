@@ -1,4 +1,3 @@
-from xdg.Exceptions import ValidationError
 
 from .models import *
 

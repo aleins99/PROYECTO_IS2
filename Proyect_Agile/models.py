@@ -3,13 +3,8 @@ from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from allauth import app_settings
 from django.contrib.auth.models import Permission, User, GroupManager
-from xdg.Exceptions import ValidationError
 
-def validarDecimal(valor):
-    try:
-        return round(float(valor), 2)
-    except:
-        raise ValidationError('No se ha podido redondear')
+
 
 # Create your models here 
 
