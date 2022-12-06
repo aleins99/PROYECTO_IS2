@@ -32,6 +32,9 @@ estados_Proyecto = {
     'F':'Finalizado',
 }
 @register.filter
+def cambiarEstado(us):
+    print(us)
+@register.filter
 def tarea(us):
     tareas = Tarea.objects.filter(idUs=us)
     if tareas:

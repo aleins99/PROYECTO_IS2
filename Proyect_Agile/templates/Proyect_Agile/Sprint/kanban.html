@@ -6,31 +6,26 @@
         <div class="py-5 text-center ">
             <h1 class="text-light"> Tablero KANBAN </h1>
         </div>
-    <div class="menu-contenedor">
-        <ul>
-            {% for tipo in tipos %}
-                <li><a class="{% if ruta == tipo.id|toString%} activo {%else%} pruebas? {% endif %}" href="{% url 'mostrarKanban' proyecto_id sprint tipo.id %}">{{ tipo.nombre }}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
+        <div class="menu-contenedor">
+            <ul>
+                {% for tipo in tipos %}
+                    <li><a class="{% if ruta == tipo.id|toString%} activo {%else%} pruebas? {% endif %}" href="{% url 'mostrarKanban' proyecto_id sprint tipo.id %}">{{ tipo.nombre }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
         <div class="bg-dark border rounded border-dark ">
            <div>
                 <ul class="d-flex" style="border: 1px solid gray; padding: 0 !important;" >
                     {% for estado in tipo %}
-                        <li class="p-2" style="padding:0 !important;border-right: 1px solid gray;flex-basis: calc(100% / {{  tipo|length}})">
+                        <li class="drag-column" style="position:relative;padding:0 !important;border-right: 1px solid gray;flex-basis: calc(100% / {{  tipo|length}})">
                             <span>
                                 <h3 style="border-bottom: 1px solid #fff; text-align: center; padding: 5px;">{{ estado }}</h3>
                             </span>
-                            <ul id="{{ estado }}-list" style="padding: 0;" >
+                            <ul id="{{ estado }}-list" class="drag-item-list" style="padding: 0;" ondrop="drop(event)" ondragover="allowDrop(event)"  ondragenter="dragEnter({{ forloop.counter0 }})">
                                 {%  for us in uss %}
                                     {% if estado == us.estado %}
-                                        <li style="padding: 5px; border-bottom: 1px solid gray; margin-top: 8px;">{{ us.nombre }} <br>Encargado:{{us.miembroEncargado}}<br> Capacidad:{{ us.estimacion }}{% if us.miembroEncargado.usuario == usuario and us.estado != "Hecho"%}
-                                            <a href="{% url 'cambiarEstadoUS' proyecto_id sprint us.estado us.id %}"
-                                            title="Cambiar Estado"
-                                            type="button"
-                                            class="btn btn-primary"
-                                            style="margin-left: 15px;">=></a> {%endif%}  <br>
-                                            <a class="link-primary"href="{% url 'listarTareas' proyecto_id  us.id %}">TAREAS</a>
+                                        <li class="drag-item" draggable="true" id="{{ estado }}-list" ondragstart="drag(event, {{ us.id }})">
+                                            hola
                                         </li>
                                     {% endif %}
                                 {% endfor %}
@@ -43,13 +38,40 @@
             <a href="{% url 'verSprint' proyecto_id %}" type="button" class="btn btn-primary ml-1">Volver al Sprint</a>
         </div>
     </div>
-    <script async>
+      <script>
+        let currentColumn;
+        let draggedItem;
+        let listColumns = document.querySelectorAll('.drag-item-list')
         let estados = []
-        let i = 0
-        {% for us in uss %}
-            estados[i] = "{{ us.estado }}"
-            i++;
+        let idUs;
+        {% for estado in tipo %}
+            estados.push("{{ estado }}")
         {% endfor %}
-        console.log(estados)
+
+        function dragEnter(column) {
+            listColumns[column].classList.add('over');
+            currentColumn = column;
+        }
+
+        function drag(e, idus) {
+            draggedItem = e.target;
+            idUs = idus;
+        }
+        function allowDrop(e) {
+            e.preventDefault()
+
+        }
+        function drop(e) {
+            e.preventDefault();
+            const parent = listColumns[currentColumn];
+            console.log(parent)
+            // Remove Background Color/Padding
+            // Add item to Column
+            parent.appendChild(draggedItem);
+            // Dragging complete
+            let estado = estados[currentColumn]
+            console.log(typeof estado)
+            let es = {{ idUs|cambiarEstado}}
+        }
     </script>
 {% endblock %}
