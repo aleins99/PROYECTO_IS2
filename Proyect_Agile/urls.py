@@ -52,7 +52,6 @@ urlpatterns = [
     # vista para importar tipos de us de otros proyectos
     path('Proyecto/<id>/tipoUS/importarTUS/', views.listarTUSproyectos, name='listarUSProyectos'),
     # vista para listar los us de un proyecto
-    path('home/documentacion/', views.verDocumentacion, name='documentacion'),
     # vista en donde se muestran la documentacion
     path('Proyecto/<id>/verSprint/', views.verSprint, name='verSprint'),
     # vista en donde se puede ver un sprint en especifico
@@ -72,7 +71,7 @@ urlpatterns = [
     # vista para finalizar el sprint
     path('Proyecto/<id>/Sprint/<id_sprint>/kanban/tipo/<id_tipo>/', views.mostrarKanban, name='mostrarKanban'),
     # vista para el tablero kan ban dentro de la pestaña de sprint 
-    path('Proyecto/<id>/Sprint/<id_sprint>/kanban/<estado>/estados/<id_us>/', views.cambiarEstadoUS, name='cambiarEstadoUS'),
+    path('Proyecto/Sprint/kanban/cambiarEstadoUs', views.cambiarEstadoUs, name="cambiarEstadoUs"),
     # vista para el cambio de estado dentro del tablero kan ban
     path('Proyecto/<id>/Sprint/<id_sprint>/us/<id_us>/quitar/',views.quitarUSsprint, name='quitarUSsprint'),
     # vista para quitar un us del kan ban

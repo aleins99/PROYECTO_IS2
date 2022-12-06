@@ -22,6 +22,7 @@ from django.contrib.auth.models import AbstractUser
 from allauth.utils import get_user_model
 from django.core.mail import send_mail
 
+from django.http import JsonResponse
 # estados por defecto de los proyectos
 estados_Proyecto = {
     'P': 'Pendiente',
@@ -35,6 +36,9 @@ estados_Proyecto = {
 }
 
 
+@register.filter
+def cambiarEstado(us):
+    print(us)
 @register.filter
 def tarea(us):
     tareas = Tarea.objects.filter(idUs=us)
@@ -446,12 +450,6 @@ def importarRol(request, id, idproyecto):
     return redirect('rolproyecto', id)
 
 
-### DOCUMENTACION ###
-def verDocumentacion(request):
-    context = {}
-
-    return render(request, 'Proyect_Agile/Docs/Documentacion_index.html', context)
-
 
 #### TIPO US ####
 def tipoUSProyecto(request, id):
@@ -811,20 +809,22 @@ def mostrarKanban(request, id, id_sprint, id_tipo):
         'tipo': estados,
         'tipos': USs,
         'usuario': request.user,
+        'url': request.path
     }
     return render(request, 'Proyect_Agile/Sprint/kanban.html', context)
 
 
 # Cambiar el estado del us dentro del tablero kan ban
 
-def cambiarEstadoUS(request, id, id_sprint, estado, id_us):
-    us = User_Story.objects.get(id=id_us)  # id del us para cambiar el estado
-    estado = us.estado
-    tipo = us.tipo.estado.split(', ')
-    sig_estado = tipo[tipo.index(estado) + 1]
-    us.estado = sig_estado  # asignar nuevo estado
-    us.save()  # guardar cambios
-    return redirect('mostrarKanban', id, id_sprint, us.tipo.id)
+def cambiarEstadoUs(request):
+    # traemos el estado y el idus del ajax de kanban.html
+    estado = request.GET.get('estado', None)
+    idus = request.GET.get('idUs', None)
+    us = User_Story.objects.get(id=idus)
+    # cambiamos el estado al nuevo y guardamos
+    us.estado = estado
+    us.save()
+    return HttpResponse(estado)
 
 
 def quitarUSsprint(request, id, id_sprint, id_us):

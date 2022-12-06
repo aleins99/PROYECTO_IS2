@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e14f25d9-7e7d-4a40-9092-7494b730ad06" name="Changes" comment="">
+    <list default="true" id="fc82abfe-1e11-4cfa-88ee-f8d83a81d086" name="Changes" comment="Agregado del script perdido en el limbo">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PROYECTO_IS2/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/PROYECTO_IS2/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/utilidades.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/utilidades.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/static/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/kanban.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/kanban.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,18 +37,31 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/diego/Desktop/IS2/PROYECTO_IS2&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/alejandro/Desktop/Backend/PROYECTO_IS2&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Acer\Desktop\is2\PROYECTO_IS2\templates" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/US" />
+      <recent name="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/crearUS" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="PROYECTO_IS2" type="Python.DjangoServer" factoryName="Django server">
       <module name="PROYECTO_IS2" />
@@ -81,13 +95,94 @@
       <created>1670295002120</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1670295002120</updated>
-      <workItem from="1670295009193" duration="2494000" />
-      <workItem from="1670351289400" duration="312000" />
+      <updated>1660679969535</updated>
+      <workItem from="1660680071700" duration="2166000" />
+      <workItem from="1660700135136" duration="1294000" />
+      <workItem from="1660852916547" duration="2381000" />
+      <workItem from="1660856634425" duration="108000" />
+      <workItem from="1660856829302" duration="1955000" />
+      <workItem from="1660863035839" duration="1917000" />
+      <workItem from="1660867945395" duration="1476000" />
+      <workItem from="1660956221736" duration="8719000" />
+      <workItem from="1661143335804" duration="440000" />
+      <workItem from="1661143995663" duration="6002000" />
+      <workItem from="1661192446675" duration="954000" />
+      <workItem from="1661389381832" duration="1641000" />
+      <workItem from="1661393108204" duration="1602000" />
+      <workItem from="1661468919677" duration="5154000" />
+      <workItem from="1661481343679" duration="2425000" />
+      <workItem from="1661991974621" duration="2702000" />
+      <workItem from="1662157170675" duration="7368000" />
+      <workItem from="1662235212216" duration="4868000" />
+      <workItem from="1662493794011" duration="10911000" />
+      <workItem from="1662647513686" duration="17249000" />
+      <workItem from="1662684986352" duration="17622000" />
+      <workItem from="1662735081829" duration="10927000" />
+      <workItem from="1662754078303" duration="383000" />
+      <workItem from="1663367402550" duration="6785000" />
+      <workItem from="1663885116454" duration="424000" />
+      <workItem from="1663973471861" duration="609000" />
+      <workItem from="1663982621722" duration="5468000" />
+      <workItem from="1664060660473" duration="109000" />
+      <workItem from="1664060897718" duration="6665000" />
+      <workItem from="1664134651779" duration="27614000" />
+      <workItem from="1664241763694" duration="2624000" />
+      <workItem from="1664244859257" duration="5088000" />
+      <workItem from="1664411252499" duration="4594000" />
+      <workItem from="1664481905049" duration="5839000" />
+      <workItem from="1664555079388" duration="306000" />
+      <workItem from="1664570483583" duration="651000" />
+      <workItem from="1665777109898" duration="18620000" />
+      <workItem from="1665863555017" duration="10434000" />
+      <workItem from="1665878901391" duration="10739000" />
+      <workItem from="1666022870634" duration="1153000" />
+      <workItem from="1667435865696" duration="10857000" />
+      <workItem from="1667576440329" duration="5249000" />
+      <workItem from="1668713926860" duration="3398000" />
+      <workItem from="1668794678211" duration="7588000" />
+      <workItem from="1668818278285" duration="6904000" />
+      <workItem from="1669079797955" duration="469000" />
+      <workItem from="1669145200433" duration="5021000" />
+      <workItem from="1669228418705" duration="5787000" />
+      <workItem from="1669253236524" duration="10187000" />
+      <workItem from="1669334849730" duration="805000" />
+      <workItem from="1669345636591" duration="578000" />
+      <workItem from="1669348625380" duration="6279000" />
+      <workItem from="1669659304250" duration="1210000" />
+      <workItem from="1670249502446" duration="3209000" />
+      <workItem from="1670265216633" duration="20559000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Proyect_Agile/models.py</url>
+          <line>103</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/kanban.html</url>
+          <line>44</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
