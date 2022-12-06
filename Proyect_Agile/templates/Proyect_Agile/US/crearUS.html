@@ -1,17 +1,16 @@
 {% extends 'account/base.html' %}
-
+{% load crispy_forms_tags %}
 {% block content %}
-
+{% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            ERROR AL GUARDAR
+        </div>
+    {% endif %}
 
     <form method="POST" class="container">
         <h1>Crear User Story</h1>
         {% csrf_token %}
-        {% for campo in form %}
-            <div class="mb-3" >
-                <label for="formInput#text" class="form-label" > {{ campo.label }} </label>
-                {{ campo }}
-            </div>
-        {% endfor %}
+        {{ form|crispy }}
         <div class="mb-3">
             <input type="submit" class="btn btn-primary" value="Crear User Story">
         </div>

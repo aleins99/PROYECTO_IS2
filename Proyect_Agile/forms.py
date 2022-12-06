@@ -49,6 +49,14 @@ class ProyectoForm(forms.ModelForm):
 
 # formulario para el modelo de us primitivo
 class UserStoryForm(forms.ModelForm):
+    def clean(self):
+        us = super(UserStoryForm, self).clean()
+        up = us.get("UP")
+        bv = us.get("BV")
+
+        if up <= 0 or bv <= 0:
+            print("entrooooo")
+            raise forms.ValidationError('ERROR!!!!. BV o UP inválidos, cargue un valor mayor a cero')
     class Meta:
         model = User_Story
         fields = ['idproyecto', 'historial', 'estado', 'prioridad', 'UP', 'BV', 'nombre', 'descripcion', 'comentarios', 'historial', 'tipo']
@@ -73,6 +81,13 @@ class UserStoryForm(forms.ModelForm):
 
 # formulario para agregar un miembro del proyecto
 class MiembroForm(forms.ModelForm):
+    def clean(self):
+        miembro = super(MiembroForm, self).clean()
+        cargaHoraria = miembro.get("cargahoraria")
+
+        if cargaHoraria <= 0:
+            print("entrooooo")
+            raise forms.ValidationError('ERROR!!!!. Estimación inválida, cargue un valor mayor a cero')
     class Meta:
         model = Miembro
         fields = '__all__'
