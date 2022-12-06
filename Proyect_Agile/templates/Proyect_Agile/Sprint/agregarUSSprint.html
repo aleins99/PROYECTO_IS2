@@ -6,16 +6,11 @@
     </li>
 {% endblock %}
 {% block content %}
-    {% if form.errors %}
-        <div class="alert alert-danger" role="alert">
-            ERROR AL GUARDAR
-        </div>
-    {% endif %}
     <div class="container mb-5">
 
 
         <div class="py-5 text-center ">
-            <h1 class="text-light"> Agregar  </h1>
+            <h1 class="text-light"> Agregar </h1>
         </div>
         <!-- escribir aqui -->
         <div class="bg-dark border rounded border-dark p-3">
@@ -28,10 +23,10 @@
             </div>
 
             <form method="POST">
-                {{ form }}
-                <a href="{% url 'listarPlanningPoker' idProyecto idSprint %}" type="button" class="btn btn-primary ml-1">Cancelar</a>
+                {{ form|crispy }}
                 <button type="submit" class="btn btn-primary">Guardar</button>
-
+                <a href="{% url 'listarPlanningPoker' idProyecto idSprint %}" type="button"
+                   class="btn btn-primary ml-1">Cancelar</a>
                 {% csrf_token %}
             </form>
         </div>

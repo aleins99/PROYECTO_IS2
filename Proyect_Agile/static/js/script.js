@@ -1,5 +1,7 @@
 const navbar = document.getElementById('navbar');
 const right = document.getElementById('right-screen');
-navbar.addEventListener('click', () => {
-    right.classList.toggle('right');
-});
+    console.log('hola')
+
+setTimeout(function (){
+    $('.alert-block').fadeOut('slow')
+}, 3000)
