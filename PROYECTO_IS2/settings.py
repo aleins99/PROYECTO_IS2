@@ -180,5 +180,12 @@ ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST="smtp.gmail.com"
+EMAIL_USE_TLS=True
+EMAIL_PORT=587
+EMAIL_HOST_USER="rodolfovsf@gmail.com"
+EMAIL_HOST_PASSWORD="ynobraqaygboylbk"
+
 # 16879a5e93669c7fbb1e
 # 729ca9e0b56f8c85ca4627fcc1d4016e072a41c7
