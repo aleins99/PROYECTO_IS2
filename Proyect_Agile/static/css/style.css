@@ -69,9 +69,9 @@ li a {
 }
 
 .over {
-  padding: 50px 10px;
+  padding: 120px 10px;
 }
 
 .drag-item-list {
-  min-height: 50px;
+  min-height: 120px;
 }
