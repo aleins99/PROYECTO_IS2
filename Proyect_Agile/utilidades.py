@@ -1,3 +1,5 @@
+from xdg.Exceptions import ValidationError
+
 from .models import *
 
 from django import template
@@ -146,3 +148,4 @@ def importarRolProyecto(idproyecto1, idproyecto2):
                     # set the value of the permission in the new role
                     setattr(rolImportado, field.name, value)
     return rolImportado
+

@@ -4,14 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc82abfe-1e11-4cfa-88ee-f8d83a81d086" name="Changes" comment="Agregado del script perdido en el limbo">
+    <list default="true" id="e14f25d9-7e7d-4a40-9092-7494b730ad06" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore.save" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/PROYECTO_IS2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PROYECTO_IS2.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/conf/gunicorn_config.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Miembros/proyectoMiembros.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Miembros/proyectoMiembros.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Proyecto/listarProyectos.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Proyecto/listarProyectos.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Rol/verRolesProyecto.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Rol/verRolesProyecto.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/US/listarUS.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/US/listarUS.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/US/verTipoUS.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/US/verTipoUS.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/utilidades.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/utilidades.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Proyect_Agile/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,69 +23,31 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
-    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="CSS File" />
-        <option value="Python Script" />
-        <option value="HTML File" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="4c2d603ed8c972f71f770b8bddd0047fd29e758a" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Proyect_Agile/models.py" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/Proyect_Agile/urls.py" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/Proyect_Agile/views.py" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2DS67EtP8hQvQ2A7nfx33x49MTy" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="2IWQjkN6aXta86Rym3RD7YRFE6g" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/alejandro/Desktop/Backend/PROYECTO_IS2",
-    "list.type.of.created.stylesheet": "CSS",
+    "last_opened_file_path": "/home/diego/Desktop/IS2/PROYECTO_IS2",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "run.code.analysis.last.selected.profile": "aDefault",
-    "settings.editor.selected.configurable": "Errors",
     "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Acer\Desktop\is2\PROYECTO_IS2\templates" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/US" />
-      <recent name="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/crearUS" />
-    </key>
-  </component>
+}]]></component>
   <component name="RunManager">
     <configuration name="PROYECTO_IS2" type="Python.DjangoServer" factoryName="Django server">
       <module name="PROYECTO_IS2" />
@@ -89,7 +55,6 @@
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="DJANGO_SETTINGS_MODULE" value="PROYECTO_IS2.settings" />
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -111,96 +76,16 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="fc82abfe-1e11-4cfa-88ee-f8d83a81d086" name="Changes" comment="" />
-      <created>1660679969535</created>
+      <changelist id="e14f25d9-7e7d-4a40-9092-7494b730ad06" name="Changes" comment="" />
+      <created>1670295002120</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1660679969535</updated>
-      <workItem from="1660680071700" duration="2166000" />
-      <workItem from="1660700135136" duration="1294000" />
-      <workItem from="1660852916547" duration="2381000" />
-      <workItem from="1660856634425" duration="108000" />
-      <workItem from="1660856829302" duration="1955000" />
-      <workItem from="1660863035839" duration="1917000" />
-      <workItem from="1660867945395" duration="1476000" />
-      <workItem from="1660956221736" duration="8719000" />
-      <workItem from="1661143335804" duration="440000" />
-      <workItem from="1661143995663" duration="6002000" />
-      <workItem from="1661192446675" duration="954000" />
-      <workItem from="1661389381832" duration="1641000" />
-      <workItem from="1661393108204" duration="1602000" />
-      <workItem from="1661468919677" duration="5154000" />
-      <workItem from="1661481343679" duration="2425000" />
-      <workItem from="1661991974621" duration="2702000" />
-      <workItem from="1662157170675" duration="7368000" />
-      <workItem from="1662235212216" duration="4868000" />
-      <workItem from="1662493794011" duration="10911000" />
-      <workItem from="1662647513686" duration="17249000" />
-      <workItem from="1662684986352" duration="17622000" />
-      <workItem from="1662735081829" duration="10927000" />
-      <workItem from="1662754078303" duration="383000" />
-      <workItem from="1663367402550" duration="6785000" />
-      <workItem from="1663885116454" duration="424000" />
-      <workItem from="1663973471861" duration="609000" />
-      <workItem from="1663982621722" duration="5468000" />
-      <workItem from="1664060660473" duration="109000" />
-      <workItem from="1664060897718" duration="6665000" />
-      <workItem from="1664134651779" duration="27614000" />
-      <workItem from="1664241763694" duration="2624000" />
-      <workItem from="1664244859257" duration="5088000" />
-      <workItem from="1664411252499" duration="4594000" />
-      <workItem from="1664481905049" duration="5839000" />
-      <workItem from="1664555079388" duration="306000" />
-      <workItem from="1664570483583" duration="651000" />
-      <workItem from="1665777109898" duration="18620000" />
-      <workItem from="1665863555017" duration="10434000" />
-      <workItem from="1665878901391" duration="10739000" />
-      <workItem from="1666022870634" duration="1153000" />
-      <workItem from="1667435865696" duration="10857000" />
-      <workItem from="1667576440329" duration="5249000" />
-      <workItem from="1668713926860" duration="3398000" />
-      <workItem from="1668794678211" duration="7588000" />
-      <workItem from="1668818278285" duration="6904000" />
-      <workItem from="1669079797955" duration="469000" />
-      <workItem from="1669145200433" duration="5021000" />
-      <workItem from="1669228418705" duration="5787000" />
-      <workItem from="1669253236524" duration="10187000" />
-      <workItem from="1669334849730" duration="805000" />
-      <workItem from="1669345636591" duration="578000" />
-      <workItem from="1669348625380" duration="6279000" />
-      <workItem from="1669659304250" duration="1210000" />
-      <workItem from="1670249502446" duration="1813000" />
+      <updated>1670295002120</updated>
+      <workItem from="1670295009193" duration="2494000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Proyect_Agile/models.py</url>
-          <line>103</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Proyect_Agile/views.py</url>
-          <line>144</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

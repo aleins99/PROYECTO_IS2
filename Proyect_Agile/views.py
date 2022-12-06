@@ -509,7 +509,7 @@ def crearUser_Story(request, id):
         UP = planning.UP
         BV = planning.BV
 
-        planning.prioridad = ((0.6 * BV + 0.4 * UP) / 2)
+        planning.prioridad = round(((0.6 * BV + 0.4 * UP) / 2), 2)
 
         planning.save()
         print("el estado del form es: ", form.cleaned_data["estado"])
@@ -783,7 +783,7 @@ def finalizarSprint(request, id, id_sprint):
         UP = us.UP
         BV = us.BV
         us.estado = 'STSA'
-        us.prioridad = ((0.6 * BV + 0.4 * UP) / 2) + 3
+        us.prioridad = round(((0.6 * BV + 0.4 * UP) / 2) + 3, 2)
         us.save()
     return redirect('verSprint', id)
 
@@ -923,7 +923,7 @@ def decisionScrumUS(request, id, opcion, id_us):
         us = User_Story.objects.get(id=id_us)
         UP = us.UP
         BV = us.BV
-        us.prioridad = ((0.6 * BV + 0.4 * UP) / 2) + 3
+        us.prioridad = round(((0.6 * BV + 0.4 * UP) / 2) + 3, 2)
         us.estado = 'Cancelado'
         print("rodolfovsf@gmail.com")
         print(us.miembroEncargado.usuario.email)

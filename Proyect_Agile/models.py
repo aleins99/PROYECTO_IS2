@@ -3,6 +3,14 @@ from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from allauth import app_settings
 from django.contrib.auth.models import Permission, User, GroupManager
+from xdg.Exceptions import ValidationError
+
+def validarDecimal(valor):
+    try:
+        return round(float(valor), 2)
+    except:
+        raise ValidationError('No se ha podido redondear')
+
 # Create your models here 
 
 # Modelo para los proyectos
@@ -115,7 +123,6 @@ class User_Story(models.Model):
     miembroEncargado = models.ForeignKey(Miembro, on_delete=models.RESTRICT, blank=True, null=True)  # Al definirse debe de tener un encargado si o si
 
     #encargado = models.ForeignKey(User, on_delete=models.RESTRICT, null=True, blank=True)  # Miembro encargado en trabajar el
-
     def __str__(self):
         return self.nombre
 
