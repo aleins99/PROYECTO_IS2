@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc82abfe-1e11-4cfa-88ee-f8d83a81d086" name="Changes" comment="Agregado del script perdido en el limbo">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/static/js/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/static/js/script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Miembros/agregarMiembro.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Miembros/agregarMiembro.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Rol/crearRol.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Rol/crearRol.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/agregarUSSprint.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/agregarUSSprint.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/account/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/account/base.html" afterDir="false" />
-    </list>
+    <list default="true" id="fc82abfe-1e11-4cfa-88ee-f8d83a81d086" name="Changes" comment="Agregado del script perdido en el limbo" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -92,7 +85,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="e14f25d9-7e7d-4a40-9092-7494b730ad06" name="Changes" comment="" />
+      <changelist id="fc82abfe-1e11-4cfa-88ee-f8d83a81d086" name="Changes" comment="Agregado del script perdido en el limbo" />
       <created>1670295002120</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -152,6 +145,7 @@
       <workItem from="1669659304250" duration="1210000" />
       <workItem from="1670249502446" duration="3209000" />
       <workItem from="1670265216633" duration="20559000" />
+      <workItem from="1670369242289" duration="524000" />
     </task>
     <servers />
   </component>
