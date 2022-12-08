@@ -21,6 +21,8 @@ from allauth.account.models import EmailAddress
 from django.contrib.auth.models import AbstractUser
 from allauth.utils import get_user_model
 from django.core.mail import send_mail
+from plotly.offline import plot
+from plotly.graph_objs import Scatter
 
 from django.http import JsonResponse
 # estados por defecto de los proyectos
@@ -965,3 +967,30 @@ def cambiarEncargado(request, id, id_sprint, id_miembro):
         }
         return render(request, 'Proyect_Agile/Sprint/cambiarEncargado.html', context)
 
+
+def burndownChart(request,id):
+    proyecto=Proyecto.objects.get(id=id)
+    if request.user == proyecto.scrumMaster:
+        scrum = True
+
+    # dibujo del burndown
+
+    x_data = [0, 1, 2, 3]
+    y_data = [x ** 2 for x in x_data]
+    plot_div = plot([Scatter(x=x_data, y=y_data,mode='lines', name='test',
+                             opacity=0.8, marker_color='green')],
+                             output_type='div')
+
+
+    context={
+
+        'proyecto': proyecto,
+        'usuario': request.user,
+        'estados': estados_Proyecto,
+        'scrum': scrum,
+        'proyecto_id': id,
+        'permisos': obtenerPermisos(id, request.user),
+        'burndownChart':plot_div
+
+    }
+    return render(request, 'Proyect_Agile/Proyecto/burndownChart.html', context)

@@ -85,4 +85,7 @@ urlpatterns = [
     # vista para cambiar el encargado de un us en un sprint , todos los us a los que pertenecia se reasignan al nuevo encargado
     path('Proyecto/<id>/decision/<opcion>/us/<id_us>/', views.decisionScrumUS, name= 'decisionUS'),
     # vista para la aprobacion del us o su cancelacion
+    path('Proyecto/<id>/burndownChart/', views.burndownChart, name='burndownChart')
+    #vista para ver el burndown chart del proyecto
+
 ]
