@@ -26,7 +26,6 @@
                         </li>
                         {% if proyecto.estado == 'E' or proyecto.estado == 'C'%}
 
-
                             <li class="nav-item">
                              <a class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/listaUS/'%}active{%endif%}" href="{% url 'listarUS' proyecto.id %}">Product Backlog</a>
                             </li>
@@ -39,7 +38,7 @@
                                 <a class="nav-link">Reportes</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link">Historial</a>
+                                <a class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/US/historial/'%}active{%endif%}" href="{% url 'historialUs' proyecto.id %}">Historial</a>
                             </li>
                             {% if scrum%}
                                 <li class="nav-item">

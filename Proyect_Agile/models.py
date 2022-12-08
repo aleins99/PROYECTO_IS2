@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from allauth import app_settings
 from django.contrib.auth.models import Permission, User, GroupManager
-
+from simple_history.models import HistoricalRecords
 
 
 # Create your models here 
@@ -116,7 +116,7 @@ class User_Story(models.Model):
     prioridad = models.FloatField(blank=True, null=True)
 
     miembroEncargado = models.ForeignKey(Miembro, on_delete=models.RESTRICT, blank=True, null=True)  # Al definirse debe de tener un encargado si o si
-
+    history = HistoricalRecords()
     #encargado = models.ForeignKey(User, on_delete=models.RESTRICT, null=True, blank=True)  # Miembro encargado en trabajar el
     def __str__(self):
         return self.nombre

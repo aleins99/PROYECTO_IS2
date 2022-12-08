@@ -965,3 +965,16 @@ def cambiarEncargado(request, id, id_sprint, id_miembro):
         }
         return render(request, 'Proyect_Agile/Sprint/cambiarEncargado.html', context)
 
+def historialUs(request, id):
+    us = User_Story.objects.filter(idproyecto=id)
+    us1 = us[0].history.all()
+    print(us1)
+    context = {
+        'USs': us,
+        'proyecto_id': id,
+        'usuario': request.user,
+        'estados': estados_Proyecto,
+        'proyecto': Proyecto.objects.get(id=id),
+        'permisos': obtenerPermisos(id, request.user)
+    }
+    return render(request, 'Proyect_Agile/US/historial.html', context)
