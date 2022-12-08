@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc82abfe-1e11-4cfa-88ee-f8d83a81d086" name="Changes" comment="Agregado del script perdido en el limbo">
-      <change afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/US/historial.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PROYECTO_IS2/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/PROYECTO_IS2/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Proyecto/verProyecto.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Proyecto/verProyecto.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/US/historial.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/US/historial.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Proyect_Agile/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -162,6 +158,7 @@
       <workItem from="1670265216633" duration="20559000" />
       <workItem from="1670369242289" duration="978000" />
       <workItem from="1670440915312" duration="2414000" />
+      <workItem from="1670511323576" duration="2285000" />
     </task>
     <servers />
   </component>

@@ -1,76 +1,117 @@
-{% extends 'account/base.html' %}
-{% block content %}
-    <div class="container-xxl">
-        <div class="row">
-            <div class="col border border-muted" >
-                <h1 class="text-center"> {{ proyecto.nombre|upper }} </h1>
-                <p> {{ estados|get_item:proyecto.estado }} </p>
-                <nav class="navbar navbar-expand-lg navbar-dark border border-muted">
-                    <div class="container-fluid">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/ver/'%}active{%endif%}" aria-current="page" href="{% url 'verproyecto' proyecto.id %}">Descripción</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/miembros/'%}active{%endif%}" href="{% url 'miembrosproyecto' proyecto.id %}">Miembros</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/roles/'%}active{%endif%}" href="{% url 'rolproyecto' proyecto.id %}">Roles</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/tipoUS/'%}active{%endif%}" href="{% url 'listarTipoUS' proyecto.id %}">Tipo US</a>
-                        </li>
-                        {% if proyecto.estado == 'E' or proyecto.estado == 'C'%}
+{% extends 'account/base.html' %} {% block content %}
+<div class="container-xxl">
+  <div class="row">
+    <div class="col border border-muted">
+      <h1 class="text-center">{{ proyecto.nombre|upper }}</h1>
+      <p>{{ estados|get_item:proyecto.estado }}</p>
+      <nav class="navbar navbar-expand-lg navbar-dark border border-muted">
+        <div class="container-fluid">
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a
+                  class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/ver/'%}active{%endif%}"
+                  aria-current="page"
+                  href="{% url 'verproyecto' proyecto.id %}"
+                  >Descripción</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/miembros/'%}active{%endif%}"
+                  href="{% url 'miembrosproyecto' proyecto.id %}"
+                  >Miembros</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/roles/'%}active{%endif%}"
+                  href="{% url 'rolproyecto' proyecto.id %}"
+                  >Roles</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/tipoUS/'%}active{%endif%}"
+                  href="{% url 'listarTipoUS' proyecto.id %}"
+                  >Tipo US</a
+                >
+              </li>
+              {% if proyecto.estado == 'E' or proyecto.estado == 'C'%}
 
-                            <li class="nav-item">
-                             <a class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/listaUS/'%}active{%endif%}" href="{% url 'listarUS' proyecto.id %}">Product Backlog</a>
-                            </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/listaUS/'%}active{%endif%}"
+                  href="{% url 'listarUS' proyecto.id %}"
+                  >Product Backlog</a
+                >
+              </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/verSprint/'%}active{%endif%}" href="{% url 'verSprint' proyecto.id %}">Sprint</a>
-
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link">Reportes</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/US/historial/'%}active{%endif%}" href="{% url 'historialUs' proyecto.id %}">Historial</a>
-                            </li>
-                            {% if scrum%}
-                                <li class="nav-item">
-                                    <a class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/revisionUs/'%}active{%endif%}" href="{% url 'revisionUs' proyecto.id %}">Revision de US</a>
-                                </li>
-                            {%endif%}
-                        {%endif%}
-                        </ul>
-                    </div>
-                    </div>
-                </nav>
-                {% block proyectoContent %}
-
-                    <h1> Bienvenido:{% if rol.nombre %} {{ rol.nombre }} {% else %} Equipo Desarrollador {% endif %} </h1>
-
-                    {% if scrum %}
-
-                        {% if proyecto.estado == 'P' %}
-                            <form method="POST" action="{% url 'verproyecto' proyecto.id %}">
-                                {% csrf_token %}
-                                <div class="mb-3">
-                                    <input type="submit" class="btn btn-primary" style="margin-top: 18px;" value="Iniciar Proyecto">
-                                </div>
-                            </form>
-
-                        {% endif %}
-
-                    {% endif %}
-
-                </div>
-
-                {% endblock %}
+              <li class="nav-item">
+                <a
+                  class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/verSprint/'%}active{%endif%}"
+                  href="{% url 'verSprint' proyecto.id %}"
+                  >Sprint</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link">Reportes</a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/US/historial/'%}active{%endif%}"
+                  href="{% url 'historialUs' proyecto.id %}"
+                  >Historial</a
+                >
+              </li>
+              {% if scrum%}
+              <li class="nav-item">
+                <a
+                  class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/revisionUs/'%}active{%endif%}"
+                  href="{% url 'revisionUs' proyecto.id %}"
+                  >Revision de US</a
+                >
+              </li>
+              {%endif%} {%endif%}
+            </ul>
+          </div>
         </div>
+      </nav>
+      {% block proyectoContent %}
+
+      <h1>
+        Bienvenido:{% if rol.nombre %} {{ rol.nombre }} {% else %} Equipo
+        Desarrollador {% endif %}
+      </h1>
+
+      {% if scrum %} {% if proyecto.estado == 'P' %}
+      <form method="POST" action="{% url 'verproyecto' proyecto.id %}">
+        {% csrf_token %}
+        <div class="mb-3">
+          <input
+            type="submit"
+            class="btn btn-primary"
+            style="margin-top: 18px"
+            value="Iniciar Proyecto"
+          />
+        </div>
+      </form>
+
+      {% endif %} {% endif %}
     </div>
+
+    {% endblock %}
+  </div>
+</div>
 {% endblock %}

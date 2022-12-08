@@ -93,8 +93,8 @@ class TipoUS(models.Model):
     nombre= models.CharField(max_length=100)
 
     idproyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT, null=True)
-    estado = models.TextField(default= 'Por hacer, En Proceso, Hecho, Finalizado')
-  #  idsprint = models.ForeignKey(Sprint, on_delete=models.RESTRICT, null=True)
+    estado = models.TextField(default= 'Por hacer, En Proceso, Hecho')
+     #  idsprint = models.ForeignKey(Sprint, on_delete=models.RESTRICT, null=True)
 
     def __str__(self):
         return self.nombre

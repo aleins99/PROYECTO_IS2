@@ -496,6 +496,15 @@ def crearUser_Story(request, id):
     if request.method == 'POST':
         form = UserStoryForm(request.POST)
         if form.is_valid():
+            # get the UP from the form
+            UP = form.cleaned_data["UP"]
+            # get the BV from the form
+            BV = form.cleaned_data["BV"]
+            # calculate the priority
+            prioridad = round(((0.6 * BV + 0.4 * UP) / 2), 2)
+            # set the priority in the form
+            form.instance.prioridad = prioridad
+            # save the form
             form.save()
         else:
             context = {
@@ -503,15 +512,6 @@ def crearUser_Story(request, id):
             }
             return render(request, 'Proyect_Agile/US/crearUS.html', context)
 
-        planning = User_Story.objects.filter(idproyecto=id).last()
-        UP = planning.UP
-        BV = planning.BV
-
-        planning.prioridad = round(((0.6 * BV + 0.4 * UP) / 2), 2)
-
-        planning.save()
-        print("el estado del form es: ", form.cleaned_data["estado"])
-        print("la prioridad del form es: ", form.cleaned_data["prioridad"])
 
         return redirect('listarUS', id)
     else:
@@ -889,13 +889,19 @@ def listarTareas(request, id, id_us):
 
 # revision del us , el scrum master debe aprobar el us para que su estado pase a finalizado
 def revisionUs(request, id):
-    us = User_Story.objects.filter(idproyecto=id, estado='Hecho')
+    # get all us of the project when is in the last state
+    uss = User_Story.objects.filter(idproyecto=id)
+    enRevision = []
+    for us in uss:
+        estados = us.tipo.estado.split(', ')
+        if us.estado == estados[-1]:
+            enRevision.append(us)
     proyecto = Proyecto.objects.get(id=id)
     scrum = False
     if request.user == proyecto.scrumMaster:
         scrum = True
     context = {
-        'USs': us,
+        'USs': enRevision,
         'proyecto': proyecto,
         'proyecto_id': id,
         'scrum': scrum,
@@ -966,11 +972,17 @@ def cambiarEncargado(request, id, id_sprint, id_miembro):
         return render(request, 'Proyect_Agile/Sprint/cambiarEncargado.html', context)
 
 def historialUs(request, id):
-    us = User_Story.objects.filter(idproyecto=id)
-    us1 = us[0].history.all()
-    print(us1)
+    uss = User_Story.objects.filter(idproyecto=id)
+    historiales = []
+    for us in uss:
+        historiales.append(us.history.all())    
+    historiales.sort(key=lambda x: x[0].history_date, reverse=True)
+    scrum = False
+    if request.user == Proyecto.objects.get(id=id).scrumMaster:
+        scrum = True
     context = {
-        'USs': us,
+        'scrum': scrum,
+        'historiales': historiales,
         'proyecto_id': id,
         'usuario': request.user,
         'estados': estados_Proyecto,
