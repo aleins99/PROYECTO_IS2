@@ -1,0 +1,14 @@
+{% extends 'account/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <form method="POST" class="container">
+        <h1>Editar User Story</h1>
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="mb-3">
+            <input type="submit" class="btn btn-primary" value="Editar US">
+            <a href="{% url 'listarUS' proyecto_id %}" type="button" class="btn btn-primary ml-1">Cancelar</a>
+        </div>
+    </form>
+
+{% endblock %}

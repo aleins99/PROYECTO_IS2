@@ -23,6 +23,7 @@ from allauth.utils import get_user_model
 from django.core.mail import send_mail
 
 from django.http import JsonResponse
+
 # estados por defecto de los proyectos
 estados_Proyecto = {
     'P': 'Pendiente',
@@ -35,10 +36,23 @@ estados_Proyecto = {
     'F': 'Finalizado',
 }
 
-
+# comprobar si el estado del US esta en Nuevo : solo se puede modificar el US si esta en N
+@register.filter()
+def usEstado(us):
+    return not User_Story.objects.filter(id=us.id).exclude(estado='N').exists()
+# comprobar si hay USs que tienen idtipo y estan en estado pendiente para editar o eliminar
 @register.filter
-def cambiarEstado(us):
-    print(us)
+def usTipo(idtipo):
+    uss = User_Story.objects.filter(tipo=idtipo)
+    if uss.exists():
+        for us in uss:
+            # no se puede editar o eliminar el Tipo
+            if us.estado != 'N':
+                return False
+    return True
+
+
+# comprobar si ya hay tareas en el US para poder arrastrar
 @register.filter
 def tarea(us):
     tareas = Tarea.objects.filter(idUs=us)
@@ -46,6 +60,15 @@ def tarea(us):
         print("true")
         return True
     print("false")
+    return False
+
+
+# comprobar si el sprint ya tiene US para poder iniciar
+@register.filter
+def tieneUS(idsprint):
+    us = User_Story.objects.filter(idSprint=idsprint)
+    if us:
+        return True
     return False
 
 
@@ -170,7 +193,6 @@ def listarProyectos(request):
     scrum = request.user
     usuario = request.user.groups.filter(name='Administrador').exists()
     proyectos = obtenerlistaDeProyectosUser(request)
-
     context = {
         'estados': estados_Proyecto,
         'Administrador': usuario,
@@ -208,9 +230,20 @@ def verproyecto(request, id):
 
     if request.user == proyecto.scrumMaster:
         scrum = True
-
+    # check if are sprint in the project
+    sprints = Sprint.objects.filter(idproyecto=id)
+    #
+    finalizar = True
+    # comprobar si todos los sprints están finalizados
+    for sprint in sprints:
+        if sprint.estado != 'F':
+            finalizar = False
+    # comprobar si hay sprints en el proyecto
+    if not sprints.exists():
+        finalizar = False
     permisosUsuario = obtenerPermisos(id, request.user)
     context = {
+        'finalizarProyecto': finalizar,
         'proyecto': proyecto,
         'estados': estados_Proyecto,
         'proyecto_id': id,
@@ -450,7 +483,6 @@ def importarRol(request, id, idproyecto):
     return redirect('rolproyecto', id)
 
 
-
 #### TIPO US ####
 def tipoUSProyecto(request, id):
     proyecto = get_object_or_404(Proyecto, pk=id)
@@ -487,6 +519,26 @@ def crearTipoUS(request, id):
         }
         return render(request, 'Proyect_Agile/US/crearTipoUS.html', context)
 
+@method_decorator(permisoVista(permiso="modificarUserStory"), name='dispatch')
+class editarTipoUS(UpdateView):
+    model = TipoUS
+    template_name = 'Proyect_Agile/US/editarTipoUS.html'
+    form_class = tipoUSForm
+
+    def get_context_data(self, **kwargs):
+        # get all the roles from the project
+        context = super().get_context_data(**kwargs)
+        id = self.kwargs['idproyecto']
+        permisos = obtenerPermisos(id, self.request.user)
+        context['proyecto_id'] = id
+        context['permisos'] = permisos
+        return context
+    def get_success_url(self):
+        id = self.kwargs['idproyecto']
+        return reverse('listarUS', kwargs={'id': id})
+
+
+
 
 ### USER STORY ###
 @permisoVista(permiso="agregarUserStory")
@@ -512,7 +564,6 @@ def crearUser_Story(request, id):
             }
             return render(request, 'Proyect_Agile/US/crearUS.html', context)
 
-
         return redirect('listarUS', id)
     else:
         form = UserStoryForm()
@@ -522,6 +573,31 @@ def crearUser_Story(request, id):
             'form': form
         }
         return render(request, 'Proyect_Agile/US/crearUS.html', context)
+
+#@method_decorator(permisoVista(permiso="modificarRol"), name='dispatch')
+@method_decorator(permisoVista(permiso="modificarUserStory"), name='dispatch')
+class editarUS(UpdateView):
+    model = User_Story
+    template_name = 'Proyect_Agile/US/editarUS.html'
+    form_class = UserStoryForm
+
+    def get_context_data(self, **kwargs):
+        # get all the roles from the project
+        context = super().get_context_data(**kwargs)
+        id = self.kwargs['idproyecto']
+        permisos = obtenerPermisos(id, self.request.user)
+        context['proyecto_id'] = id
+        context['permisos'] = permisos
+        return context
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        id = self.kwargs['idproyecto']
+        form.fields["tipo"].queryset = TipoUS.objects.filter(idproyecto=id)
+        return form
+    def get_success_url(self):
+        id = self.kwargs['idproyecto']
+        return reverse('listarUS', kwargs={'id': id})
 
 
 # Lista de los us dentro de un proyecto
@@ -744,12 +820,14 @@ def listaMiembroSprint(request, id, id_sprint):
 def listarPlanningPoker(request, id, id_sprint):
     planningPoker = User_Story.objects.filter(idSprint=id_sprint).order_by(
         '-prioridad')  # listar us dentro del sprint backlog
-
+    proyecto = Proyecto.objects.get(id=id)
+    sprint = Sprint.objects.get(id=id_sprint)
     context = {
-
+        'proyecto': proyecto,
         'proyecto_id': id,
         'USs': planningPoker,
         'id_sprint': id_sprint,
+        'sprint': sprint,
 
     }
     return render(request, 'Proyect_Agile/Sprint/listarPlanningPoker.html', context)
@@ -794,6 +872,7 @@ def mostrarKanban(request, id, id_sprint, id_tipo):
     else:
         tipo = TipoUS.objects.get(id=id_tipo)
     estados = tipo.estado.split(', ')
+    estados.append('Finalizado')
     us = User_Story.objects.filter(idSprint=id_sprint, tipo=tipo)  # kan ban del sprint seleccionado
     USs = []
     ruta = request.path.index("tipo")
@@ -912,36 +991,41 @@ def revisionUs(request, id):
 
 # comprueba la descicion del scrum para cancelar o aprovar el us
 def decisionScrumUS(request, id, opcion, id_us):
-    if opcion == '1':
-        us = User_Story.objects.get(id=id_us)
-        us.estado = 'Finalizado'
-        print("rodolfovsf@gmail.com")
-        print(us.miembroEncargado.usuario.email)
-        send_mail(
-            'US ' + us.nombre + " Aprovado",
-            'El US .' + us.nombre + " ha sido aprovado por el Scrum Master",
-            "rodolfovsf@gmail.com",
-            [us.miembroEncargado.usuario.email],
-            fail_silently=False,
-        )
-        us.save()
+    us = User_Story.objects.get(id=id_us)
+    if request.method == 'POST':
+        form = FormDecisionScrum(request.POST)
+        if form.is_valid():
+            comentario = form.cleaned_data['comentarios']
+            if opcion == '1':
+                us.estado = 'Finalizado'
+                decision = "Aprovado"
+                us.save()
+            else:
+                UP = us.UP
+                BV = us.BV
+                us.prioridad = round(((0.6 * BV + 0.4 * UP) / 2) + 3, 2)
+                us.estado = 'Cancelado'
+                decision = "Rechazado"
+                us.save()
+            send_mail(
+                'US ' + us.nombre + ' ' + decision,
+                comentario,
+                "rodolfovsf@gmail.com",
+                [us.miembroEncargado.usuario.email],
+                fail_silently=False
+            )
+            form.save()
+            return redirect('revisionUs', id)
     else:
-        us = User_Story.objects.get(id=id_us)
-        UP = us.UP
-        BV = us.BV
-        us.prioridad = round(((0.6 * BV + 0.4 * UP) / 2) + 3, 2)
-        us.estado = 'Cancelado'
-        print("rodolfovsf@gmail.com")
-        print(us.miembroEncargado.usuario.email)
-        send_mail(
-            'US ' + us.nombre + " Rechazado",
-            'El US .' + us.nombre + " ha sido rechazado por el Scrum Master",
-            "rodolfovsf@gmail.com",
-            [us.miembroEncargado.usuario.email],
-            fail_silently=False,
-        )
-        us.save()
-    return redirect('revisionUs', id)
+        form = FormDecisionScrum()
+        estado = "Aprovado" if opcion == "1" else "Rechazado"
+        context = {
+            'us': us,
+            'form': form,
+            'estado': estado,
+            'proyecto_id': id,
+        }
+        return render(request, 'Proyect_Agile/US/comentarioUS.html', context)
 
 
 # cambia el encargado de un us en un sprint
@@ -971,12 +1055,16 @@ def cambiarEncargado(request, id, id_sprint, id_miembro):
         }
         return render(request, 'Proyect_Agile/Sprint/cambiarEncargado.html', context)
 
+
+# historial de cada US
 def historialUs(request, id):
     uss = User_Story.objects.filter(idproyecto=id)
     historiales = []
+    # obtener los historiales de los US
     for us in uss:
-        historiales.append(us.history.all())    
+        historiales.append(us.history.all())
     historiales.sort(key=lambda x: x[0].history_date, reverse=True)
+
     scrum = False
     if request.user == Proyecto.objects.get(id=id).scrumMaster:
         scrum = True
@@ -990,3 +1078,12 @@ def historialUs(request, id):
         'permisos': obtenerPermisos(id, request.user)
     }
     return render(request, 'Proyect_Agile/US/historial.html', context)
+
+
+# finalizar Sprint
+def finalizarProyecto(request, id):
+    proyecto = Proyecto.objects.get(id=id)
+    proyecto.estado = 'F'
+    proyecto.save()
+    return redirect('listarproyecto')
+

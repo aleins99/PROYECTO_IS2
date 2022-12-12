@@ -19,37 +19,40 @@
                     <th scope="col">Prioridad</th>
                     <th scope="col">Estimación</th>
                     <th scope="col">Encargado</th>
-
-                    <th scope="col" class="text-center" colspan="2">Acción</th>
+                    {% if sprint.estado != 'F' %}
+                        <th scope="col" class="text-center" colspan="2">Acción</th>
+                    {% endif %}
                 </tr>
                 </thead>
                 <tbody>
-                    {% for us in USs %}
-                        <tr>
-                            <td> {{ us.nombre }} </td>
-                            <td> {{ us.tipo }} </td>
-                            <td> {{ us.estado }} </td>
-                            <td> {{ us.prioridad }} </td>
-                            <td> {{ us.estimacion }} </td>
-                            <td> {{ us.miembroEncargado }} </td>
-
+                {% for us in USs %}
+                    <tr>
+                        <td> {{ us.nombre }} </td>
+                        <td> {{ us.tipo }} </td>
+                        <td> {{ us.estado }} </td>
+                        <td> {{ us.prioridad }} </td>
+                        <td> {{ us.estimacion }} </td>
+                        <td> {{ us.miembroEncargado }} </td>
+                        {% if sprint.estado != 'F' %}
                             {# editar #}
                             <td class="text-center">
-                                <a href="{% url 'agregarUs_para_Sprint' proyecto_id id_sprint us.id us.estimacion%}" class="btn btn-outline-primary ">
+                                <a href="{% url 'agregarUs_para_Sprint' proyecto_id id_sprint us.id us.estimacion %}"
+                                   class="btn btn-outline-primary ">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
                             </td>
 
                             {# Quitar #}
                             <td class="text-center">
-                                <a href="{% url 'quitarUSsprint' proyecto_id id_sprint us.id %}" class="btn btn-outline-danger ">
+                                <a href="{% url 'quitarUSsprint' proyecto_id id_sprint us.id %}"
+                                   class="btn btn-outline-danger ">
                                     <i class="fa-solid fa-trash"></i>
                                 </a>
                             </td>
+                        {% endif %}
 
-
-                        </tr>
-                    {% endfor %}
+                    </tr>
+                {% endfor %}
 
 
                 </tbody>

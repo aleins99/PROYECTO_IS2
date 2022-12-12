@@ -46,7 +46,7 @@ urlpatterns = [
     # form para la creacion de un us para un proyecto en especifico
     path('Proyecto/<id>/listaUS/', views.verListaUS, name='listarUS'),
     # vista en donde se listan todos los us presentes dentro de un proyecto en especifico
-    path('Proyecto/<idproyecto>/listaUS/<pk>/editarUS/', views.verListaUS, name='editarUS'),
+    path('Proyecto/<idproyecto>/US/<pk>/editarUS/', views.editarUS.as_view(), name='editarUS'),
     # form para editar un us de un proyecto
     path('Proyecto/<id>/tipoUS/importarTipoUS/<idproyecto>/', views.importarTipoUS, name='importarTipoUS'),
     # vista para importar tipos de us de otros proyectos
@@ -85,5 +85,8 @@ urlpatterns = [
     # vista para cambiar el encargado de un us en un sprint , todos los us a los que pertenecia se reasignan al nuevo encargado
     path('Proyecto/<id>/decision/<opcion>/us/<id_us>/', views.decisionScrumUS, name= 'decisionUS'),
     # vista para la aprobacion del us o su cancelacion
-    path('Proyecto/<id>/US/historial/', views.historialUs, name='historialUs')
+    path('Proyecto/<id>/US/historial/', views.historialUs, name='historialUs'),
+    path('Proyecto/<id>/finalizar', views.finalizarProyecto, name='finalizarProyecto'),
+    path('Proyecto/<idproyecto>/TipoUs/<pk>/editar/', views.editarTipoUS.as_view(), name='editarTipoUS')
+
 ]

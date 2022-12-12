@@ -15,19 +15,21 @@
               <th scope="col">Nombre</th>
               <th scope="col">Encargado</th>
               <th scope="col">Lista de Tareas</th>
-              <th scope="col" colspan="2" class="text-center">Acción</th>
+              {% if proyecto.estado != 'F' %}
+                 <th scope="col" colspan="2" class="text-center">Acción</th>
+              {% endif %}
           </tr>
         </thead>
         <tbody>
         {% for us in USs %}
-
                 <tr>
                     <td> {{ us.nombre }} </td>
                     <td>{{ us.miembroEncargado }}</td>
                     <td> <a href="{% url 'listarTareas' proyecto_id us.id %}"> Tareas del US </a></td>
-                    <td style="display: flex; justify-content:center; align-items:center" ><a type="button" style="background-color: green !important; border-color: green !important" class="btn btn-primary ml-1" href="{% url 'decisionUS' proyecto_id 1 us.id %}"> Aprobar </a> </td>
-                    <td style="display: flex; justify-content:center; align-items:center" ><a  type="button" style="background-color: red !important; border-color: red !important" class="btn btn-primary ml-1" href="{% url 'decisionUS' proyecto_id 0 us.id %}"> Rechazar </a> </td>
-    
+                    {% if proyecto.estado != 'F' %}
+                        <td style="display: flex; justify-content:center; align-items:center" ><a type="button" style="background-color: green !important; border-color: green !important" class="btn btn-primary ml-1" href="{% url 'decisionUS' proyecto_id 1 us.id %}"> Aprobar </a> </td>
+                        <td style="display: flex; justify-content:center; align-items:center" ><a  type="button" style="background-color: red !important; border-color: red !important" class="btn btn-primary ml-1" href="{% url 'decisionUS' proyecto_id 0 us.id %}"> Rechazar </a> </td>
+                    {% endif %}
                 </tr>
 
             {% endfor %}
@@ -37,5 +39,5 @@
         </tbody>
     </table>
     <a href="{% url 'verproyecto' proyecto.id %}" type="button" class="btn btn-primary ml-1">Volver al Proyecto</a>
-   
+
 {% endblock %}

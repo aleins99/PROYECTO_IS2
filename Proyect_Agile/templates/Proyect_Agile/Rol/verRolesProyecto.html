@@ -1,41 +1,43 @@
 {% extends 'Proyect_Agile/Proyecto/verProyecto.html' %}
 {% block proyectoContent %}
-<table class="table table-dark table-hover table-bordered border-muted">
+    <table class="table table-dark table-hover table-bordered border-muted">
 
- <thead>
- <tr>
-     <th scope="col">Nombre</th>
-     <th scope="col">Descripcion</th>
-     {% if permisos|get_item:'modificarRol' %}
-        <th scope="col">Permisos</th>
-     {% endif %}
- </tr>
+        <thead>
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Descripcion</th>
+            {% if permisos|get_item:'modificarRol' and proyecto.estado != 'F'%}
+                <th scope="col">Permisos</th>
+            {% endif %}
+        </tr>
 
- </thead>
- <tbody>
-     {% for rol in roles %}
-         <tr>
-             <td>{{ rol.nombre }}</td>
-             <td>{{ rol.descripcion}}</td>
-              {% if permisos|get_item:'modificarRol' %}
-                  <td class="text-center"> 
-                    <a href="{% url 'editarRol' proyecto.id rol.id %}" class="btn btn-outline-primary ">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </a> 
-                  </td>
-                  
-              {% endif %}
-         </tr>
+        </thead>
+        <tbody>
+        {% for rol in roles %}
+            <tr>
+                <td>{{ rol.nombre }}</td>
+                <td>{{ rol.descripcion }}</td>
+                {% if permisos|get_item:'modificarRol' and proyecto.estado != 'F' %}
+                    <td class="text-center">
+                        <a href="{% url 'editarRol' proyecto.id rol.id %}" class="btn btn-outline-primary ">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                    </td>
 
-     {% endfor %}
+                {% endif %}
+            </tr>
 
- </tbody>
-</table>
-    {% if permisos|get_item:'crearRol' %}
-        <div class="mb-3">
-            <a class="btn btn-primary" href="{% url 'agregarrol' proyecto.id %}" > Crear Rol </a>
-            <a class="btn btn-primary" href="{% url 'listarRolesProyecto' proyecto.id %}" > Importar Rol </a>
-        </div>
+        {% endfor %}
+
+        </tbody>
+    </table>
+    {% if proyecto.estado != 'F' %}
+        {% if permisos|get_item:'crearRol' %}
+            <div class="mb-3">
+                <a class="btn btn-primary" href="{% url 'agregarrol' proyecto.id %}"> Crear Rol </a>
+                <a class="btn btn-primary" href="{% url 'listarRolesProyecto' proyecto.id %}"> Importar Rol </a>
+            </div>
+        {% endif %}
     {% endif %}
 
 {% endblock %}

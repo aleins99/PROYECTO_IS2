@@ -1,82 +1,93 @@
 {% extends 'Proyect_Agile/Proyecto/verProyecto.html' %}
 {% block proyectoContent %}
-<table class="table table-dark table-hover table-bordered border-muted">
+    <table class="table table-dark table-hover table-bordered border-muted">
 
- <thead>
- <tr>
-     <th scope="col">Nombre</th>
-     <th scope="col">Apellido</th>
-     <th scope="col">Correo</th>
-     <th scope="col">Carga Horaria</th>
-     <th scope="col">Rol</th>
-     {% if permisos|get_item:'modificarMiembro' or permisos|get_item:'eliminarMiembro' %}
-        <th scope="col" colspan="2" class="text-center">Acción</th>
-     {% endif %}
- </tr>
+        <thead>
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Carga Horaria</th>
+            <th scope="col">Rol</th>
+            {% if proyecto.estado != 'F' %}
+                {% if permisos|get_item:'modificarMiembro' or permisos|get_item:'eliminarMiembro' %}
+                    <th scope="col" colspan="2" class="text-center">Acción</th>
+                {% endif %}
+            {% endif %}
+        </tr>
 
- </thead>
- <tbody>
+        </thead>
+        <tbody>
 
-    <tr>
-        <td>{{ proyecto.scrumMaster.first_name }}</td>
-        <td>{{ proyecto.scrumMaster.last_name}}</td>
-        <td>{{ proyecto.scrumMaster.email }}</td>
-        <td>#</td>
-        <td>Scrum Master</td>
+        <tr>
+            <td>{{ proyecto.scrumMaster.first_name }}</td>
+            <td>{{ proyecto.scrumMaster.last_name }}</td>
+            <td>{{ proyecto.scrumMaster.email }}</td>
+            <td>#</td>
+            <td>Scrum Master</td>
 
-    </tr>
+        </tr>
 
-     {% for miembro in miembros %}
-         {% if miembro.isActivo %}
-             <tr>
-                 <td>{{ miembro.usuario.first_name }}</td>
-                 <td>{{ miembro.usuario.last_name}}</td>
-                 <td>{{ miembro.usuario.email }}</td>
-                 <td>{{ miembro.cargahoraria }}</td>
-                 <td>{{ miembro.idrol }}</td>
-                 
-                  {% if permisos|get_item:'modificarMiembro' %}
-                      <td class="text-center"> 
-                        <a href="{% url 'editarmiembro' proyecto.id miembro.id %}" class="btn btn-outline-primary ">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                      </td>
-                  {% endif %}
+        {% for miembro in miembros %}
+            {% if miembro.isActivo %}
+                <tr>
+                    <td>{{ miembro.usuario.first_name }}</td>
+                    <td>{{ miembro.usuario.last_name }}</td>
+                    <td>{{ miembro.usuario.email }}</td>
+                    <td>{{ miembro.cargahoraria }}</td>
+                    <td>{{ miembro.idrol }}</td>
+                    {% if proyecto.estado != 'F' %}
+                        {% if permisos|get_item:'modificarMiembro' %}
+                            <td class="text-center">
+                                <a href="{% url 'editarmiembro' proyecto.id miembro.id %}"
+                                   class="btn btn-outline-primary ">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                            </td>
+                        {% endif %}
 
-                  {% if permisos|get_item:'eliminarMiembro' %}
-                        <td style="display: flex; justify-content:center; align-items:center">
-                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </td>
-                      <!-- Modal -->
-                      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                          <div class="modal-content bg-dark">
-                            <div class="modal-body text-white">
-                              Estas seguro que desea eliminar?
+                        {% if permisos|get_item:'eliminarMiembro' %}
+                            <td style="display: flex; justify-content:center; align-items:center">
+                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                        data-bs-target="#staticBackdrop">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </td>
+                            <!-- Modal -->
+                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+                                 data-bs-keyboard="false"
+                                 tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content bg-dark">
+                                        <div class="modal-body text-white">
+                                            Estas seguro que desea eliminar?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline-secondary text-white"
+                                                    data-bs-dismiss="modal">Cancelar
+                                            </button>
+                                            <a href="{% url 'eliminarMiembro' proyecto.id miembro.id %}">
+                                                <button type="button" class="btn btn-danger">Eliminar</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-outline-secondary text-white" data-bs-dismiss="modal">Cancelar</button>
-                              <a href="{% url 'eliminarMiembro' proyecto.id miembro.id %}"><button type="button" class="btn btn-danger">Eliminar</button>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                  {% endif %}
-             </tr>
-         {% endif %}
-     {% endfor %}
- </tbody>
-</table>
-
-    {% if permisos|get_item:'agregarMiembro' and not error %}
-        <div class="mb-3">
-            <a class="btn btn-primary" href="{% url 'listarUsuarios' proyecto.id %}" > Agregar Miembro </a>
-        </div>
-    {%elif scrum and error%}
-      <p>ATENCIÓN!!Necesita crear roles para poder asignarlos a los miembros</p>
+                        {% endif %}
+                    {% endif %}
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if proyecto.estado != 'F' %}
+        {% if permisos|get_item:'agregarMiembro' and not error %}
+            <div class="mb-3">
+                <a class="btn btn-primary" href="{% url 'listarUsuarios' proyecto.id %}"> Agregar Miembro </a>
+            </div>
+        {% elif scrum and error %}
+            <p>ATENCIÓN!!Necesita crear roles para poder asignarlos a los miembros</p>
+        {% endif %}
     {% endif %}
 
 {% endblock %}

@@ -1,87 +1,92 @@
 {% extends 'Proyect_Agile/Proyecto/verProyecto.html' %}
 {% block proyectoContent %}
-<table class="table table-dark table-hover table-bordered border-muted" id="tablaSprint">
-            <thead>{# cabecera de tabla #}
-                <tr>
-                    {# <th onclick="sortTable(0,'tablaSprint','Numero')" width="15%">Numero</th> #}
-                    <th scope="col">Número</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Fecha Inicio</th>
-                    <th scope="col">Fecha Fin</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col" class="text-center">Acciones</th>
-                </tr>
-            </thead>
+    <table class="table table-dark table-hover table-bordered border-muted" id="tablaSprint">
+        <thead>{# cabecera de tabla #}
+        <tr>
+            {# <th onclick="sortTable(0,'tablaSprint','Numero')" width="15%">Numero</th> #}
+            <th scope="col">Número</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Fecha Inicio</th>
+            <th scope="col">Fecha Fin</th>
+            <th scope="col">Estado</th>
+            <th scope="col" class="text-center">Acciones</th>
+        </tr>
+        </thead>
 
 
-            <tbody>
+        <tbody>
 
-            {% for sprint in sprints %}{# todos los sprints que vienen desde view.py #}
+        {% for sprint in sprints %}{# todos los sprints que vienen desde view.py #}
 
-                <tr>
-                    <td>{{ sprint.numero }}</td>
-                    <td>{{ sprint.nombre }}</td>
-                    <td>{{ sprint.fechainicio }}</td>
-                    <td>{{ sprint.fechafin }}</td>
-                    <td>
+            <tr>
+                <td>{{ sprint.numero }}</td>
+                <td>{{ sprint.nombre }}</td>
+                <td>{{ sprint.fechainicio }}</td>
+                <td>{{ sprint.fechafin }}</td>
+                <td>
 
-                        {% if sprint.estado == 'P' %}
-                            Pendiente
-                        {% elif sprint.estado == 'E' %}
-                            En curso
-                        {% elif sprint.estado == 'F' %}
-                            Finalizado
-                        {% endif %}
-                    </td>
-                    <td>
-                        <form method="POST" action="{% url 'verSprint' proyecto_id %}">
-                            {% csrf_token %}
-                            <div class="btn-group" style="display:flex; gap: 10px;">
-                                {% if sprint.estado == 'P' %}
-                                    {% if permisos|get_item:'empezarSprint'  %}
-                                        {%if iniciar %}
+                    {% if sprint.estado == 'P' %}
+                        Pendiente
+                    {% elif sprint.estado == 'E' %}
+                        En curso
+                    {% elif sprint.estado == 'F' %}
+                        Finalizado
+                    {% endif %}
+                </td>
+                <td>
+                    <form method="POST" action="{% url 'verSprint' proyecto_id %}">
+                        {% csrf_token %}
+                        <div class="btn-group" style="display:flex; gap: 10px;">
+                            {% if sprint.estado == 'P' %}
+                                {% if permisos|get_item:'empezarSprint' %}
+                                    {% if iniciar and sprint|tieneUS %}
                                         <a href="{% url 'iniciarSprint' proyecto_id sprint.id %}"
-                                        title="Ver"
-                                        type="button"
-                                        class="btn btn-primary">Iniciar</a>
-                                        {%endif%}
-                                        <a href="{% url 'listarUS_para_Sprint' proyecto_id sprint.id %}"
-                                        title="Ver"
-                                        type="button"
-                                        class="btn btn-primary">Agregar US</a>
-                                    {% endif %}
-                                {%else %}
-                                    <a  href="{% url 'mostrarKanban' proyecto_id sprint.id sprint|idtipo %}" title="Kanban"type="button" class="btn btn-primary ml-1">Kanban</a>
-                                    <a title="BurndownChart" type="button" class="btn btn-primary ml-1">Burndown Chart</a>
-                                {%endif%}
-                                <a href="{% url 'listarPlanningPoker' proyecto_id sprint.id %}"
+                                           title="Ver"
                                            type="button"
-                                           class="btn btn-primary ml-1">Ver SprintBacklog</a>
+                                           class="btn btn-primary">Iniciar</a>
+                                    {% endif %}
+                                    <a href="{% url 'listarUS_para_Sprint' proyecto_id sprint.id %}"
+                                       title="Ver"
+                                       type="button"
+                                       class="btn btn-primary">Agregar US</a>
+                                {% endif %}
+                            {% else %}
+                                <a href="{% url 'mostrarKanban' proyecto_id sprint.id sprint|idtipo %}" title="Kanban"
+                                   type="button" class="btn btn-primary ml-1">Kanban</a>
+                                <a title="BurndownChart" type="button" class="btn btn-primary ml-1">Burndown Chart</a>
+                            {% endif %}
+                            <a href="{% url 'listarPlanningPoker' proyecto_id sprint.id %}"
+                               type="button"
+                               class="btn btn-primary ml-1">Ver SprintBacklog</a>
 
-                                <a href="{% url 'miembroSprint' proyecto_id sprint.id %}"
-                                    type="button"
-                                    class="btn btn-primary ml-1">Miembros</a>
-                                {%if sprint.estado == 'E' and permisos|get_item:'finalizarSprint'%}
-                                    <a href="{%url 'finalizarSprint' proyecto_id sprint.id %}"title="Eliminar" type="button" class="btn btn-danger ml-1">
+                            <a href="{% url 'miembroSprint' proyecto_id sprint.id %}"
+                               type="button"
+                               class="btn btn-primary ml-1">Miembros</a>
+                            {% if sprint.estado == 'E' and permisos|get_item:'finalizarSprint' %}
+                                <a href="{% url 'finalizarSprint' proyecto_id sprint.id %}" title="Eliminar"
+                                   type="button" class="btn btn-danger ml-1">
                                     Finalizar</a>
-                                {%endif%}
-                            </div>
-                        </form>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                            {% endif %}
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
     {% if permisos|get_item:'crearSprint' and crear %}
-        <div class="mb-3">
-            <a class="btn btn-primary" href="{% url 'crearSprint' proyecto_id %}"> Planificar Sprint </a>
-        </div>
+        {% if proyecto.estado != 'F' %}
+            <div class="mb-3">
+                <a class="btn btn-primary" href="{% url 'crearSprint' proyecto_id %}"> Planificar Sprint </a>
+            </div>
+        {% endif %}
     {% endif %}
 
-    {% if not crear  %}
-        <p>¡¡¡¡ATENCION!!!! No puede crear otro Sprint porque ya tiene un Sprint en Planificación y otro En Ejecución</p>
+    {% if not crear %}
+        <p>¡¡¡¡ATENCION!!!! No puede crear otro Sprint porque ya tiene un Sprint en Planificación y otro En
+            Ejecución</p>
     {% endif %}
-    
+
 
 {% endblock %}

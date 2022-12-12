@@ -1,33 +1,33 @@
 {% extends 'account/base.html' %} {% block content %}
 
-<div class="container mb-5">
-  <div class="py-5 text-center">
-    <h1 class="text-light">Tablero KANBAN</h1>
-  </div>
-  <div class="menu-contenedor">
-    <ul>
-      {% for tipo in tipos %}
-      <li>
-        <a
-          class="{% if ruta == tipo.id|toString%} activo {%else%} pruebas? {% endif %}"
-          href="{% url 'mostrarKanban' proyecto_id sprint tipo.id %}"
-          >{{ tipo.nombre }}</a
-        >
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
-  <div class="bg-dark border rounded border-dark">
-    <div>
-      <ul class="d-flex" style="border: 1px solid gray; padding: 0 !important">
-        {% for estado in tipo %}
-        <li
-          class="drag-column"
-          style="position:relative;padding:0 !important;border-right: 1px solid gray;flex-basis: calc(100% / {{  tipo|length}})"
-        >
+    <div class="container mb-5">
+        <div class="py-5 text-center">
+            <h1 class="text-light">Tablero KANBAN</h1>
+        </div>
+        <div class="menu-contenedor">
+            <ul>
+                {% for tipo in tipos %}
+                    <li>
+                        <a
+                                class="{% if ruta == tipo.id|toString %} activo {% else %} pruebas? {% endif %}"
+                                href="{% url 'mostrarKanban' proyecto_id sprint tipo.id %}"
+                        >{{ tipo.nombre }}</a
+                        >
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="bg-dark border rounded border-dark">
+            <div>
+                <ul class="d-flex" style="border: 1px solid gray; padding: 0 !important">
+                    {% for estado in tipo %}
+                        <li
+                                class="drag-column"
+                                style="position:relative;padding:0 !important;border-right: 1px solid gray;flex-basis: calc(100% / {{ tipo|length }})"
+                        >
           <span>
             <h3
-              style="
+                    style="
                 border-bottom: 1px solid #fff;
                 text-align: center;
                 padding: 5px;
@@ -36,98 +36,104 @@
               {{ estado }}
             </h3>
           </span>
-          {% if estado != 'Finalizado' %}
-              <ul
-                id="{{ estado }}-list"
-                class="drag-item-list"
-                style="padding: 0"
-                ondrop="drop(event)"
-                ondragover="allowDrop(event)"
-                ondragenter="dragEnter({{ forloop.counter0 }})"
-              >
-          {% else %}
-              <ul id="{{ estado }}-list"
-                  class="drag-item-list"
-                style="padding: 0"
-              >
-              </ul>
-          {% endif %}
+                            {% if estado != 'Finalizado' %}
+                                <ul
+                                        id="{{ estado }}-list"
+                                        class="drag-item-list"
+                                        style="padding: 0"
+                                        ondrop="drop(event)"
+                                        ondragover="allowDrop(event)"
+                                        ondragenter="dragEnter({{ forloop.counter0 }})"
+                                >
+                            {% else %}
+                                <ul id="{{ estado }}-list"
+                                    class="drag-item-list"
+                                    style="padding: 0"
+                                >
+                                </ul>
+                            {% endif %}
 
-            {% for us in uss %}
-                {% if estado == us.estado %}
-                    <li
-                      class="drag-item"
-                      {% if us.miembroEncargado.usuario == usuario and us.estado != 'Finalizado'%} draggable="true" {% endif %}
-                      id="{{ estado }}-list"
-                      ondragstart="drag(event, {{ us.id }})"
-                    >
-                     {{ us.nombre }} <br>Encargado:{{us.miembroEncargado}}<br> Capacidad:{{ us.estimacion }}
-                        <br>
-                        <a href="{% url 'listarTareas' proyecto_id  us.id %}">TAREAS</a>
-                    </li>
-            {% endif %}
-            {% endfor %}
-          </ul>
-        </li>
-        {% endfor %}
-      </ul>
+                            {% for us in uss %}
+                                {% if estado == us.estado %}
+                                    <li
+                                            class="drag-item"
+                                            {% if us|tarea == True %}
+                                                {% if us.miembroEncargado.usuario == usuario and us.estado != 'Finalizado' %}
+                                            draggable="true" ondragstart="drag(event, {{ us.id }})"
+                                                {% endif %}
+                                            {% endif %}
+                                            id="{{ estado }}-list"
+                                    >
+                                        {{ us.nombre }} <br>Encargado:{{ us.miembroEncargado }}<br>
+                                        Capacidad:{{ us.estimacion }}
+                                        <br>
+                                        <a href="{% url 'listarTareas' proyecto_id  us.id %}">TAREAS</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <a
+                    href="{% url 'verSprint' proyecto_id %}"
+                    type="button"
+                    class="btn btn-primary ml-1"
+            >Volver al Sprint</a
+            >
+        </div>
     </div>
+    <script>
+        let currentColumn;
+        let draggedItem;
+        let listColumns = document.querySelectorAll('.drag-item-list')
+        let estados = []
+        let idUs;
+        {% for estado in tipo %}
+            estados.push("{{ estado }}")
+        {% endfor %}
+        function dragEnter(column) {
+            listColumns[column].classList.add('over');
+            currentColumn = column;
+        }
 
-    <a
-      href="{% url 'verSprint' proyecto_id %}"
-      type="button"
-      class="btn btn-primary ml-1"
-      >Volver al Sprint</a
-    >
-  </div>
-</div>
-<script>
-  let currentColumn;
-  let draggedItem;
-  let listColumns = document.querySelectorAll('.drag-item-list')
-  let estados = []
-  let idUs;
-  {% for estado in tipo %}
-      estados.push("{{ estado }}")
-  {% endfor %}
-  function dragEnter(column) {
-      listColumns[column].classList.add('over');
-      currentColumn = column;
-  }
+        function drag(e, idus) {
+            draggedItem = e.target;
+            idUs = idus;
+        }
 
-  function drag(e, idus) {
-      draggedItem = e.target;
-      idUs = idus;
-  }
-  function allowDrop(e) {
-      e.preventDefault()
+        function allowDrop(e) {
+            e.preventDefault()
 
-  }
-  function drop(e) {
-      e.preventDefault();
-      const parent = listColumns[currentColumn];
-      console.log(parent)
-      // Remove Background Color/Padding
-      // Add item to Column
-      parent.appendChild(draggedItem);
-      // Dragging complete
-      let estado = estados[currentColumn]
-      console.log(typeof estado)
-      // sent estado to backend
-      $.ajax({
-          url: "{% url 'cambiarEstadoUs' %}",
-          type: "GET",
-          data: {
-              'estado': estado,
-              'idUs': idUs,
-          },
-          success: function (data) {
-              console.log(data)
-          },
-          error: function (data) {
-              console.log(data)
-          }
-      })
-  }
-</script>
+        }
+
+        function drop(e) {
+            e.preventDefault();
+            const parent = listColumns[currentColumn];
+            console.log(parent)
+            // Remove Background Color/Padding
+            // Add item to Column
+            parent.appendChild(draggedItem);
+            // Dragging complete
+            let estado = estados[currentColumn]
+            console.log(typeof estado)
+            // sent estado to backend
+            $.ajax({
+                url: "{% url 'cambiarEstadoUs' %}",
+                type: "GET",
+                data: {
+                    'estado': estado,
+                    'idUs': idUs,
+                },
+                success: function (data) {
+                    console.log(data)
+                },
+                error: function (data) {
+                    console.log(data)
+                }
+            })
+        }
+    </script>
 {% endblock %}

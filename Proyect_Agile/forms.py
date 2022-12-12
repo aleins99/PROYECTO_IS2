@@ -59,11 +59,10 @@ class UserStoryForm(forms.ModelForm):
             raise forms.ValidationError('ERROR!!!!. BV o UP inválidos, cargue un valor mayor a cero')
     class Meta:
         model = User_Story
-        fields = ['idproyecto', 'historial', 'estado', 'prioridad', 'UP', 'BV', 'nombre', 'descripcion', 'comentarios', 'historial', 'tipo']
-        labels = {'idproyecto': '', 'historial': '', 'estado':'', 'prioridad':''}
+        fields = ['idproyecto', 'estado', 'prioridad', 'UP', 'BV', 'nombre', 'descripcion', 'historial', 'tipo']
+        labels = {'idproyecto': '', 'historial': 'Comentarios', 'estado':'', 'prioridad':''}
         widgets = {
             'idproyecto': forms.HiddenInput(),
-            'historial': forms.HiddenInput(),
             'estado': forms.HiddenInput(),
             'prioridad': forms.HiddenInput(),  # oculta el label del priorida
         }
@@ -287,6 +286,22 @@ class FormCambiarEncargado(forms.ModelForm):
         the widgets replaced
         """
         super(FormCambiarEncargado, self).__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'form-control'})
+
+class FormDecisionScrum(forms.ModelForm):
+    class Meta:
+        model = User_Story
+        fields = ['comentarios']
+        labels = {'comentarios': 'Comentario'}
+
+    def __init__(self, *args, **kwargs):
+        """
+        The function takes in a list of fields and a list of widgets, and returns a list of fields with
+        the widgets replaced
+        """
+        super(FormDecisionScrum, self).__init__(*args, **kwargs)
 
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'form-control'})
