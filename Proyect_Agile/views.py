@@ -570,7 +570,8 @@ def crearUser_Story(request, id):
         form.fields['idproyecto'].initial = proyecto
         form.fields['tipo'].queryset = TipoUS.objects.filter(idproyecto=proyecto)
         context = {
-            'form': form
+            'form': form,
+            'proyecto_id': id
         }
         return render(request, 'Proyect_Agile/US/crearUS.html', context)
 
@@ -1014,7 +1015,6 @@ def decisionScrumUS(request, id, opcion, id_us):
                 [us.miembroEncargado.usuario.email],
                 fail_silently=False
             )
-            form.save()
             return redirect('revisionUs', id)
     else:
         form = FormDecisionScrum()
@@ -1057,14 +1057,12 @@ def cambiarEncargado(request, id, id_sprint, id_miembro):
 
 
 # historial de cada US
-def historialUs(request, id):
-    uss = User_Story.objects.filter(idproyecto=id)
+def historialUs(request, id, id_us):
+    us = User_Story.objects.get(id=id_us)
     historiales = []
     # obtener los historiales de los US
-    for us in uss:
-        historiales.append(us.history.all())
+    historiales.append(us.history.all())
     historiales.sort(key=lambda x: x[0].history_date, reverse=True)
-
     scrum = False
     if request.user == Proyecto.objects.get(id=id).scrumMaster:
         scrum = True

@@ -9,6 +9,7 @@
             <th scope="col">Tipo</th>
             <th scope="col">Prioridad</th>
             <th scope="col">Estado</th>
+            <th scope="col">Historial</th>
             {% if proyecto.estado != 'F' %}
                 {% if permisos|get_item:'eliminarUserStory' or permisos|get_item:'modificarUserStory' %}
                     <th scope="col">Acción</th>
@@ -31,6 +32,7 @@
                 {% else %}
                     <td>{{ us.estado }}</td>
                 {% endif %}
+                <td><a href="{% url 'historialUs' proyecto_id us.id %}">Ver historial</a></td>
                 {% if proyecto.estado != 'F' and us|usEstado %}
                     {% if permisos|get_item:'modificarUserStory' %}
                         <td class="text-center">

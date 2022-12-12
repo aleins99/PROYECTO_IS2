@@ -59,7 +59,7 @@ class UserStoryForm(forms.ModelForm):
             raise forms.ValidationError('ERROR!!!!. BV o UP inválidos, cargue un valor mayor a cero')
     class Meta:
         model = User_Story
-        fields = ['idproyecto', 'estado', 'prioridad', 'UP', 'BV', 'nombre', 'descripcion', 'historial', 'tipo']
+        fields = ['idproyecto', 'estado', 'prioridad', 'nombre','UP', 'BV',  'descripcion', 'historial', 'tipo']
         labels = {'idproyecto': '', 'historial': 'Comentarios', 'estado':'', 'prioridad':''}
         widgets = {
             'idproyecto': forms.HiddenInput(),

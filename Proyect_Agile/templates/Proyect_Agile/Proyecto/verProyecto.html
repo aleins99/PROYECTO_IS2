@@ -68,13 +68,6 @@
                                     <li class="nav-item">
                                         <a class="nav-link">Reportes</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a
-                                                class="nav-link {% if request.path == '/Proyecto/'|add:proyecto_id|add:'/US/historial/' %}active{% endif %}"
-                                                href="{% url 'historialUs' proyecto.id %}"
-                                        >Historial</a
-                                        >
-                                    </li>
                                     {% if scrum %}
                                         <li class="nav-item">
                                             <a
