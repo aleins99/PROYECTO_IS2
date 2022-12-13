@@ -50,7 +50,8 @@ urlpatterns = [
     # vista en donde se listan todos los us presentes dentro de un proyecto en especifico
     path('Proyecto/<idproyecto>/US/<pk>/editarUS/', views.editarUS.as_view(), name='editarUS'),
     # form para editar un us de un proyecto
-    path('Proyecto/<id>/tipoUS/importarTipoUS/<idproyecto>/', views.importarTipoUS, name='importarTipoUS'),
+    path('Proyecto/<id>/TipoUS/', views.listarTipoUsProyectos, name='listarTipoUSProyectos'),
+    path('Proyecto/<id>/tipoUS/importarTipoUS/<id_tipo>/', views.importarTipoUS, name='importarTipoUS'),
     # vista para importar tipos de us de otros proyectos
     path('Proyecto/<id>/tipoUS/importarTUS/', views.listarTUSproyectos, name='listarUSProyectos'),
     # vista para listar los us de un proyecto

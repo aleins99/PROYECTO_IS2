@@ -40,7 +40,7 @@
         {% if permisos|get_item:'agregarUserStory' %}
             <div class="mb-3">
                 <a class="btn btn-primary" href="{% url 'crearTipoUS' proyecto.id %}"> Crear Tipo US </a>
-                <a class="btn btn-primary" href="{% url 'listarUSProyectos' proyecto.id %}"> Importar Tipo US </a>
+                <a class="btn btn-primary" href="{% url 'listarTipoUSProyectos' proyecto.id %}"> Importar Tipo US </a>
             </div>
         {% endif %}
     {% endif %}

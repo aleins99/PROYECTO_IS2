@@ -487,6 +487,7 @@ def listarRolesProyectos(request, id):
         'roles': roles,
         'proyecto': proyecto,
         'proyecto_id': id,
+        'usuario': request.user
     }
     return render(request, 'Proyect_Agile/Rol/listarRolesProyectos.html', context)
 # agregar el rol de otro proyecto al nuestro
@@ -537,6 +538,7 @@ def crearTipoUS(request, id):
         return redirect('listarTipoUS', id)
     else:
         form = tipoUSForm()
+        form.fields['idproyecto'].initial = proyecto
         form.fields['idproyecto'].initial = proyecto
         context = {
             'form': form,
@@ -665,18 +667,22 @@ def listarTUSproyectos(request, id):
     return render(request, 'Proyect_Agile/Rol/listarProyectoRol.html', context)
 
 
+def listarTipoUsProyectos(request, id):
+    tipos = TipoUS.objects.all().exclude(idproyecto=id)
+    context = {
+        'tipos': tipos,
+        'proyecto_id':id,
+        'usuario': request.user
+    }
+    return render(request, 'Proyect_Agile/US/listarTiposProyectos.html', context)
+
 # Funcion para importar tipos de us de otro proyecto al actual
 
-def importarTipoUS(request, id, idproyecto):
+def importarTipoUS(request, id, id_tipo):
     proyecto1 = Proyecto.objects.get(id=id)
-    proyecto2 = Proyecto.objects.get(id=idproyecto)
-    tipoUS = TipoUS.objects.filter(idproyecto=proyecto2)
-
-    for tipos in tipoUS:
-        if not TipoUS.objects.filter(idproyecto=proyecto1, nombre=tipos.nombre).exists():
-            tipoImportado = TipoUS.objects.create(nombre=tipos.nombre, idproyecto=proyecto1, estado=tipos.estado)
-            tipoImportado.save()
-
+    tipo = TipoUS.objects.get(id=id_tipo)
+    tipoImportado = TipoUS.objects.create(nombre=tipo.nombre, idproyecto=proyecto1, estado=tipo.estado)
+    tipoImportado.save()
     return redirect('listarTipoUS', id)
 
 
