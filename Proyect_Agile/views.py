@@ -234,10 +234,14 @@ def verproyecto(request, id):
     sprints = Sprint.objects.filter(idproyecto=id)
     #
     finalizar = True
+    uss = User_Story.objects.filter(idproyecto=id).exclude(estado__in=['Finalizado', 'Cancelado'])
+    if uss.exists():
+        finalizar = False
     # comprobar si todos los sprints están finalizados
     for sprint in sprints:
         if sprint.estado != 'F':
             finalizar = False
+            break
     # comprobar si hay sprints en el proyecto
     if not sprints.exists():
         finalizar = False
@@ -722,7 +726,7 @@ def crearSprint(request, id):
 
 def listarUS_para_Sprint(request, id, id_sprint):
     # USs = User_Story.objects.filter(idproyecto=id, estado='N').order_by('-prioridad') | User_Story.objects.filter(idproyecto=id, estado='STSA').order_by('-prioridad') | User_Story.objects.filter(idproyecto=id, estado='Cancelado').order_by('-prioridad')
-    USs = User_Story.objects.filter(idproyecto=id, estado__in=['N', 'STSA', 'Cancelado']).order_by('-prioridad')
+    USs = User_Story.objects.filter(idproyecto=id, estado__in=['N', 'STSA', 'Rechazado']).order_by('-prioridad')
     context = {
         'USs': USs,
         'proyecto_id': id,
@@ -855,7 +859,7 @@ def finalizarSprint(request, id, id_sprint):
     sprint = Sprint.objects.get(id=id_sprint)  # tomar el sprint seleccionado
     sprint.estado = 'F'  # estado de finalizado
     sprint.save()  # guardar el estado
-    planning = User_Story.objects.filter(idSprint=id_sprint, estado__in=['Por hacer', 'En Ṕroceso', 'Cancelado'])
+    planning = User_Story.objects.filter(idSprint=id_sprint).exclude(estado__in=['Finalizado', 'Cancelado'])
     for us in planning:
         UP = us.UP
         BV = us.BV
@@ -873,6 +877,7 @@ def mostrarKanban(request, id, id_sprint, id_tipo):
     else:
         tipo = TipoUS.objects.get(id=id_tipo)
     estados = tipo.estado.split(', ')
+    estados.append('Cancelado')
     estados.append('Finalizado')
     us = User_Story.objects.filter(idSprint=id_sprint, tipo=tipo)  # kan ban del sprint seleccionado
     USs = []
@@ -1005,7 +1010,7 @@ def decisionScrumUS(request, id, opcion, id_us):
                 UP = us.UP
                 BV = us.BV
                 us.prioridad = round(((0.6 * BV + 0.4 * UP) / 2) + 3, 2)
-                us.estado = 'Cancelado'
+                us.estado = 'Rechazado'
                 decision = "Rechazado"
                 us.save()
             send_mail(
