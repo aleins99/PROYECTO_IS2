@@ -655,7 +655,6 @@ def verListaUS(request, id):
 
 
 # Lista de tipo de us dentro de un proyecto
-
 def listarTUSproyectos(request, id):
     proyectos = Proyecto.objects.exclude(id=id)
     context = {
@@ -667,6 +666,7 @@ def listarTUSproyectos(request, id):
     return render(request, 'Proyect_Agile/Rol/listarProyectoRol.html', context)
 
 
+# listar todos los tipos de US del sistema excepto los tipos del proyecto mismo
 def listarTipoUsProyectos(request, id):
     tipos = TipoUS.objects.all().exclude(idproyecto=id)
     context = {
@@ -677,7 +677,6 @@ def listarTipoUsProyectos(request, id):
     return render(request, 'Proyect_Agile/US/listarTiposProyectos.html', context)
 
 # Funcion para importar tipos de us de otro proyecto al actual
-
 def importarTipoUS(request, id, id_tipo):
     proyecto1 = Proyecto.objects.get(id=id)
     tipo = TipoUS.objects.get(id=id_tipo)
@@ -687,7 +686,6 @@ def importarTipoUS(request, id, id_tipo):
 
 
 # Muestra el listado de sprints del proyecto
-
 def verSprint(request, id):
     iniciar = True
     if Sprint.objects.filter(idproyecto=id, estado="E").exists():
@@ -704,6 +702,7 @@ def verSprint(request, id):
     if Sprint.objects.filter(idproyecto=id, estado='E').exists() and Sprint.objects.filter(idproyecto=id,
                                                                                            estado='P').exists():
         ban = False
+    print(obtenerPermisos(id, request.user))
     context = {
         'proyecto': proyecto,
         'crear': ban,

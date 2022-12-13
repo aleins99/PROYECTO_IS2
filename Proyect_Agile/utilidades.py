@@ -116,11 +116,20 @@ def obtenerlistaDeProyectosUser(request):
 
 # obtener los permisos del usuario
 def obtenerPermisos(proyectoid, usuario):
-    miembro = Miembro.objects.filter(idproyecto=proyectoid,usuario=usuario).first()
+    miembro = Miembro.objects.filter(idproyecto=proyectoid, usuario=usuario).first()
     permisos = {}
-    if not usuario.groups.filter(name='Administrador').exists():
+    ban = False
+    try:
+        permisos = miembro.idrol.obtener_permisos()
+        ban = True
+    except:
+        ban = False
+        
+    if not usuario.groups.filter(name='Administrador').exists() or ban:
+        print("aca?")
         permisos = miembro.idrol.obtener_permisos()
     else:
+        print("acaaa?")
         rol = Rol.objects.filter(nombre='admin').first()
         permisos = rol.obtener_permisos()
     return permisos
