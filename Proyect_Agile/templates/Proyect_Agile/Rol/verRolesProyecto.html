@@ -35,7 +35,7 @@
         {% if permisos|get_item:'crearRol' %}
             <div class="mb-3">
                 <a class="btn btn-primary" href="{% url 'agregarrol' proyecto.id %}"> Crear Rol </a>
-                <a class="btn btn-primary" href="{% url 'listarRolesProyecto' proyecto.id %}"> Importar Rol </a>
+                <a class="btn btn-primary" href="{% url 'listarRoles' proyecto.id %}"> Importar Rol </a>
             </div>
         {% endif %}
     {% endif %}

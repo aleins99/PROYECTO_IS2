@@ -1,0 +1,48 @@
+{% extends 'account/base.html' %}
+
+{% block content %}
+
+    <h1>Bienvenido : {{ usuario.first_name }} {{ usuario.last_name }}</h1>
+
+    <br/>
+
+    <h1>Lista de Roles</h1>
+
+    <table class="table table-dark table-hover table-bordered border-muted">
+
+        <thead>
+        <tr>
+            <th scope="col">Rol</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Proyecto</th>
+            <th scope="col">Permisos</th>
+            <th scope="col">Acción</th>
+        </tr>
+
+        </thead>
+        <tbody>
+
+        {# if the user check the checkbox import the role #}
+            {% for rol in roles %}
+
+                <tr>
+                    <td> {{ rol.nombre }}  </td>
+
+                    <td>{{ rol.descripcion }}</td>
+                    <td>{{ rol.idProyecto.nombre }}</td>
+                    <td><a href="{% url 'permisosRol' proyecto_id rol.id %}">Ver permisos</a></td>
+                    <td><a href="{% url 'importarRol' proyecto_id rol.id %}">Importar Rol</a></td>
+                </tr>
+
+            {% endfor %}
+
+
+
+        </tbody>
+    </table>
+
+    <div class="mb-3">
+        <a class="btn btn-primary" href="{% url 'rolproyecto' proyecto_id %}" > Volver </a>
+    </div>
+
+{% endblock %}

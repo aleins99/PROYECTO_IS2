@@ -127,24 +127,19 @@ def obtenerPermisos(proyectoid, usuario):
 
 
 # obtener los campos de Rol
-def importarRolProyecto(idproyecto1, idproyecto2):
-    proyecto1 = Proyecto.objects.get(id=idproyecto1)
-    proyecto2 = Proyecto.objects.get(id=idproyecto2)
-    roles = Rol.objects.filter(idProyecto=proyecto2)
-
+def importarRolProyecto(idproyecto, idrol):
+    # el rol a importar
+    rol = Rol.objects.get(id=idrol)
+    proyecto = Proyecto.objects.get(id=idproyecto)
     rolImportado = Rol()
-    for rol in roles:
-        if not Rol.objects.filter(idProyecto=proyecto1, nombre=rol.nombre).exists():
-            # copy all the fields from the role to the new role 
-            rolImportado = Rol.objects.create(nombre=rol.nombre, descripcion=rol.descripcion, idProyecto=proyecto1)
-            # copy all the permissions from the role to the new role
-            # import all the fields from the model Rol
-            for field in Rol._meta.get_fields():
-                # if the field is a permission
-                if field.name.startswith('agregar') or field.name.startswith('eliminar') or field.name.startswith('modificar') or field.name.startswith('crear') or field.name.startswith('empezar') or field.name.startswith('finalizar'): 
-                    # get the value of the permission
-                    value = getattr(rol, field.name)
-                    # set the value of the permission in the new role
-                    setattr(rolImportado, field.name, value)
+
+    # creamos un nuevo rol con los datos del rol a importar
+    rolImportado = Rol.objects.create(nombre=rol.nombre, descripcion=rol.descripcion, idProyecto=proyecto)
+
+    # copia todos los permisos de rol a rolImportado
+    for field in Rol._meta.get_fields():
+        if field.name.startswith('agregar') or field.name.startswith('eliminar') or field.name.startswith('modificar') or field.name.startswith('crear') or field.name.startswith('empezar') or field.name.startswith('finalizar'):
+            value = getattr(rol, field.name)
+            setattr(rolImportado, field.name, value)
     return rolImportado
 

@@ -479,14 +479,35 @@ def listarRolesProyecto(request, id):
     }
     return render(request, 'Proyect_Agile/Rol/listarProyectoRol.html', context)
 
-
-# importar roles de otros proyectos al proyecto actual
-def importarRol(request, id, idproyecto):
-    rolImportado = importarRolProyecto(id, idproyecto)
+# vista para listar los roles de cada proyecto
+def listarRolesProyectos(request, id):
+    roles = Rol.objects.all().exclude(nombre__in=['Scrum Master', 'admin']).exclude(idProyecto=id)
+    proyecto = Proyecto.objects.get(id=id)
+    context = {
+        'roles': roles,
+        'proyecto': proyecto,
+        'proyecto_id': id,
+    }
+    return render(request, 'Proyect_Agile/Rol/listarRolesProyectos.html', context)
+# agregar el rol de otro proyecto al nuestro
+def importarRol(request, id, id_rol):
+    rolImportado = importarRolProyecto(id, id_rol)
     rolImportado.save()
     return redirect('rolproyecto', id)
 
+def permisosRol(request, id, id_rol):
+    permisos = Rol.objects.get(id=id_rol).obtener_permisos()
+    permisosRol = []
+    for permiso in permisos:
+        if permisos[permiso] == True:
+            permisosRol.append(permiso)
 
+    context = {
+        'permisos': permisosRol,
+        'proyecto_id': id,
+        'rol': Rol.objects.get(id=id_rol)
+    }
+    return render(request, 'Proyect_Agile/Rol/permisos.html', context)
 #### TIPO US ####
 def tipoUSProyecto(request, id):
     proyecto = get_object_or_404(Proyecto, pk=id)

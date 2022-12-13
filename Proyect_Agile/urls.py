@@ -34,7 +34,9 @@ urlpatterns = [
     # vista en donde se listan los roles de un proyecto en especifico
     path('Proyecto/<idproyecto>/roles/<pk>/editarRoles/', views.editarRol.as_view(), name='editarRol'),
     # form en donde se permite editar el rol de un miembro de un proyecto en especifico
-    path('Proyecto/<id>/roles/importarRoles/<idproyecto>/', views.importarRol, name='importarRol'),
+    path('Proyecto/<id>/roles/importarRoles/<id_rol>/', views.importarRol, name='importarRol'),
+    path('Roles/Proyecto/<id>/', views.listarRolesProyectos, name='listarRoles'),
+    path('Proyecto/<id>/Roles/<id_rol>/permisos/', views.permisosRol, name='permisosRol'),
     # vista en donde se permite importar roles de otros proyectos
     path('Proyecto/<id>/roles/importarRoles/', views.listarRolesProyecto, name='listarRolesProyecto'),
     # vista en donde se listan todos los roles presentes en un proyecto en especifico
