@@ -715,18 +715,37 @@ def verSprint(request, id):
 # form para la creacion de sprints de un proyecto
 
 def crearSprint(request, id):
+    proyecto = Proyecto.objects.get(id=id)
     if request.method == 'POST':
         form = SprintForm(request.POST)
-        if form.is_valid():
-            # get the days between the start and end date without counting the weekends
-            ini = form.cleaned_data['fechainicio']
-            fin = form.cleaned_data['fechafin']
-            dias = (fin - ini).days + 1
-            findes = len([1 for x in range(dias) if (ini + timedelta(days=x)).weekday() in [5, 6]])
-            duracionSprint = dias - findes
-            form.instance.duracion = duracionSprint * 24
-            form.save()
-        return redirect('verSprint', id)
+        # get the start and end date from the form
+        inicio = form.data['fechainicio']
+        final = form.data['fechafin']
+        if inicio > str(proyecto.fechainicio) and final < str(proyecto.fechafin):
+            if form.is_valid():
+                ini = form.data['fechainicio']
+                fin = form.data['fechafin']
+                # get the days between the start and end date without counting the weekends
+                dias = (fin - ini).days + 1
+                findes = len([1 for x in range(dias) if (ini + timedelta(days=x)).weekday() in [5, 6]])
+                duracionSprint = dias - findes
+                form.instance.duracion = duracionSprint * 24
+                form.save()
+                return redirect('verSprint', id)
+        else:
+            form = SprintForm(request.POST or None)
+
+            context = {
+                'form': form,
+                'ultimoSprint': Sprint.objects.filter(idproyecto=id).last(),
+                'proyecto_id': id,
+                'error': True,
+                'proyecto': proyecto,
+
+            }
+            return render(request, 'Proyect_Agile/Sprint/crearSprint.html', context)
+
+
     else:
         nroultimosprint = Sprint.objects.filter(
             idproyecto=id)
@@ -740,8 +759,12 @@ def crearSprint(request, id):
         else:
             formSprint.fields["numero"].initial = 1
 
-        formSprint.fields["idproyecto"].initial = proyecto
-        fechafin = Sprint.objects.filter(idproyecto=proyecto).order_by("-numero").first().fechafin + timedelta(days=1)
+        formSprint.fields["idproyecto"].initial = proyecto 
+        # si no hay sprints, el inicio del sprint es el dia siguiente al inicio del            
+        if not Sprint.objects.filter(idproyecto=proyecto).exists():
+            fechafin = proyecto.fechainicio + timedelta(days=1)
+        else:
+            fechafin = Sprint.objects.filter(idproyecto=proyecto).order_by("-numero").first().fechafin + timedelta(days=1)
         # si es sabado o domingo, el inicio del sprint es el lunes
         if fechafin.weekday() == 5:
             formSprint.fields["fechainicio"].initial = fechafin + timedelta(days=2)
@@ -752,12 +775,15 @@ def crearSprint(request, id):
         else:
             formSprint.fields["fechainicio"].initial = fechafin
             formSprint.fields["fechafin"].initial = fechafin + timedelta(days=1)
-            
+
+        error = False
 
         context = {
             'form': formSprint,
             'ultimoSprint': Sprint.objects.filter(idproyecto=id).last(),
-            'proyecto_id': id
+            'proyecto_id': id,
+            'error': error,
+            'proyecto': proyecto,
         }
     return render(request, 'Proyect_Agile/Sprint/crearSprint.html', context)
 
@@ -864,14 +890,19 @@ def listaMiembroSprint(request, id, id_sprint):
 def listarPlanningPoker(request, id, id_sprint):
     planningPoker = User_Story.objects.filter(idSprint=id_sprint).order_by(
         '-prioridad')  # listar us dentro del sprint backlog
+    capacidad = 0
+    for us in planningPoker:
+        capacidad += us.estimacion
     proyecto = Proyecto.objects.get(id=id)
     sprint = Sprint.objects.get(id=id_sprint)
+    duracion = sprint.duracion
     context = {
         'proyecto': proyecto,
         'proyecto_id': id,
         'USs': planningPoker,
         'id_sprint': id_sprint,
         'sprint': sprint,
+        'capacidad': capacidad
 
     }
     return render(request, 'Proyect_Agile/Sprint/listarPlanningPoker.html', context)

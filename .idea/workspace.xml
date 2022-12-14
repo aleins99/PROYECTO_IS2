@@ -6,9 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="fc82abfe-1e11-4cfa-88ee-f8d83a81d086" name="Changes" comment="Agregado del script perdido en el limbo">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/verSprint.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/verSprint.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Proyecto/listarProyectos.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Proyecto/listarProyectos.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/crearSprint.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/crearSprint.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/listarPlanningPoker.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/listarPlanningPoker.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Proyect_Agile/utilidades.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/utilidades.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Proyect_Agile/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/views.py" afterDir="false" />
     </list>
@@ -174,7 +174,7 @@
       <workItem from="1670973261278" duration="180000" />
       <workItem from="1670983398705" duration="1000" />
       <workItem from="1670983566446" duration="4000" />
-      <workItem from="1670986574571" duration="2305000" />
+      <workItem from="1670986574571" duration="5113000" />
     </task>
     <servers />
   </component>

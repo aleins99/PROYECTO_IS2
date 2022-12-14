@@ -6,6 +6,11 @@
             ERROR AL GUARDAR
         </div>
     {% endif %}
+    {% if error %}
+        <div class="alert alert-danger" role="alert">
+            Su fecha supera al rango del proyecto a {{ proyecto.fechafin }}
+        </div>
+    {% endif %}
     <div class="container mb-5">
 
         <div id="idAlertaRangoFecha" style="display: none;">

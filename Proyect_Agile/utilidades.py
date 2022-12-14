@@ -111,10 +111,12 @@ def nombreproyecto(proyecto):
 def obtenerlistaDeProyectosUser(request):
     listaDeProyectos = list(Proyecto.objects.filter(scrumMaster=request.user))
     miembro = Miembro.objects.filter(usuario=request.user, isActivo=True)
+
     for x in miembro:
         if not x.idproyecto in listaDeProyectos:
             listaDeProyectos.append(x.idproyecto)
-    listaDeProyectos.sort(key=nombreproyecto)
+    listaDeProyectos.sort(key=lambda x: x.estado == 'F')
+    # sort by fechafin and estado = 'F'
     return listaDeProyectos
 
 
