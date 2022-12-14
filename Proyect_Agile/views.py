@@ -723,8 +723,8 @@ def crearSprint(request, id):
         final = form.data['fechafin']
         if inicio > str(proyecto.fechainicio) and final < str(proyecto.fechafin):
             if form.is_valid():
-                ini = form.data['fechainicio']
-                fin = form.data['fechafin']
+                ini = form.cleaned_data['fechainicio']
+                fin = form.cleaned_data['fechafin']
                 # get the days between the start and end date without counting the weekends
                 dias = (fin - ini).days + 1
                 findes = len([1 for x in range(dias) if (ini + timedelta(days=x)).weekday() in [5, 6]])
