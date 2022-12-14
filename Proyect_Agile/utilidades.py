@@ -1,15 +1,15 @@
-
 from .models import *
 
 from django import template
-from .models import Miembro,Proyecto
+from .models import Miembro, Proyecto
 from django.shortcuts import get_object_or_404
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth.models import User
 
+
 # utlilidades para la creacion de las instancias de los modelos y otras facilidades
 
-#crea el rol y asigna todos los permisos que deberia tener el scrum master
+# crea el rol y asigna todos los permisos que deberia tener el scrum master
 def crearRolScrumMaster(proyecto):
     sm = Rol()
     sm.idProyecto = proyecto
@@ -33,7 +33,7 @@ def crearRolScrumMaster(proyecto):
     return Rol.objects.order_by('-id')[0]
 
 
-#crea el por defecto de equipo desarrollador
+# crea el por defecto de equipo desarrollador
 def crearRolEquipoDesarrollador(proyecto):
     ed = Rol()
     ed.idProyecto = proyecto
@@ -43,8 +43,9 @@ def crearRolEquipoDesarrollador(proyecto):
     ed.save()
     return Rol.objects.order_by('-id')[0]
 
+
 # funcion para asignar el rol de scrum master
-def asignarRolScrumMaster(proyecto, usuario, rol ):
+def asignarRolScrumMaster(proyecto, usuario, rol):
     sm = Miembro()
     sm.idrol = rol
     sm.idproyecto = proyecto
@@ -99,10 +100,13 @@ def obtenerPermisosProyecto(request, proyecto):
     # retornamos una lista de permisos o una lista vacia
     return permisos
 
+
 # retorna el nombre del proyecto
 
 def nombreproyecto(proyecto):
     return proyecto.nombre
+
+
 # retorna la lista de los proyectos en el sistema, no se pueden ver los proyectos a los que no pertenece el usuario
 def obtenerlistaDeProyectosUser(request):
     listaDeProyectos = list(Proyecto.objects.filter(scrumMaster=request.user))
@@ -124,7 +128,7 @@ def obtenerPermisos(proyectoid, usuario):
         ban = True
     except:
         ban = False
-        
+
     if not usuario.groups.filter(name='Administrador').exists() or ban:
         print("aca?")
         permisos = miembro.idrol.obtener_permisos()
@@ -147,8 +151,9 @@ def importarRolProyecto(idproyecto, idrol):
 
     # copia todos los permisos de rol a rolImportado
     for field in Rol._meta.get_fields():
-        if field.name.startswith('agregar') or field.name.startswith('eliminar') or field.name.startswith('modificar') or field.name.startswith('crear') or field.name.startswith('empezar') or field.name.startswith('finalizar'):
+        if field.name.startswith('agregar') or field.name.startswith('eliminar') or field.name.startswith(
+                'modificar') or field.name.startswith('crear') or field.name.startswith(
+            'empezar') or field.name.startswith('finalizar'):
             value = getattr(rol, field.name)
             setattr(rolImportado, field.name, value)
     return rolImportado
-

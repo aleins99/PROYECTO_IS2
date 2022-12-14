@@ -9,6 +9,7 @@
             <th scope="col">Fecha Inicio</th>
             <th scope="col">Fecha Fin</th>
             <th scope="col">Estado</th>
+            <th scope="col">Duracion</th>
             <th scope="col" class="text-center">Acciones</th>
         </tr>
         </thead>
@@ -33,6 +34,7 @@
                         Finalizado
                     {% endif %}
                 </td>
+                <td>{{ duracion }}</td>
                 <td>
                     <form method="POST" action="{% url 'verSprint' proyecto_id %}">
                         {% csrf_token %}

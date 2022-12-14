@@ -21,6 +21,9 @@ from allauth.account.models import EmailAddress
 from django.contrib.auth.models import AbstractUser
 from allauth.utils import get_user_model
 from django.core.mail import send_mail
+# import timedelta
+from datetime import datetime, timedelta
+from django.utils import timezone
 
 from django.http import JsonResponse
 
@@ -699,10 +702,10 @@ def verSprint(request, id):
     if request.user == proyecto.scrumMaster:
         scrum = True
 
-    if Sprint.objects.filter(idproyecto=id, estado='E').exists() and Sprint.objects.filter(idproyecto=id,
-                                                                                           estado='P').exists():
+    if Sprint.objects.filter(idproyecto=id, estado='E').exists() and Sprint.objects.filter(idproyecto=id, estado='P').exists():
         ban = False
-    print(obtenerPermisos(id, request.user))
+    # calcular la duracion de los sprints
+    
     context = {
         'proyecto': proyecto,
         'crear': ban,
@@ -712,7 +715,8 @@ def verSprint(request, id):
         'usuario': usuario,
         'estados': estados_Proyecto,
         'proyecto_id': id,
-        'permisos': obtenerPermisos(id, request.user)
+        'permisos': obtenerPermisos(id, request.user),
+        'duracion': duracionSprint
     }
     return render(request, 'Proyect_Agile/Sprint/verSprint.html', context)
 
@@ -723,6 +727,13 @@ def crearSprint(request, id):
     if request.method == 'POST':
         form = SprintForm(request.POST)
         if form.is_valid():
+            # get the days between the start and end date without counting the weekends
+            ini = form.cleaned_data['fechainicio']
+            fin = form.cleaned_data['fechafin']
+            print("fechainicio" + str(ini.weekday()))
+            dias = (fin - ini).days + 1
+            findes = len([1 for x in range(dias) if (ini + timedelta(days=x)).weekday() in [5, 6]])
+            duracionSprint = dias - findes
             form.save()
         return redirect('verSprint', id)
     else:
@@ -739,6 +750,18 @@ def crearSprint(request, id):
             formSprint.fields["numero"].initial = 1
 
         formSprint.fields["idproyecto"].initial = proyecto
+        fechafin = Sprint.objects.filter(idproyecto=proyecto).order_by("-numero").first().fechafin + timedelta(days=1)
+        # si es sabado o domingo, el inicio del sprint es el lunes
+        if fechafin.weekday() == 5:
+            formSprint.fields["fechainicio"].initial = fechafin + timedelta(days=2)
+            formSprint.fields["fechafin"].initial = fechafin + timedelta(days=3)
+        elif fechafin.weekday() == 6:
+            formSprint.fields["fechainicio"].initial = fechafin + timedelta(days=1)
+            formSprint.fields["fechafin"].initial = fechafin + timedelta(days=2)
+        else:
+            formSprint.fields["fechainicio"].initial = fechafin
+            formSprint.fields["fechafin"].initial = fechafin + timedelta(days=1)
+            
 
         context = {
             'form': formSprint,
