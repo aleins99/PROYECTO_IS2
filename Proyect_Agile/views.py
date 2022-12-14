@@ -778,6 +778,15 @@ def finalizarSprint(request, id, id_sprint):
     sprint = Sprint.objects.get(id=id_sprint)  # tomar el sprint seleccionado
     sprint.estado = 'F'  # estado de finalizado
     sprint.save()  # guardar el estado
+    # para calcular las horas de las tareas del sprint
+    us_sprint = User_Story.objects.filter(idSprint=id_sprint) # todos los us del sprint
+    horas=0 # para cargar las horas de cada tarea
+    for us in us_sprint: # cada us del sprint
+        tareas = Tarea.objects.filter(idUs=us) # traemos todas las tareas que sean del us , en ese momento
+        for tarea in tareas:
+            horas = horas + tarea.duracion # sumamos la duracion de cada tarea
+    sprint.Htrabajadas=horas
+    sprint.save()  # guardar el estado
     planning = User_Story.objects.filter(idSprint=id_sprint, estado__in=['Por hacer', 'En Ṕroceso', 'Cancelado'])
     for us in planning:
         UP = us.UP
@@ -970,17 +979,29 @@ def cambiarEncargado(request, id, id_sprint, id_miembro):
 
 def burndownChart(request,id):
     proyecto=Proyecto.objects.get(id=id)
+    scrum=False;
     if request.user == proyecto.scrumMaster:
         scrum = True
 
     # dibujo del burndown
 
-    x_data = [0, 1, 2, 3]
-    y_data = [x ** 2 for x in x_data]
-    plot_div = plot([Scatter(x=x_data, y=y_data,mode='lines', name='test',
-                             opacity=0.8, marker_color='green')],
-                             output_type='div')
+    # asignacion
 
+    x_data = []
+    y_data = []
+    i = 0
+    sprints = Sprint.objects.filter(idproyecto=proyecto)
+
+    for sprint in sprints:
+
+        i=i+1
+        x_data.append(i)
+        y_data.append(sprint.Htrabajadas)
+
+    plot_div_i = plot({ 'data' : [Scatter(x=x_data, y=y_data,mode='lines', name='test',
+                             opacity=0.8, marker_color='green')],
+                    'layout': {'title': '', 'xaxis': {'title': 'Sprint','tickmode' : "linear", "tick0" : "1", "dtick" : "1" }, 'yaxis': {'title': 'UP'}},
+    }, output_type='div' )
 
     context={
 
@@ -990,7 +1011,7 @@ def burndownChart(request,id):
         'scrum': scrum,
         'proyecto_id': id,
         'permisos': obtenerPermisos(id, request.user),
-        'burndownChart':plot_div
+        'burndownChart':plot_div_i
 
     }
     return render(request, 'Proyect_Agile/Proyecto/burndownChart.html', context)
