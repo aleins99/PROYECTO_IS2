@@ -90,6 +90,8 @@ urlpatterns = [
     # vista para la aprobacion del us o su cancelacion
     path('Proyecto/<id>/US/<id_us>/historial/', views.historialUs, name='historialUs'),
     path('Proyecto/<id>/finalizar', views.finalizarProyecto, name='finalizarProyecto'),
-    path('Proyecto/<idproyecto>/TipoUs/<pk>/editar/', views.editarTipoUS.as_view(), name='editarTipoUS')
+    path('Proyecto/<idproyecto>/TipoUs/<pk>/editar/', views.editarTipoUS.as_view(), name='editarTipoUS'),
+    path('Proyecto/<id>/burndownChart/', views.burndownChart, name='burndownChart')
+    #vista para ver el burndown chart del proyecto
 
 ]

@@ -129,6 +129,7 @@ class Sprint(models.Model):
     idproyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT)
     numero = models.IntegerField(null=True)
     duracion = models.IntegerField(null=True, blank=True)
+    Htrabajadas = models.IntegerField(default=0)
     ESTADOS = (
         ('P', 'Pendiente'),
         ('E', 'En ejecucion'),

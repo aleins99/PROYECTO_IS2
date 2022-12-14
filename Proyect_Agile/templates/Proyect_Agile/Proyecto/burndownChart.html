@@ -1,0 +1,10 @@
+{% extends 'Proyect_Agile/Proyecto/verProyecto.html' %}
+{% block proyectoContent %}
+
+    <br>
+    <h2>BurndownChart</h2>
+
+ {% autoescape off %}
+  {{ burndownChart }}
+  {% endautoescape %}
+{% endblock %}

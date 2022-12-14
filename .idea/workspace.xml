@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="fc82abfe-1e11-4cfa-88ee-f8d83a81d086" name="Changes" comment="Agregado del script perdido en el limbo">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Proyecto/verProyecto.html" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Proyecto/verProyecto.html" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/Proyect_Agile/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/models.py" afterDir="false" />
+>>>>>>> origin/rsvf
       <change beforePath="$PROJECT_DIR$/Proyect_Agile/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Proyect_Agile/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -14,9 +18,12 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+<<<<<<< HEAD
   <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
+=======
+>>>>>>> origin/rsvf
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -66,6 +73,7 @@
       <recent name="C:\Users\Acer\Desktop\is2\PROYECTO_IS2\templates" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Proyecto" />
       <recent name="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/US" />
       <recent name="$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/crearUS" />
     </key>
@@ -159,6 +167,7 @@
       <workItem from="1669659304250" duration="1210000" />
       <workItem from="1670249502446" duration="3209000" />
       <workItem from="1670265216633" duration="20559000" />
+<<<<<<< HEAD
       <workItem from="1670369242289" duration="978000" />
       <workItem from="1670440915312" duration="2414000" />
       <workItem from="1670511323576" duration="2285000" />
@@ -172,6 +181,15 @@
       <workItem from="1670983398705" duration="1000" />
       <workItem from="1670983566446" duration="4000" />
       <workItem from="1670986574571" duration="5113000" />
+=======
+      <workItem from="1670369242289" duration="524000" />
+      <workItem from="1670503576795" duration="1170000" />
+      <workItem from="1670526577285" duration="3536000" />
+      <workItem from="1670895408946" duration="3042000" />
+      <workItem from="1670964013432" duration="1063000" />
+      <workItem from="1671022269239" duration="5225000" />
+      <workItem from="1671041008682" duration="5486000" />
+>>>>>>> origin/rsvf
     </task>
     <servers />
   </component>
@@ -189,4 +207,18 @@
       </map>
     </option>
   </component>
+<<<<<<< HEAD
+=======
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/Proyect_Agile/templates/Proyect_Agile/Sprint/kanban.html</url>
+          <line>44</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+>>>>>>> origin/rsvf
 </project>
