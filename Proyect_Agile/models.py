@@ -128,6 +128,7 @@ class Sprint(models.Model):
     fechafin = models.DateField(blank=False, null=False)
     idproyecto = models.ForeignKey(Proyecto, on_delete=models.RESTRICT)
     numero = models.IntegerField(null=True)
+    duracion = models.IntegerField(null=True, blank=True)
     ESTADOS = (
         ('P', 'Pendiente'),
         ('E', 'En ejecucion'),

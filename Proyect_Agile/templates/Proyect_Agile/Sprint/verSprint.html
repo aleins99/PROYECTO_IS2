@@ -9,7 +9,7 @@
             <th scope="col">Fecha Inicio</th>
             <th scope="col">Fecha Fin</th>
             <th scope="col">Estado</th>
-            <th scope="col">Duracion</th>
+            <th scope="col">Capacidad</th>
             <th scope="col" class="text-center">Acciones</th>
         </tr>
         </thead>
@@ -34,7 +34,14 @@
                         Finalizado
                     {% endif %}
                 </td>
-                <td>{{ duracion }}</td>
+                {% if sprint.duracion == 1 %}
+                    <td>{{ sprint.duracion }} hora disponible</td>
+                {% elif sprint.duracion == 0 %}
+                    <td>Sin disponibilidad</td>
+                {% else %}
+                    <td>{{ sprint.duracion }} horas disponibles</td>
+                {% endif %}
+
                 <td>
                     <form method="POST" action="{% url 'verSprint' proyecto_id %}">
                         {% csrf_token %}
@@ -47,10 +54,12 @@
                                            type="button"
                                            class="btn btn-primary">Iniciar</a>
                                     {% endif %}
-                                    <a href="{% url 'listarUS_para_Sprint' proyecto_id sprint.id %}"
-                                       title="Ver"
-                                       type="button"
-                                       class="btn btn-primary">Agregar US</a>
+                                    {% if permisos|get_item:'agregarUserStory' %}
+                                        <a href="{% url 'listarUS_para_Sprint' proyecto_id sprint.id %}"
+                                           title="Ver"
+                                           type="button"
+                                           class="btn btn-primary">Agregar US</a>
+                                    {% endif %}
                                 {% endif %}
                             {% else %}
                                 <a href="{% url 'mostrarKanban' proyecto_id sprint.id sprint|idtipo %}" title="Kanban"

@@ -60,9 +60,7 @@ def usTipo(idtipo):
 def tarea(us):
     tareas = Tarea.objects.filter(idUs=us)
     if tareas:
-        print("true")
         return True
-    print("false")
     return False
 
 
@@ -365,10 +363,7 @@ class editarMiembro(UpdateView):
         cargahoraria = miembro.cargahoraria
         # get the new value of miembro.cargahoraria
         cargahoraria2 = form.cleaned_data['cargahoraria']
-        print(cargahoraria2)
-        print(cargahoraria)
         miembro.horasDisponibles = miembro.horasDisponibles + (cargahoraria2 - cargahoraria)
-        print(miembro.horasDisponibles)
         # save the new value of miembro.cargahoraria
         miembro.save()
         return super().form_valid(form)
@@ -458,9 +453,6 @@ class editarRol(UpdateView):
 
     def get_success_url(self):
         id = self.kwargs['idproyecto']
-
-        print(id)
-
         return reverse('rolproyecto', kwargs={'id': id})
 
 
@@ -716,7 +708,6 @@ def verSprint(request, id):
         'estados': estados_Proyecto,
         'proyecto_id': id,
         'permisos': obtenerPermisos(id, request.user),
-        'duracion': duracionSprint
     }
     return render(request, 'Proyect_Agile/Sprint/verSprint.html', context)
 
@@ -730,10 +721,10 @@ def crearSprint(request, id):
             # get the days between the start and end date without counting the weekends
             ini = form.cleaned_data['fechainicio']
             fin = form.cleaned_data['fechafin']
-            print("fechainicio" + str(ini.weekday()))
             dias = (fin - ini).days + 1
             findes = len([1 for x in range(dias) if (ini + timedelta(days=x)).weekday() in [5, 6]])
             duracionSprint = dias - findes
+            form.instance.duracion = duracionSprint * 24
             form.save()
         return redirect('verSprint', id)
     else:
@@ -797,7 +788,6 @@ def agregarUs_para_Sprint(request, id, id_us, id_sprint, estimacion):
             miembro.save()
 
         form = formCrearPlanningPoker(request.POST)
-        print("hasta aca llego")
 
         if form.is_valid():
             us = User_Story.objects.get(id=id_us)
@@ -834,7 +824,7 @@ def agregarUs_para_Sprint(request, id, id_us, id_sprint, estimacion):
         form.fields["idSprint"].initial = Sprint.objects.get(id=id_sprint)
 
         # se excluye el rol
-        form.fields["miembroEncargado"].queryset = Miembro.objects.filter(idproyecto=id)
+        form.fields["miembroEncargado"].queryset = Miembro.objects.filter(idproyecto=id).exclude(usuario=proyecto.scrumMaster)
         context = {
             'form': form,
 
@@ -962,7 +952,6 @@ def cambiarEstadoUs(request):
 
 
 def quitarUSsprint(request, id, id_sprint, id_us):
-    print(id_sprint, " ", id_us)
     us = User_Story.objects.get(id=id_us)
     miembro = Miembro.objects.get(usuario=us.miembroEncargado.usuario, idproyecto=id)
     miembro.horasDisponibles += us.estimacion

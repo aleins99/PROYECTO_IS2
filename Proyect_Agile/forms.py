@@ -55,7 +55,6 @@ class UserStoryForm(forms.ModelForm):
         bv = us.get("BV")
 
         if up <= 0 or bv <= 0:
-            print("entrooooo")
             raise forms.ValidationError('ERROR!!!!. BV o UP inválidos, cargue un valor mayor a cero')
     class Meta:
         model = User_Story
@@ -85,7 +84,6 @@ class MiembroForm(forms.ModelForm):
         cargaHoraria = miembro.get("cargahoraria")
 
         if cargaHoraria <= 0:
-            print("entrooooo")
             raise forms.ValidationError('ERROR!!!!. Estimación inválida, cargue un valor mayor a cero')
     class Meta:
         model = Miembro
@@ -153,8 +151,8 @@ class tipoUSForm(forms.ModelForm):
 class SprintForm(forms.ModelForm):
     class Meta:
         model = Sprint
-        fields = ['nombre', 'numero', 'fechainicio', 'fechafin', 'estado', 'idproyecto']
-        labels = {'fechainicio':'Fecha Inicio', 'fechafin':'Fecha Fin'}
+        fields = ['nombre', 'numero', 'fechainicio', 'fechafin', 'estado', 'idproyecto', 'duracion']
+        labels = {'fechainicio':'Fecha Inicio', 'fechafin':'Fecha Fin', 'duracion':''}
         widgets = {
             'descripcion': forms.Textarea(attrs={'cols': 1, 'rows': 2}),
             'numero': forms.TextInput(
@@ -164,7 +162,7 @@ class SprintForm(forms.ModelForm):
             'fechafin': forms.DateInput(attrs={'type': 'date'}),
             'idproyecto': forms.HiddenInput(),
             'estado': forms.HiddenInput(),
-
+            'duracion': forms.HiddenInput()
         }
 
 
@@ -188,22 +186,26 @@ class formCrearPlanningPoker(forms.ModelForm):
         us = super(formCrearPlanningPoker, self).clean()
         estimacion = us.get('estimacion')
         encargado = us.get('miembroEncargado')
-        print(encargado)
+        idsprint = us.get('idSprint').id
+        sprint = Sprint.objects.get(id=idsprint)
+        duracion = sprint.duracion
 
         try:
             miembro = Miembro.objects.get(usuario=encargado.usuario, idproyecto=encargado.idproyecto)
-            print(miembro)
             cargahoraria = miembro.cargahoraria
             horasDisponibles = miembro.horasDisponibles
         except:
             raise forms.ValidationError("El scrum master no puede ser el encargado de un US")
-
+        if estimacion > duracion:
+            raise forms.ValidationError('ERROR!!! Su valor supera a la capacidad del sprint. Puede asignar hasta un máximo de: ' + str(duracion) + ' horas disponibles')
         if estimacion <= 0 and horasDisponibles > 0:
 
             raise forms.ValidationError('ERROR!!!!. Estimación inválida, cargue un valor mayor a cero. Puede asignar hasta un máximo de: ' + str(horasDisponibles) + ' horas disponibles.')
 
-        elif horasDisponibles >= estimacion :
+        elif horasDisponibles >= estimacion:
             miembro.horasDisponibles = horasDisponibles - estimacion
+            sprint.duracion = duracion - estimacion
+            sprint.save()
             miembro.save()
         elif horasDisponibles == 0:
             raise forms.ValidationError('ERROR!!!! NO QUEDAN HORAS DISPONIBLES PARA ESTE MIEMBRO')
