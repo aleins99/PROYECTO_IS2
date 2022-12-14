@@ -234,21 +234,23 @@ def verproyecto(request, id):
     # check if are sprint in the project
     sprints = Sprint.objects.filter(idproyecto=id)
     #
-    finalizar = True
+    finalizarSprint = True
+    finalizarUS = True
     uss = User_Story.objects.filter(idproyecto=id).exclude(estado__in=['Finalizado', 'Cancelado'])
     if uss.exists():
-        finalizar = False
+        finalizarUS = False
     # comprobar si todos los sprints están finalizados
     for sprint in sprints:
         if sprint.estado != 'F':
-            finalizar = False
+            finalizarSprint = False
             break
     # comprobar si hay sprints en el proyecto
     if not sprints.exists():
-        finalizar = False
+        finalizarSprint = False
     permisosUsuario = obtenerPermisos(id, request.user)
     context = {
-        'finalizarProyecto': finalizar,
+        'finalizarSprint': finalizarSprint,
+        'finalizarUS': finalizarUS,
         'proyecto': proyecto,
         'estados': estados_Proyecto,
         'proyecto_id': id,
@@ -721,7 +723,7 @@ def crearSprint(request, id):
         # get the start and end date from the form
         inicio = form.data['fechainicio']
         final = form.data['fechafin']
-        if inicio > str(proyecto.fechainicio) and final < str(proyecto.fechafin):
+        if inicio >= str(proyecto.fechainicio) and final <= str(proyecto.fechafin):
             if form.is_valid():
                 ini = form.cleaned_data['fechainicio']
                 fin = form.cleaned_data['fechafin']
@@ -762,7 +764,7 @@ def crearSprint(request, id):
         formSprint.fields["idproyecto"].initial = proyecto 
         # si no hay sprints, el inicio del sprint es el dia siguiente al inicio del            
         if not Sprint.objects.filter(idproyecto=proyecto).exists():
-            fechafin = proyecto.fechainicio + timedelta(days=1)
+            fechafin = proyecto.fechainicio
         else:
             fechafin = Sprint.objects.filter(idproyecto=proyecto).order_by("-numero").first().fechafin + timedelta(days=1)
         # si es sabado o domingo, el inicio del sprint es el lunes

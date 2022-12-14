@@ -48,7 +48,7 @@
                                     >Tipo US</a
                                     >
                                 </li>
-                                {% if proyecto.estado == 'E' or proyecto.estado == 'C' or proyecto.estado == 'F'%}
+                                {% if proyecto.estado == 'E' or proyecto.estado == 'C' or proyecto.estado == 'F' %}
 
                                     <li class="nav-item">
                                         <a
@@ -102,32 +102,44 @@
                                 </div>
                             </form>
                         {% elif proyecto.estado != 'F' %}
-                            {% if finalizarProyecto %}
-                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                    Finalizar Proyecto
-                                </button>
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop">
+                                Finalizar Proyecto
+                            </button>
 
 
-                                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
-                                     data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-                                     aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content bg-dark">
-                                            <div class="modal-body text-white">
+                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+                                 data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content bg-dark">
+                                        <div class="modal-body text-white">
+                                            {% if finalizarSprint and finalizarUS %}
                                                 Estas seguro que desea finalizar?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-outline-secondary text-white"
-                                                        data-bs-dismiss="modal">Cancelar
-                                                </button>
-                                                <a href="{% url 'finalizarProyecto' proyecto.id  %}">
-                                                    <button type="button" class="btn btn-danger">Finalizar Proyecto</button>
-                                                </a>
-                                            </div>
+                                            {% else %}
+                                                {% if not finalizarSprint %}
+                                                    !! Necesitas finalizar todos los Srints <br>
+                                                {% endif %}
+                                                {% if not finalizarUS %}
+                                                    !!  Necesitas completar los US
+                                                {% endif %}
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline-secondary text-white"
+                                                    data-bs-dismiss="modal">Cancelar
+                                            </button>
+                                            <a href="{% url 'finalizarProyecto' proyecto.id %}">
+                                                {% if finalizarSprint and finalizarUS %}
+                                                    <button type="button" class="btn btn-danger">Finalizar Proyecto
+                                                    </button>
+                                                {% endif %}
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
-                            {% endif %}
+                            </div>
                         {% endif %}
                     {% endif %}
                     </div>
