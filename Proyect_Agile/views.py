@@ -247,8 +247,7 @@ def verproyecto(request, id):
             finalizarSprint = False
             break
     # comprobar si hay sprints en el proyecto
-    if not sprints.exists():
-        finalizarSprint = False
+
     permisosUsuario = obtenerPermisos(id, request.user)
     context = {
         'finalizarSprint': finalizarSprint,
