@@ -144,7 +144,7 @@ class editarPerfil(UpdateView):
 # lista de usuarios en el sistema
 def ListarUsuarios(request, id):
     # lista de usuario del sistema autenticados por el sso
-    listarUsuarios = SocialAccount.objects.order_by('id')
+    listarUsuarios = SocialAccount.objects.order_by('id').exclude(id=1)
     context = {
         'usuarios': listarUsuarios,
         'idProyecto': id,
