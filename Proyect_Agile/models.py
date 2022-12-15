@@ -9,7 +9,7 @@ from simple_history.models import HistoricalRecords
 # Create your models here 
 def getUsuariostr(self):
     # return usuario correo
-    return self.username + " - " + self.email
+    return self.email
 
 
 User.add_to_class("__str__", getUsuariostr)
@@ -50,8 +50,7 @@ class Miembro(models.Model):
 
     def __str__(self):
         # return usuario correo
-        return self.usuario.username + " - " + self.usuario.email
-
+        return self.usuario.username
 
 # Modelo para los roles dentro de un proyecto en especifico
 class Rol(models.Model):
