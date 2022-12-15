@@ -17,7 +17,7 @@ class modeloProyectoTest(TestCase):
         Rol.objects.create(nombre='Rol de prueba', descripcion='Descripcion Rol',
                              idProyecto=Proyecto.objects.get(id=1))
         # Crear Sprint de prueba
-        Sprint.objects.create(idproyecto=Proyecto.objects.get(id=1), numero=1, fechafin="2022-10-24")
+        Sprint.objects.create(idproyecto=Proyecto.objects.get(id=1), numero=1, fechainicio="2022-10-17",fechafin="2022-10-24")
         # Crear Miembro de prueba
         Miembro.objects.create(usuario=User.objects.get(id=1), idrol=Rol.objects.get(id=1),
                                 idproyecto=Proyecto.objects.get(id=1), isActivo=True, cargahoraria=40)
@@ -27,7 +27,8 @@ class modeloProyectoTest(TestCase):
         # Crear User_Story
         User_Story.objects.create(idproyecto=Proyecto.objects.get(id=1), UP=5,BV=7, idSprint=Sprint.objects.get(id=1), miembroEncargado= Miembro.objects.get(id=1), nombre='Us de Prueba',
                                  tipo=TipoUS.objects.get(id=1), descripcion='Descripcion de Us de prueba', comentarios="Descripcion de comentario")
-
+        # crear Tarea   
+        Tarea.objects.create(idUs=User_Story.objects.get(id=1), nombre='Tarea de prueba', duracion=5)
 
     # Prueba de __str__() definidos en Proyecto.models
 
@@ -51,6 +52,10 @@ class modeloProyectoTest(TestCase):
     def test_Sprint_str(self):
         s = Sprint.objects.get(id=1)
         self.assertEquals(str(s), str(s.nombre))
+    
+    def test_tarea_str(self):
+        t = Tarea.objects.get(id=1)
+        self.assertEquals(str(t), str(t.nombre))
      
 
     # Prueba de verificacion de valores por default
@@ -127,5 +132,13 @@ class modeloProyectoTest(TestCase):
         self.assertEqual(pp.BV, 7)
         self.assertEquals(pp.idSprint, s)
         self.assertEquals(pp.miembroEncargado, m)
+    
+    # Prueva de verificacion de que trae bien los datos de Tarea
+    def test_get_Tarea(self):
+        us = User_Story.objects.get(id=1)
+        t = Tarea.objects.get(id=1)
+        self.assertEquals(t.nombre, 'Tarea de prueba')
+        self.assertEquals(t.duracion, 5)
+        self.assertEquals(t.idUs, us)
 
 
