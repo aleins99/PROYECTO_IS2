@@ -148,4 +148,5 @@ class Tarea(models.Model):
     idUs = models.ForeignKey(User_Story, on_delete=models.RESTRICT)
     nombre= models.TextField(blank=False)
     duracion = models.IntegerField(blank=False, default=0)
-
+    def __str__(self):
+        return self.nombre
