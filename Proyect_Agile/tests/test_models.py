@@ -34,7 +34,7 @@ class modeloProyectoTest(TestCase):
 
     def test_User_str(self):
         u = User.objects.get(id=1)
-        self.assertEquals(str(u), 'Usuario Prueba')
+        self.assertEquals(str(u), 'prueba@gmail.com')
 
 
     def test_Proyecto_str(self):
