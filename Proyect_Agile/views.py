@@ -163,12 +163,12 @@ def crearProyecto(request):
             idRol = crearRolScrumMaster(proyecto)
             # asignar el rol al miembro SM que se asigno
             asignarRolScrumMaster(proyecto, proyecto.scrumMaster, idRol)
-
-            return redirect('listarproyecto')
+            return redirect('listaAdministracion')
     else:
         formProyecto = ProyectoForm()
-        formProyecto.fields["scrumMaster"].queryset = User.objects.all().exclude(username='admin')
-
+        # para que no aparezca el superusuario en el select show email
+        formProyecto.fields["scrumMaster"].queryset = User.objects.all().exclude(id=1).exclude(id=request.user.id)
+    
     context = {'form': formProyecto}
 
     return render(request, 'Proyect_Agile/Proyecto/proyecto.html', context, None, 200)

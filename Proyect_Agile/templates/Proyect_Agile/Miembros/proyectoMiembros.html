@@ -7,6 +7,7 @@
             <th scope="col">Nombre</th>
             <th scope="col">Apellido</th>
             <th scope="col">Correo</th>
+            <th scope="col">Nombre de Usuario</th>
             <th scope="col">Carga Horaria</th>
             <th scope="col">Rol</th>
             {% if proyecto.estado != 'F' %}
@@ -23,6 +24,7 @@
             <td>{{ proyecto.scrumMaster.first_name }}</td>
             <td>{{ proyecto.scrumMaster.last_name }}</td>
             <td>{{ proyecto.scrumMaster.email }}</td>
+            <td>{{ proyecto.scrumMaster.username }}</td>
             <td>#</td>
             <td>Scrum Master</td>
 
@@ -34,6 +36,7 @@
                     <td>{{ miembro.usuario.first_name }}</td>
                     <td>{{ miembro.usuario.last_name }}</td>
                     <td>{{ miembro.usuario.email }}</td>
+                    <td>{{ miembro.usuario.username }}</td>
                     <td>{{ miembro.cargahoraria }}</td>
                     <td>{{ miembro.idrol }}</td>
                     {% if proyecto.estado != 'F' %}
