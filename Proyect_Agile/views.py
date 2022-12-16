@@ -949,7 +949,7 @@ def finalizarSprint(request, id, id_sprint):
         us.prioridad = 0
         us.save()
     
-    planning = User_Story.objects.filter(idSprint=id_sprint).exclude(estado_in=['Finalizado', 'Cancelado'])
+    planning = User_Story.objects.filter(idSprint=id_sprint).exclude(estado__in=['Finalizado', 'Cancelado'])
     for us in planning:
         UP = us.UP
         BV = us.BV
