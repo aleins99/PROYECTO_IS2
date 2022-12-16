@@ -6,9 +6,9 @@
 echo "Ejcutando script"
 
 cd ~
-cd Desktop/Backend/PROYECTO_IS2/
+cd ~agile/is2/PROYECTO_IS2/
 DB_NAME="producciondb"
-DB_FILE_NAME="desarrollo.sql"
+DB_FILE_NAME="produccion.sql"
 
 if [ "$1" = "-t" ]; then
 	git fetch
@@ -31,6 +31,7 @@ fi
 if [ "$1" = "-p" ]; then
   echo "Poblar base de datos"
   psql -U usuario -W -h localhost -p 5432 $DB_NAME < $DB_FILE_NAME
+  sudo cp $DB_FILE_NAME ~agile/
 fi
 
 # hacer backup de la base de datos
