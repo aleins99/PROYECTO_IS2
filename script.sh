@@ -39,4 +39,5 @@ if [ "$1" = "-b" ]; then
    echo "Creando el backup"
    pg_dump -U usuario -W -h localhost -p 5432 $DB_NAME > $DB_FILE_NAME
    echo "Backup creado"
+   sudo cp $DB_FILE_NAME ~agile/
 fi
