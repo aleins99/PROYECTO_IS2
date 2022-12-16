@@ -34,12 +34,16 @@
                         Finalizado
                     {% endif %}
                 </td>
-                {% if sprint.duracion == 1 %}
-                    <td>{{ sprint.duracion }} hora disponible</td>
-                {% elif sprint.duracion == 0 %}
-                    <td>Sin disponibilidad</td>
+                {% if sprint.estado != 'F' %}
+                    {% if sprint.duracion == 1 %}
+                        <td>{{ sprint.duracion }} hora disponible</td>
+                    {% elif sprint.duracion == 0 %}
+                        <td>Sin disponibilidad</td>
+                    {% else %}
+                        <td>{{ sprint.duracion }} horas disponibles</td>
+                    {% endif %}
                 {% else %}
-                    <td>{{ sprint.duracion }} horas disponibles</td>
+                    <td>{{ sprint.duracion }} horas</td>
                 {% endif %}
 
                 <td>
