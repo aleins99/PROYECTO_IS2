@@ -79,9 +79,9 @@ See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/</p>
       <p>SECURITY WARNING: don&rsquo;t run with debug turned on in production!</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="n">DEBUG</span> <span class="o">=</span> <span class="kc">True</span>
+      <div class="highlight"><pre><span class="n">DEBUG</span> <span class="o">=</span> <span class="kc">False</span>
 
-<span class="n">ALLOWED_HOSTS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">]</span>
+<span class="n">ALLOWED_HOSTS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;agileproject.software&#39;</span><span class="p">,</span> <span class="s1">&#39;www.agileproject.software&#39;</span><span class="p">]</span>
 <span class="n">APPEND_SLASH</span> <span class="o">=</span> <span class="kc">True</span></pre></div>
     </div>
   </div>
@@ -108,9 +108,8 @@ See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/</p>
     <span class="s1">&#39;allauth.account&#39;</span><span class="p">,</span>
     <span class="s1">&#39;allauth.socialaccount&#39;</span><span class="p">,</span>
     <span class="s1">&#39;allauth.socialaccount.providers.google&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;allauth.socialaccount.providers.github&#39;</span><span class="p">,</span>
-
     <span class="s1">&#39;crispy_forms&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;simple_history&#39;</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="n">MIDDLEWARE</span> <span class="o">=</span> <span class="p">[</span>
@@ -119,10 +118,11 @@ See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/</p>
     <span class="s1">&#39;django.middleware.common.CommonMiddleware&#39;</span><span class="p">,</span>
     <span class="s1">&#39;django.middleware.csrf.CsrfViewMiddleware&#39;</span><span class="p">,</span>
     <span class="s1">&#39;django.contrib.auth.middleware.AuthenticationMiddleware&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;django.contrib.messages.middleware.MessageMiddleware&#39;</span><span class="p">,</span>
     <span class="s1">&#39;django.middleware.clickjacking.XFrameOptionsMiddleware&#39;</span><span class="p">,</span>
     <span class="s1">&#39;whitenoise.middleware.WhiteNoiseMiddleware&#39;</span><span class="p">,</span>
     <span class="s1">&#39;django.middleware.security.SecurityMiddleware&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;django.contrib.messages.middleware.MessageMiddleware&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;simple_history.middleware.HistoryRequestMiddleware&#39;</span>
 <span class="p">]</span>
 
 <span class="n">ROOT_URLCONF</span> <span class="o">=</span> <span class="s1">&#39;PROYECTO_IS2.urls&#39;</span>
@@ -144,6 +144,7 @@ See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/</p>
         <span class="p">},</span>
     <span class="p">},</span>
 <span class="p">]</span>
+<span class="n">MESSAGE_STORAGE</span> <span class="o">=</span> <span class="s1">&#39;django.contrib.messages.storage.cookie.CookieStorage&#39;</span>
 
 <span class="n">WSGI_APPLICATION</span> <span class="o">=</span> <span class="s1">&#39;PROYECTO_IS2.wsgi.application&#39;</span></pre></div>
     </div>
@@ -161,7 +162,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/#databases</p>
       <div class="highlight"><pre><span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s1">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s1">&#39;django.db.backends.postgresql_psycopg2&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;NAME&#39;</span><span class="p">:</span> <span class="s1">&#39;agileproject&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;NAME&#39;</span><span class="p">:</span> <span class="s1">&#39;producciondb&#39;</span><span class="p">,</span>
         <span class="s1">&#39;USER&#39;</span><span class="p">:</span> <span class="s1">&#39;usuario&#39;</span><span class="p">,</span>
         <span class="s1">&#39;PASSWORD&#39;</span><span class="p">:</span> <span class="s1">&#39;admin&#39;</span><span class="p">,</span>
         <span class="s1">&#39;HOST&#39;</span><span class="p">:</span> <span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
@@ -225,8 +226,8 @@ https://docs.djangoproject.com/en/4.1/topics/i18n/</p>
 https://docs.djangoproject.com/en/4.1/howto/static-files/</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="n">STATIC_URL</span> <span class="o">=</span> <span class="s1">&#39;/home/diego/Desktop/IS2/PROYECTO_IS2/Proyect_Agile/static/&#39;</span>
-<span class="n">STATIC_ROOT</span> <span class="o">=</span> <span class="s1">&#39;/home/diego/Desktop/IS2/PROYECTO_IS2/Proyect_Agile/static/&#39;</span>
+      <div class="highlight"><pre><span class="n">STATIC_URL</span> <span class="o">=</span> <span class="s1">&#39;/home/agile/is2/PROYECTO_IS2/Proyect_Agile/static/&#39;</span>
+<span class="n">STATIC_ROOT</span> <span class="o">=</span> <span class="s1">&#39;/home/agile/is2/PROYECTO_IS2/Proyect_Agile/static/&#39;</span>
 <span class="n">STATICFILES_STORAGE</span> <span class="o">=</span> <span class="s1">&#39;whitenoise.storage.CompressedManifestStaticFilesStorage&#39;</span></pre></div>
     </div>
   </div>
@@ -292,21 +293,21 @@ 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</p>
         <span class="s1">&#39;AUTH_PARAMS&#39;</span><span class="p">:</span> <span class="p">{</span>
             <span class="s1">&#39;access_type&#39;</span><span class="p">:</span> <span class="s1">&#39;online&#39;</span><span class="p">,</span>
         <span class="p">}</span>
-    <span class="p">},</span>
-    <span class="s1">&#39;github&#39;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s1">&#39;SCOPE&#39;</span><span class="p">:</span> <span class="p">[</span>
-            <span class="s1">&#39;user&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;repo&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;read:org&#39;</span><span class="p">,</span>
-        <span class="p">],</span>
-    <span class="p">},</span>
+    <span class="p">}</span>
 <span class="p">}</span>
 
 <span class="n">LOGIN_REDIRECT_URL</span> <span class="o">=</span> <span class="s1">&#39;home&#39;</span>
 
 <span class="n">ACCOUNT_LOGOUT_REDIRECT_URL</span> <span class="o">=</span> <span class="s1">&#39;account_login&#39;</span>
 
-<span class="n">CRISPY_TEMPLATE_PACK</span> <span class="o">=</span> <span class="s1">&#39;bootstrap4&#39;</span></pre></div>
+<span class="n">CRISPY_TEMPLATE_PACK</span> <span class="o">=</span> <span class="s1">&#39;bootstrap4&#39;</span>
+
+<span class="n">EMAIL_BACKEND</span> <span class="o">=</span> <span class="s2">&quot;django.core.mail.backends.smtp.EmailBackend&quot;</span>
+<span class="n">EMAIL_HOST</span> <span class="o">=</span> <span class="s2">&quot;smtp.gmail.com&quot;</span>
+<span class="n">EMAIL_USE_TLS</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">EMAIL_PORT</span> <span class="o">=</span> <span class="mi">587</span>
+<span class="n">EMAIL_HOST_USER</span> <span class="o">=</span> <span class="s2">&quot;rodolfovsf@gmail.com&quot;</span>
+<span class="n">EMAIL_HOST_PASSWORD</span> <span class="o">=</span> <span class="s2">&quot;ynobraqaygboylbk&quot;</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>

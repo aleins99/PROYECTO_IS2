@@ -216,7 +216,9 @@
       <p>form en donde se permite editar el rol de un miembro de un proyecto en especifico</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/roles/importarRoles/&lt;idproyecto&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">importarRol</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;importarRol&#39;</span><span class="p">),</span></pre></div>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/roles/importarRoles/&lt;id_rol&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">importarRol</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;importarRol&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Roles/Proyecto/&lt;id&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">listarRolesProyectos</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;listarRoles&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/Roles/&lt;id_rol&gt;/permisos/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">permisosRol</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;permisosRol&#39;</span><span class="p">),</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -288,7 +290,7 @@
       <p>vista en donde se listan todos los us presentes dentro de un proyecto en especifico</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;idproyecto&gt;/listaUS/&lt;pk&gt;/editarUS/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">verListaUS</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;editarUS&#39;</span><span class="p">),</span></pre></div>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;idproyecto&gt;/US/&lt;pk&gt;/editarUS/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">editarUS</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;editarUS&#39;</span><span class="p">),</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -300,7 +302,8 @@
       <p>form para editar un us de un proyecto</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/tipoUS/importarTipoUS/&lt;idproyecto&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">importarTipoUS</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;importarTipoUS&#39;</span><span class="p">),</span></pre></div>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/TipoUS/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">listarTipoUsProyectos</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;listarTipoUSProyectos&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/tipoUS/importarTipoUS/&lt;id_tipo&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">importarTipoUS</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;importarTipoUS&#39;</span><span class="p">),</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -321,10 +324,11 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-25'>#</a>
       </div>
-      <p>vista para listar los us de un proyecto</p>
+      <p>vista para listar los us de un proyecto
+vista en donde se muestran la documentacion</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;home/documentacion/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">verDocumentacion</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;documentacion&#39;</span><span class="p">),</span></pre></div>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/verSprint/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">verSprint</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;verSprint&#39;</span><span class="p">),</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -333,10 +337,10 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-26'>#</a>
       </div>
-      <p>vista en donde se muestran la documentacion</p>
+      <p>vista en donde se puede ver un sprint en especifico</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/verSprint/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">verSprint</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;verSprint&#39;</span><span class="p">),</span></pre></div>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/crearSprint/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">crearSprint</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;crearSprint&#39;</span><span class="p">),</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -345,10 +349,10 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-27'>#</a>
       </div>
-      <p>vista en donde se puede ver un sprint en especifico</p>
+      <p>form en donde se permite la creacion de un sprint en un proyecto</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/crearSprint/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">crearSprint</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;crearSprint&#39;</span><span class="p">),</span></pre></div>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/Sprint/&lt;id_sprint&gt;/listarUS_para_Sprint/&#39;</span><span class="p">,</span><span class="n">views</span><span class="o">.</span><span class="n">listarUS_para_Sprint</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;listarUS_para_Sprint&#39;</span> <span class="p">),</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -357,10 +361,10 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-28'>#</a>
       </div>
-      <p>form en donde se permite la creacion de un sprint en un proyecto</p>
+      <p>vista para listar los us dentro del sprint backlog</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/Sprint/&lt;id_sprint&gt;/listarUS_para_Sprint/&#39;</span><span class="p">,</span><span class="n">views</span><span class="o">.</span><span class="n">listarUS_para_Sprint</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;listarUS_para_Sprint&#39;</span> <span class="p">),</span></pre></div>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/Sprint/&lt;id_sprint&gt;/agregarUs_para_Sprint/&lt;id_us&gt;/&lt;estimacion&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">agregarUs_para_Sprint</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;agregarUs_para_Sprint&#39;</span><span class="p">),</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -369,10 +373,10 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-29'>#</a>
       </div>
-      <p>vista para listar los us dentro del sprint backlog</p>
+      <p>vista para agregar us al sprint backlog</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/Sprint/&lt;id_sprint&gt;/agregarUs_para_Sprint/&lt;id_us&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">agregarUs_para_Sprint</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;agregarUs_para_Sprint&#39;</span><span class="p">),</span></pre></div>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/Sprint/&lt;id_sprint&gt;/listaMiembroSprint/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">listaMiembroSprint</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;miembroSprint&#39;</span><span class="p">),</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -381,10 +385,10 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-30'>#</a>
       </div>
-      <p>vista para agregar us al sprint backlog</p>
+      <p>vista para listar los miembros presentes dentro del sprint</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/Sprint/&lt;id_sprint&gt;/listaMiembroSprint/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">listaMiembroSprint</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;miembroSprint&#39;</span><span class="p">),</span></pre></div>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/Sprint/&lt;id_sprint&gt;/listarPlanningPoker/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">listarPlanningPoker</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;listarPlanningPoker&#39;</span><span class="p">),</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -393,10 +397,10 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-31'>#</a>
       </div>
-      <p>vista para listar los miembros presentes dentro del sprint</p>
+      <p>vista para ver los us del sprint backlog</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/Sprint/&lt;id_sprint&gt;/listarPlanningPoker/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">listarPlanningPoker</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;listarPlanningPoker&#39;</span><span class="p">),</span></pre></div>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/Sprint/&lt;id_sprint&gt;/iniciarSprint/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">iniciarSprint</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;iniciarSprint&#39;</span><span class="p">),</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -405,10 +409,10 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-32'>#</a>
       </div>
-      <p>vista para ver los us del sprint backlog</p>
+      <p>vista para iniciar un nuevo sprint</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/Sprint/&lt;id_sprint&gt;/iniciarSprint/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">iniciarSprint</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;iniciarSprint&#39;</span><span class="p">),</span></pre></div>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/Sprint/&lt;id_sprint&gt;/finalizarSprint/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">finalizarSprint</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;finalizarSprint&#39;</span><span class="p">),</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -417,10 +421,10 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-33'>#</a>
       </div>
-      <p>vista para iniciar un nuevo sprint</p>
+      <p>vista para finalizar el sprint</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/Sprint/&lt;id_sprint&gt;/finalizarSprint/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">finalizarSprint</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;finalizarSprint&#39;</span><span class="p">),</span></pre></div>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/Sprint/&lt;id_sprint&gt;/kanban/tipo/&lt;id_tipo&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">mostrarKanban</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;mostrarKanban&#39;</span><span class="p">),</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -429,10 +433,10 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-34'>#</a>
       </div>
-      <p>vista para finalizar el sprint</p>
+      <p>vista para el tablero kan ban dentro de la pestaña de sprint </p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/Sprint/&lt;id_sprint&gt;/kanban/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">mostrarKanban</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;mostrarKanban&#39;</span><span class="p">),</span></pre></div>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/Sprint/kanban/cambiarEstadoUs&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">cambiarEstadoUs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;cambiarEstadoUs&quot;</span><span class="p">),</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -441,10 +445,10 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-35'>#</a>
       </div>
-      <p>vista para el tablero kan ban dentro de la pestaña de sprint </p>
+      <p>vista para el cambio de estado dentro del tablero kan ban</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/Sprint/&lt;id_sprint&gt;/kanban/&lt;estado&gt;/estados/&lt;id_us&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">cambiarEstadoUS</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;cambiarEstadoUS&#39;</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/Sprint/&lt;id_sprint&gt;/us/&lt;id_us&gt;/quitar/&#39;</span><span class="p">,</span><span class="n">views</span><span class="o">.</span><span class="n">quitarUSsprint</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;quitarUSsprint&#39;</span><span class="p">),</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -453,11 +457,85 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-36'>#</a>
       </div>
-      <p>vista para el cambio de estado dentro del tablero kan ban </p>
+      <p>vista para quitar un us del kan ban</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    
-<span class="p">]</span>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/us/&lt;id_us&gt;/tareas/&#39;</span><span class="p">,</span><span class="n">views</span><span class="o">.</span><span class="n">listarTareas</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;listarTareas&#39;</span><span class="p">),</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-37'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-37'>#</a>
+      </div>
+      <p>vista para listar las tareas de un us dentro de un sprint</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/us/&lt;id_us&gt;/tareas/crearTarea/&#39;</span><span class="p">,</span><span class="n">views</span><span class="o">.</span><span class="n">crearTarea</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;crearTarea&#39;</span><span class="p">),</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-38'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-38'>#</a>
+      </div>
+      <p>vista para crear una tarea para un us</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/revisionUs/&#39;</span><span class="p">,</span><span class="n">views</span><span class="o">.</span><span class="n">revisionUs</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;revisionUs&#39;</span><span class="p">),</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-39'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-39'>#</a>
+      </div>
+      <p>vista para la revision de un us como scrum master , el scrum master debe aprobar el us o cancelarlo</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/Sprint/&lt;id_sprint&gt;/cambiarEncargardo/&lt;id_miembro&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">cambiarEncargado</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;cambiarEncargado&quot;</span><span class="p">)</span> <span class="p">,</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-40'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-40'>#</a>
+      </div>
+      <p>vista para cambiar el encargado de un us en un sprint , todos los us a los que pertenecia se reasignan al nuevo encargado</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/decision/&lt;opcion&gt;/us/&lt;id_us&gt;/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">decisionScrumUS</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span> <span class="s1">&#39;decisionUS&#39;</span><span class="p">),</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-41'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-41'>#</a>
+      </div>
+      <p>vista para la aprobacion del us o su cancelacion</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/US/&lt;id_us&gt;/historial/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">historialUs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;historialUs&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/finalizar&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">finalizarProyecto</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;finalizarProyecto&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;idproyecto&gt;/TipoUs/&lt;pk&gt;/editar/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">editarTipoUS</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;editarTipoUS&#39;</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/burndownChart/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">burndownChart</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;burndownChart&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-42'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-42'>#</a>
+      </div>
+      <p>vista para ver el burndown chart del proyecto</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="p">]</span>
 
 </pre></div>
     </div>

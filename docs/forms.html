@@ -167,16 +167,13 @@ the widgets replaced</p>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="n">User_Story</span>
-        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;idproyecto&#39;</span><span class="p">,</span> <span class="s1">&#39;historial&#39;</span><span class="p">,</span> <span class="s1">&#39;estado&#39;</span><span class="p">,</span> <span class="s1">&#39;prioridad&#39;</span><span class="p">,</span> <span class="s1">&#39;UP&#39;</span><span class="p">,</span> <span class="s1">&#39;BV&#39;</span><span class="p">,</span> <span class="s1">&#39;nombre&#39;</span><span class="p">,</span> <span class="s1">&#39;descripcion&#39;</span><span class="p">,</span> <span class="s1">&#39;comentarios&#39;</span><span class="p">,</span> <span class="s1">&#39;historial&#39;</span><span class="p">,</span> <span class="s1">&#39;tipo&#39;</span><span class="p">]</span>
-        <span class="n">labels</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;idproyecto&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;historial&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;estado&#39;</span><span class="p">:</span><span class="s1">&#39;&#39;</span><span class="p">}</span>
-        <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;idproyecto&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span>
-            <span class="s1">&#39;historial&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span>
-            <span class="s1">&#39;estado&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span>
-            <span class="s1">&#39;prioridad&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span>  <span class="c1"># oculta el label del priorida</span>
-        <span class="p">}</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">us</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">UserStoryForm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
+        <span class="n">up</span> <span class="o">=</span> <span class="n">us</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;UP&quot;</span><span class="p">)</span>
+        <span class="n">bv</span> <span class="o">=</span> <span class="n">us</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;BV&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">up</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">bv</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;ERROR!!!!. BV o UP inválidos, cargue un valor mayor a cero&#39;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -184,6 +181,26 @@ the widgets replaced</p>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">User_Story</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;idproyecto&#39;</span><span class="p">,</span> <span class="s1">&#39;estado&#39;</span><span class="p">,</span> <span class="s1">&#39;prioridad&#39;</span><span class="p">,</span> <span class="s1">&#39;nombre&#39;</span><span class="p">,</span><span class="s1">&#39;UP&#39;</span><span class="p">,</span> <span class="s1">&#39;BV&#39;</span><span class="p">,</span>  <span class="s1">&#39;descripcion&#39;</span><span class="p">,</span> <span class="s1">&#39;historial&#39;</span><span class="p">,</span> <span class="s1">&#39;tipo&#39;</span><span class="p">]</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;idproyecto&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;historial&#39;</span><span class="p">:</span> <span class="s1">&#39;Comentarios&#39;</span><span class="p">,</span> <span class="s1">&#39;estado&#39;</span><span class="p">:</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;prioridad&#39;</span><span class="p">:</span><span class="s1">&#39;&#39;</span><span class="p">}</span>
+        <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;idproyecto&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span>
+            <span class="s1">&#39;estado&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span>
+            <span class="s1">&#39;prioridad&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span>  <span class="c1"># oculta el label del priorida</span>
+        <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
       </div>
       <p>The function takes in a list of fields and a list of widgets, and returns a list of fields with
 the widgets replaced</p>
@@ -193,10 +210,10 @@ the widgets replaced</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-12'>
+  <div class='section' id='section-13'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-12'>#</a>
+        <a class='octothorpe' href='#section-13'>#</a>
       </div>
       
     </div>
@@ -208,10 +225,10 @@ the widgets replaced</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-13'>
+  <div class='section' id='section-14'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-13'>#</a>
+        <a class='octothorpe' href='#section-14'>#</a>
       </div>
       <p>formulario para agregar un miembro del proyecto</p>
     </div>
@@ -220,10 +237,27 @@ the widgets replaced</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-14'>
+  <div class='section' id='section-15'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-14'>#</a>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">miembro</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">MiembroForm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
+        <span class="n">cargaHoraria</span> <span class="o">=</span> <span class="n">miembro</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cargahoraria&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">cargaHoraria</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;ERROR!!!!. Estimación inválida, cargue un valor mayor a cero&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
       </div>
       
     </div>
@@ -231,20 +265,22 @@ the widgets replaced</p>
       <div class="highlight"><pre>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">model</span> <span class="o">=</span> <span class="n">Miembro</span>
         <span class="n">fields</span> <span class="o">=</span> <span class="s1">&#39;__all__&#39;</span>
-        <span class="n">labels</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cargahoraria&#39;</span><span class="p">:</span><span class="s1">&#39;Carga Horaria&#39;</span><span class="p">,</span> <span class="s1">&#39;idrol&#39;</span><span class="p">:</span> <span class="s1">&#39;Rol&#39;</span><span class="p">,</span> <span class="s1">&#39;isActivo&#39;</span><span class="p">:</span> <span class="s1">&#39;Activo&#39;</span><span class="p">,</span> <span class="s1">&#39;usuario&#39;</span><span class="p">:</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;idproyecto&#39;</span><span class="p">:</span><span class="s1">&#39;&#39;</span><span class="p">}</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cargahoraria&#39;</span><span class="p">:</span><span class="s1">&#39;Carga Horaria&#39;</span><span class="p">,</span> <span class="s1">&#39;idrol&#39;</span><span class="p">:</span> <span class="s1">&#39;Rol&#39;</span><span class="p">,</span> <span class="s1">&#39;isActivo&#39;</span><span class="p">:</span> <span class="s1">&#39;Activo&#39;</span><span class="p">,</span> <span class="s1">&#39;usuario&#39;</span><span class="p">:</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;idproyecto&#39;</span><span class="p">:</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;horasDisponibles&#39;</span><span class="p">:</span><span class="s1">&#39;&#39;</span><span class="p">}</span>
 
         <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;usuario&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span>
             <span class="s1">&#39;idproyecto&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span>
             <span class="s1">&#39;isActivo&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">CheckboxInput</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;class&#39;</span><span class="p">:</span><span class="s1">&#39;&#39;</span><span class="p">}),</span>
+            <span class="s1">&#39;horasDisponibles&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span>
+
         <span class="p">}</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-15'>
+  <div class='section' id='section-17'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-15'>#</a>
+        <a class='octothorpe' href='#section-17'>#</a>
       </div>
       <p>The function takes in a list of fields and a list of widgets, and returns a list of fields with
 the widgets replaced</p>
@@ -254,10 +290,10 @@ the widgets replaced</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-16'>
+  <div class='section' id='section-18'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-16'>#</a>
+        <a class='octothorpe' href='#section-18'>#</a>
       </div>
       
     </div>
@@ -272,10 +308,10 @@ the widgets replaced</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-17'>
+  <div class='section' id='section-19'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-17'>#</a>
+        <a class='octothorpe' href='#section-19'>#</a>
       </div>
       <p>formulario para agregar roles dentro de un proyecto</p>
     </div>
@@ -284,10 +320,10 @@ the widgets replaced</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-18'>
+  <div class='section' id='section-20'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-18'>#</a>
+        <a class='octothorpe' href='#section-20'>#</a>
       </div>
       
     </div>
@@ -304,10 +340,10 @@ the widgets replaced</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-19'>
+  <div class='section' id='section-21'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-19'>#</a>
+        <a class='octothorpe' href='#section-21'>#</a>
       </div>
       <p>formulario para agregar un nuevo tipo de us al proyecto</p>
     </div>
@@ -316,10 +352,10 @@ the widgets replaced</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-20'>
+  <div class='section' id='section-22'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-20'>#</a>
+        <a class='octothorpe' href='#section-22'>#</a>
       </div>
       
     </div>
@@ -333,43 +369,16 @@ the widgets replaced</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-21'>
+  <div class='section' id='section-23'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-21'>#</a>
+        <a class='octothorpe' href='#section-23'>#</a>
       </div>
       <p>The function takes in a list of fields and a list of widgets, and returns a list of fields with
 the widgets replaced</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-22'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-22'>#</a>
-      </div>
-      
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>        <span class="nb">super</span><span class="p">(</span><span class="n">tipoUSForm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">field</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;class&#39;</span><span class="p">:</span><span class="s1">&#39;form-control&#39;</span><span class="p">})</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-23'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-23'>#</a>
-      </div>
-      <p>formulario para agregar un nuevo sprint al proyecto</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre><span class="k">class</span> <span class="nc">SprintForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -381,21 +390,10 @@ the widgets replaced</p>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="n">Sprint</span>
-        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nombre&#39;</span><span class="p">,</span> <span class="s1">&#39;numero&#39;</span><span class="p">,</span> <span class="s1">&#39;fechainicio&#39;</span><span class="p">,</span> <span class="s1">&#39;fechafin&#39;</span><span class="p">,</span> <span class="s1">&#39;estado&#39;</span><span class="p">,</span> <span class="s1">&#39;idproyecto&#39;</span><span class="p">]</span>
-        <span class="n">labels</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fechainicio&#39;</span><span class="p">:</span><span class="s1">&#39;Fecha Inicio&#39;</span><span class="p">,</span> <span class="s1">&#39;fechafin&#39;</span><span class="p">:</span><span class="s1">&#39;Fecha Fin&#39;</span><span class="p">}</span>
-        <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;descripcion&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">Textarea</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;cols&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;rows&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}),</span>
-            <span class="s1">&#39;numero&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">TextInput</span><span class="p">(</span>
-                <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;form-control&#39;</span><span class="p">,</span> <span class="s1">&#39;placeholder&#39;</span><span class="p">:</span> <span class="s1">&#39;Numero de sprint&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;number&#39;</span><span class="p">,</span>
-                       <span class="s1">&#39;readonly&#39;</span><span class="p">:</span> <span class="s1">&#39;readonly&#39;</span><span class="p">}),</span>
-            <span class="s1">&#39;fechainicio&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">DateInput</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;date&#39;</span><span class="p">}),</span>
-            <span class="s1">&#39;fechafin&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">DateInput</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;date&#39;</span><span class="p">}),</span>
-            <span class="s1">&#39;idproyecto&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span>
-            <span class="s1">&#39;estado&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span>
+      <div class="highlight"><pre>        <span class="nb">super</span><span class="p">(</span><span class="n">tipoUSForm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-        <span class="p">}</span></pre></div>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">field</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;class&#39;</span><span class="p">:</span><span class="s1">&#39;form-control&#39;</span><span class="p">})</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -404,11 +402,10 @@ the widgets replaced</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-25'>#</a>
       </div>
-      <p>The function takes in a list of fields and a list of widgets, and returns a list of fields with
-the widgets replaced</p>
+      <p>formulario para agregar un nuevo sprint al proyecto</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">SprintForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -420,10 +417,21 @@ the widgets replaced</p>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="nb">super</span><span class="p">(</span><span class="n">SprintForm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">field</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;class&#39;</span><span class="p">:</span><span class="s1">&#39;form-control&#39;</span><span class="p">})</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Sprint</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nombre&#39;</span><span class="p">,</span> <span class="s1">&#39;numero&#39;</span><span class="p">,</span> <span class="s1">&#39;fechainicio&#39;</span><span class="p">,</span> <span class="s1">&#39;fechafin&#39;</span><span class="p">,</span> <span class="s1">&#39;estado&#39;</span><span class="p">,</span> <span class="s1">&#39;idproyecto&#39;</span><span class="p">,</span> <span class="s1">&#39;duracion&#39;</span><span class="p">]</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fechainicio&#39;</span><span class="p">:</span><span class="s1">&#39;Fecha Inicio&#39;</span><span class="p">,</span> <span class="s1">&#39;fechafin&#39;</span><span class="p">:</span><span class="s1">&#39;Fecha Fin&#39;</span><span class="p">,</span> <span class="s1">&#39;duracion&#39;</span><span class="p">:</span><span class="s1">&#39;&#39;</span><span class="p">}</span>
+        <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;descripcion&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">Textarea</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;cols&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;rows&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}),</span>
+            <span class="s1">&#39;numero&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">TextInput</span><span class="p">(</span>
+                <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;form-control&#39;</span><span class="p">,</span> <span class="s1">&#39;placeholder&#39;</span><span class="p">:</span> <span class="s1">&#39;Numero de sprint&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;number&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;readonly&#39;</span><span class="p">:</span> <span class="s1">&#39;readonly&#39;</span><span class="p">}),</span>
+            <span class="s1">&#39;fechainicio&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">DateInput</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;date&#39;</span><span class="p">}),</span>
+            <span class="s1">&#39;fechafin&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">DateInput</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;date&#39;</span><span class="p">}),</span>
+            <span class="s1">&#39;idproyecto&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span>
+            <span class="s1">&#39;estado&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">(),</span>
+            <span class="s1">&#39;duracion&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">()</span>
+        <span class="p">}</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -432,10 +440,11 @@ the widgets replaced</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-27'>#</a>
       </div>
-      <p>formulario para el planning poker ( para los us que se agregan al sprint backlog )</p>
+      <p>The function takes in a list of fields and a list of widgets, and returns a list of fields with
+the widgets replaced</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre></pre></div>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -447,7 +456,10 @@ the widgets replaced</p>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">class</span> <span class="nc">formCrearPlanningPoker</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre>        <span class="nb">super</span><span class="p">(</span><span class="n">SprintForm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">field</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;class&#39;</span><span class="p">:</span><span class="s1">&#39;form-control&#39;</span><span class="p">})</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -456,7 +468,7 @@ the widgets replaced</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-29'>#</a>
       </div>
-      <p>metodo para validar el dominio de los inputs de los campos</p>
+      <p>formulario para el planning poker ( para los us que se agregan al sprint backlog )</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
@@ -467,6 +479,70 @@ the widgets replaced</p>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-30'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">formCrearPlanningPoker</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-31'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-31'>#</a>
+      </div>
+      <p>metodo para validar el dominio de los inputs de los campos</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-32'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-32'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">us</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">formCrearPlanningPoker</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
+        <span class="n">estimacion</span> <span class="o">=</span> <span class="n">us</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;estimacion&#39;</span><span class="p">)</span>
+        <span class="n">encargado</span> <span class="o">=</span> <span class="n">us</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;miembroEncargado&#39;</span><span class="p">)</span>
+        <span class="n">idsprint</span> <span class="o">=</span> <span class="n">us</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;idSprint&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">id</span>
+        <span class="n">sprint</span> <span class="o">=</span> <span class="n">Sprint</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">idsprint</span><span class="p">)</span>
+        <span class="n">duracion</span> <span class="o">=</span> <span class="n">sprint</span><span class="o">.</span><span class="n">duracion</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">miembro</span> <span class="o">=</span> <span class="n">Miembro</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">usuario</span><span class="o">=</span><span class="n">encargado</span><span class="o">.</span><span class="n">usuario</span><span class="p">,</span> <span class="n">idproyecto</span><span class="o">=</span><span class="n">encargado</span><span class="o">.</span><span class="n">idproyecto</span><span class="p">)</span>
+            <span class="n">cargahoraria</span> <span class="o">=</span> <span class="n">miembro</span><span class="o">.</span><span class="n">cargahoraria</span>
+            <span class="n">horasDisponibles</span> <span class="o">=</span> <span class="n">miembro</span><span class="o">.</span><span class="n">horasDisponibles</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;El scrum master no puede ser el encargado de un US&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">estimacion</span> <span class="o">&gt;</span> <span class="n">duracion</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;ERROR!!! Su valor supera a la capacidad del sprint. Puede asignar hasta un máximo de: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">duracion</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; horas disponibles&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">estimacion</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">horasDisponibles</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+
+            <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;ERROR!!!!. Estimación inválida, cargue un valor mayor a cero. Puede asignar hasta un máximo de: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">horasDisponibles</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; horas disponibles.&#39;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">horasDisponibles</span> <span class="o">&gt;=</span> <span class="n">estimacion</span><span class="p">:</span>
+            <span class="n">miembro</span><span class="o">.</span><span class="n">horasDisponibles</span> <span class="o">=</span> <span class="n">horasDisponibles</span> <span class="o">-</span> <span class="n">estimacion</span>
+            <span class="n">sprint</span><span class="o">.</span><span class="n">duracion</span> <span class="o">=</span> <span class="n">duracion</span> <span class="o">-</span> <span class="n">estimacion</span>
+            <span class="n">sprint</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="n">miembro</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">horasDisponibles</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;ERROR!!!! NO QUEDAN HORAS DISPONIBLES PARA ESTE MIEMBRO&#39;</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;ERROR!!!! LAS HORAS ASIGNADAS SON MAYORES A LAS HORAS DISPONIBLES.</span><span class="se">\n</span><span class="s1"> Puede asignar hasta un máximo de: &#39;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">horasDisponibles</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; horas disponibles.&#39;</span> <span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-33'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-33'>#</a>
       </div>
       
     </div>
@@ -486,10 +562,10 @@ the widgets replaced</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-31'>
+  <div class='section' id='section-34'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-31'>#</a>
+        <a class='octothorpe' href='#section-34'>#</a>
       </div>
       <p>The function takes in a list of fields and a list of widgets, and returns a list of fields with
 the widgets replaced</p>
@@ -499,15 +575,210 @@ the widgets replaced</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-32'>
+  <div class='section' id='section-35'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-32'>#</a>
+        <a class='octothorpe' href='#section-35'>#</a>
       </div>
       
     </div>
     <div class='code'>
       <div class="highlight"><pre>        <span class="nb">super</span><span class="p">(</span><span class="n">formCrearPlanningPoker</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">field</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;form-control&#39;</span><span class="p">})</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-36'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-36'>#</a>
+      </div>
+      <p>formulario para la creacion de tareas</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">FormTarea</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-37'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-37'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">tarea</span><span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">FormTarea</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
+        <span class="n">estimacion</span> <span class="o">=</span> <span class="n">tarea</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;idUs&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">estimacion</span>
+        <span class="n">duracion</span> <span class="o">=</span> <span class="n">tarea</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;duracion&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">duracion</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">estimacion</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+
+            <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;ERROR!!!!. Estimación inválida, cargue un valor mayor a cero. Puede asignar hasta un máximo de: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">estimacion</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; duracion.&#39;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">duracion</span> <span class="o">&lt;=</span> <span class="n">estimacion</span><span class="p">:</span>
+            <span class="n">us</span> <span class="o">=</span> <span class="n">tarea</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;idUs&#39;</span><span class="p">)</span>
+            <span class="n">us</span><span class="o">.</span><span class="n">estimacion</span> <span class="o">=</span> <span class="n">estimacion</span> <span class="o">-</span> <span class="n">duracion</span>
+            <span class="n">us</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">estimacion</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;ERROR!!!! NO QUEDAN HORAS DISPONIBLES PARA ESTE US&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s1">&#39;ERROR!!!! LAS HORAS ASIGNADAS SON MAYORES A LAS HORAS DISPONIBLES.</span><span class="se">\n</span><span class="s1"> Puede asignar hasta un máximo de: &#39;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">estimacion</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; horas disponibles.&#39;</span> <span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-38'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-38'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Tarea</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="s1">&#39;__all__&#39;</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;idUs&#39;</span><span class="p">:</span><span class="s1">&#39;&#39;</span><span class="p">}</span>
+        <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;idUs&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">HiddenInput</span><span class="p">()</span>
+        <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-39'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-39'>#</a>
+      </div>
+      <p>The function takes in a list of fields and a list of widgets, and returns a list of fields with
+the widgets replaced</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-40'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-40'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="nb">super</span><span class="p">(</span><span class="n">FormTarea</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">field</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;form-control&#39;</span><span class="p">})</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-41'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-41'>#</a>
+      </div>
+      <p>form para cambiar el encargado de un us dentro de un sprint</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">FormCambiarEncargado</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-42'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-42'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">User_Story</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;miembroEncargado&#39;</span><span class="p">]</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;miembroEncargado&#39;</span><span class="p">:</span><span class="s1">&#39;Encargado&#39;</span><span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-43'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-43'>#</a>
+      </div>
+      <p>The function takes in a list of fields and a list of widgets, and returns a list of fields with
+the widgets replaced</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-44'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-44'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="nb">super</span><span class="p">(</span><span class="n">FormCambiarEncargado</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">field</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;form-control&#39;</span><span class="p">})</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-45'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-45'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">FormDecisionScrum</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-46'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-46'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">User_Story</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;comentarios&#39;</span><span class="p">]</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;comentarios&#39;</span><span class="p">:</span> <span class="s1">&#39;Comentario&#39;</span><span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-47'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-47'>#</a>
+      </div>
+      <p>The function takes in a list of fields and a list of widgets, and returns a list of fields with
+the widgets replaced</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-48'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-48'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="nb">super</span><span class="p">(</span><span class="n">FormDecisionScrum</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">field</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;form-control&#39;</span><span class="p">})</span>

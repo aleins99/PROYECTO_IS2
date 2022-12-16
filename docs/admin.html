@@ -33,10 +33,12 @@
       <p>Register your models here.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">)</span>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">usadmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="n">readonly_fields</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="p">)</span>
+<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">)</span>
 <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Miembro</span><span class="p">)</span>
 <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Rol</span><span class="p">)</span>
-<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">User_Story</span><span class="p">)</span>
+<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">User_Story</span><span class="p">,</span> <span class="n">usadmin</span><span class="p">)</span>
 <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">TipoUS</span><span class="p">)</span>
 <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Sprint</span><span class="p">)</span>
 

@@ -24,7 +24,8 @@
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
 <span class="kn">from</span> <span class="nn">django.contrib.postgres.fields</span> <span class="kn">import</span> <span class="n">ArrayField</span>
 <span class="kn">from</span> <span class="nn">allauth</span> <span class="kn">import</span> <span class="n">app_settings</span>
-<span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">Permission</span><span class="p">,</span> <span class="n">User</span><span class="p">,</span> <span class="n">GroupManager</span></pre></div>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">Permission</span><span class="p">,</span> <span class="n">User</span><span class="p">,</span> <span class="n">GroupManager</span>
+<span class="kn">from</span> <span class="nn">simple_history.models</span> <span class="kn">import</span> <span class="n">HistoricalRecords</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -36,7 +37,7 @@
       <p>Create your models here </p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">getUsuariostr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -45,24 +46,13 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-2'>#</a>
       </div>
-      <p>Modelo para los proyectos</p>
+      <p>return usuario correo</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Proyecto</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">nombre</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">descripcion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
-    <span class="n">miembros</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s1">&#39;Miembro&#39;</span><span class="p">)</span>
-    <span class="n">scrumMaster</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">RESTRICT</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">fechainicio</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
-    <span class="n">fechafin</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">ESTADOS</span> <span class="o">=</span> <span class="p">(</span>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">email</span>
 
-        <span class="p">(</span><span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;Pendiente&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="s1">&#39;En ejecucion&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;C&#39;</span> <span class="p">,</span> <span class="s1">&#39;Cancelado&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;Finalizado&#39;</span><span class="p">),</span>
-    <span class="p">)</span>
-    <span class="n">estado</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">1</span> <span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">ESTADOS</span> <span class="p">,</span> <span class="n">default</span><span class="o">=</span> <span class="s1">&#39;P&#39;</span><span class="p">)</span></pre></div>
+
+<span class="n">User</span><span class="o">.</span><span class="n">add_to_class</span><span class="p">(</span><span class="s2">&quot;__str__&quot;</span><span class="p">,</span> <span class="n">getUsuariostr</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -71,11 +61,24 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-3'>#</a>
       </div>
-      
+      <p>Modelo para los proyectos</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-       <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nombre</span></pre></div>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Proyecto</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">nombre</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">descripcion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+    <span class="n">miembros</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s1">&#39;Miembro&#39;</span><span class="p">)</span>
+    <span class="n">scrumMaster</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">RESTRICT</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">fechainicio</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
+    <span class="n">fechafin</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ESTADOS</span> <span class="o">=</span> <span class="p">(</span>
+
+        <span class="p">(</span><span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;Pendiente&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="s1">&#39;En ejecucion&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;Cancelado&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;Finalizado&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">estado</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">ESTADOS</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;P&#39;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -87,8 +90,8 @@
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s1">&#39;/Proyecto&#39;</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nombre</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -96,6 +99,19 @@
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get_absolute_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;/Proyecto&#39;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
       </div>
       <p>Modelo para los miembros dentro de un proyecto en especifico</p>
     </div>
@@ -105,20 +121,8 @@
     <span class="n">cargahoraria</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">idproyecto</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">RESTRICT</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">idrol</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;Rol&#39;</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">RESTRICT</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">isActivo</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-6'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-6'>#</a>
-      </div>
-      
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">usuario</span><span class="o">.</span><span class="n">first_name</span></pre></div>
+    <span class="n">isActivo</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">horasDisponibles</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -127,13 +131,10 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-7'>#</a>
       </div>
-      <p>Modelo para los roles dentro de un proyecto en especifico</p>
+      
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Rol</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">idProyecto</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">RESTRICT</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span> <span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Proyecto al que pertenece el rol</span>
-    <span class="n">nombre</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span>
-    <span class="n">descripcion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span> <span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Describir el rol</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -141,6 +142,34 @@
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>return usuario correo</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">usuario</span><span class="o">.</span><span class="n">username</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p>Modelo para los roles dentro de un proyecto en especifico</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Rol</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">idProyecto</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">RESTRICT</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                   <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Proyecto al que pertenece el rol</span>
+    <span class="n">nombre</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">250</span><span class="p">)</span>
+    <span class="n">descripcion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Describir el rol</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
       </div>
       <p>Campos de Permisos</p>
     </div>
@@ -162,10 +191,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-9'>
+  <div class='section' id='section-11'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-9'>#</a>
+        <a class='octothorpe' href='#section-11'>#</a>
       </div>
       
     </div>
@@ -190,36 +219,6 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-10'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-10'>#</a>
-      </div>
-      
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nombre</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-11'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-11'>#</a>
-      </div>
-      <p>Modelo para los tipos de us dentro de un proyecto en especifico</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre><span class="k">class</span> <span class="nc">TipoUS</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-
-    <span class="n">nombre</span><span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-
-    <span class="n">idproyecto</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">RESTRICT</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">estado</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span> <span class="s1">&#39;Por hacer, En Proceso, Hecho, Cancelado&#39;</span><span class="p">)</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
   <div class='section' id='section-12'>
     <div class='docs'>
       <div class='octowrap'>
@@ -238,21 +237,14 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-13'>#</a>
       </div>
-      <p>Modelo para los us primitivos ( que aun no se agregan al sprint backlog )</p>
+      <p>Modelo para los tipos de us dentro de un proyecto en especifico</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">class</span> <span class="nc">User_Story</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">ESTADOS</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="p">(</span><span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="s1">&#39;Nuevo&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;PP&#39;</span><span class="p">,</span> <span class="s1">&#39;En Planning Pocker&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;Pendiente&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;EP&#39;</span><span class="p">,</span> <span class="s1">&#39;En Proceso&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;STSA&#39;</span><span class="p">,</span> <span class="s1">&#39;Sin Terminar en Sprint Anterior&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;Aprobado&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="s1">&#39;Hecho&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;Cancelado&#39;</span><span class="p">),</span>
-    <span class="p">)</span>
-    <span class="n">estimacion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>  <span class="c1"># Estimacion en horas</span></pre></div>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">TipoUS</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">nombre</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+    <span class="n">idproyecto</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">RESTRICT</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">estado</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s1">&#39;Por hacer, En Proceso, Hecho&#39;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -261,23 +253,10 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-14'>#</a>
       </div>
-      <p>miembroSM = models.ForeignKey(miembros, on_delete=models.RESTRICT)</p>
+      <p>idsprint = models.ForeignKey(Sprint, on_delete=models.RESTRICT, null=True)</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">estado</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">ESTADOS</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;N&#39;</span><span class="p">)</span>
-    <span class="n">idSprint</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;Sprint&#39;</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">RESTRICT</span><span class="p">,</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Debe pertenecer a un sprintPlanning#o idSprint</span>
-
-    <span class="n">idproyecto</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">RESTRICT</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">nombre</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
-    <span class="n">descripcion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
-    <span class="n">comentarios</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
-    <span class="n">historial</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">tipo</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">TipoUS</span> <span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">RESTRICT</span><span class="p">)</span>
-    <span class="n">UP</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Estimacion en horas</span>
-    <span class="n">BV</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">prioridad</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="n">miembroEncargado</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Miembro</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">RESTRICT</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Al definirse debe de tener un encargado si o si</span></pre></div>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -285,18 +264,6 @@
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-15'>#</a>
-      </div>
-      <p>encargado = models.ForeignKey(User, on_delete=models.RESTRICT, null=True, blank=True)  # Miembro encargado en trabajar el</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-16'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-16'>#</a>
       </div>
       
     </div>
@@ -306,26 +273,43 @@
     </div>
   </div>
   <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      <p>Modelo para los us primitivos ( que aun no se agregan al sprint backlog )</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">User_Story</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">estimacion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>  <span class="c1"># Estimacion en horas</span>
+    <span class="n">estado</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;N&quot;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
   <div class='section' id='section-17'>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-17'>#</a>
       </div>
-      <p>Modelo para un sprint de un proyecto en especifico</p>
+      <p>miembroSM = models.ForeignKey(miembros, on_delete=models.RESTRICT)</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Sprint</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+      <div class="highlight"><pre>    <span class="n">idSprint</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;Sprint&#39;</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">RESTRICT</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                 <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Debe pertenecer a un sprintPlanning#o idSprint</span>
+    <span class="n">idproyecto</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">RESTRICT</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">nombre</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
-    <span class="n">fechainicio</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
-    <span class="n">fechafin</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">idproyecto</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">RESTRICT</span><span class="p">)</span>
-    <span class="n">numero</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">ESTADOS</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="p">(</span><span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;Pendiente&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="s1">&#39;En ejecucion&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;Finalizado&#39;</span><span class="p">),</span>
-    <span class="p">)</span>
-    <span class="n">estado</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">ESTADOS</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;P&#39;</span><span class="p">)</span></pre></div>
+    <span class="n">descripcion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+    <span class="n">comentarios</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
+    <span class="n">historial</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">tipo</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">TipoUS</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">RESTRICT</span><span class="p">)</span>
+    <span class="n">UP</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Estimacion en horas</span>
+    <span class="n">BV</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">prioridad</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">FloatField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">miembroEncargado</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Miembro</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">RESTRICT</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                         <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Al definirse debe de tener un encargado si o si</span>
+    <span class="n">history</span> <span class="o">=</span> <span class="n">HistoricalRecords</span><span class="p">()</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -334,7 +318,7 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-18'>#</a>
       </div>
-      
+      <p>encargado = models.ForeignKey(User, on_delete=models.RESTRICT, null=True, blank=True)  # Miembro encargado en trabajar el</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -347,10 +331,23 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-19'>#</a>
       </div>
-      <p>Se trata de un modelo para los us que van a pasar al sprint backlog</p>
+      <p>Modelo para un sprint de un proyecto en especifico</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre></pre></div>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Sprint</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">nombre</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+    <span class="n">fechainicio</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">)</span>
+    <span class="n">fechafin</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">idproyecto</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">RESTRICT</span><span class="p">)</span>
+    <span class="n">numero</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">duracion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">Htrabajadas</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">ESTADOS</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;Pendiente&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="s1">&#39;En ejecucion&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;Finalizado&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">estado</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">ESTADOS</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;P&#39;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -359,20 +356,51 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-20'>#</a>
       </div>
-      <p>Modelo para las tareas , no implementado para la iteracion 5 </p>
+      
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">class</span> <span class="nc">tarea</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">ESTADOS</span> <span class="o">=</span> <span class="p">[</span>
-
-        <span class="p">(</span><span class="s1">&#39;PH&#39;</span><span class="p">,</span><span class="s1">&#39;Por Hacer&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;H&#39;</span><span class="p">,</span><span class="s1">&#39;Haciendo&#39;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;HE&#39;</span><span class="p">,</span><span class="s1">&#39;Hecho&#39;</span><span class="p">),</span>
-    <span class="p">]</span>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nombre</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-21'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-21'>#</a>
+      </div>
+      <p>Se trata de un modelo para los us que van a pasar al sprint backlog</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-22'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-22'>#</a>
+      </div>
+      <p>Modelo para las tareas </p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Tarea</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">idUs</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User_Story</span><span class="p">,</span> <span class="n">on_delete</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">RESTRICT</span><span class="p">)</span>
-    <span class="n">nombre</span><span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">descripcion</span><span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
-    <span class="n">estado</span><span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="n">ESTADOS</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;PH&#39;</span><span class="p">)</span>
+    <span class="n">nombre</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">duracion</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-23'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-23'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nombre</span>
 
 </pre></div>
     </div>

@@ -23,7 +23,7 @@
       <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">template</span>
-<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Miembro</span><span class="p">,</span><span class="n">Proyecto</span>
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Miembro</span><span class="p">,</span> <span class="n">Proyecto</span>
 <span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">get_object_or_404</span>
 <span class="kn">from</span> <span class="nn">allauth.socialaccount.models</span> <span class="kn">import</span> <span class="n">SocialAccount</span>
 <span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span></pre></div>
@@ -101,7 +101,7 @@
       <p>funcion para asignar el rol de scrum master</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">asignarRolScrumMaster</span><span class="p">(</span><span class="n">proyecto</span><span class="p">,</span> <span class="n">usuario</span><span class="p">,</span> <span class="n">rol</span> <span class="p">):</span>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">asignarRolScrumMaster</span><span class="p">(</span><span class="n">proyecto</span><span class="p">,</span> <span class="n">usuario</span><span class="p">,</span> <span class="n">rol</span><span class="p">):</span>
     <span class="n">sm</span> <span class="o">=</span> <span class="n">Miembro</span><span class="p">()</span>
     <span class="n">sm</span><span class="o">.</span><span class="n">idrol</span> <span class="o">=</span> <span class="n">rol</span>
     <span class="n">sm</span><span class="o">.</span><span class="n">idproyecto</span> <span class="o">=</span> <span class="n">proyecto</span>
@@ -262,11 +262,11 @@
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">obtenerlistaDeProyectosUser</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="n">listaDeProyectos</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">scrumMaster</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">))</span>
     <span class="n">miembro</span> <span class="o">=</span> <span class="n">Miembro</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">usuario</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">isActivo</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">miembro</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="o">.</span><span class="n">idproyecto</span> <span class="ow">in</span> <span class="n">listaDeProyectos</span><span class="p">:</span>
             <span class="n">listaDeProyectos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">idproyecto</span><span class="p">)</span>
-    <span class="n">listaDeProyectos</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">nombreproyecto</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">listaDeProyectos</span></pre></div>
+    <span class="n">listaDeProyectos</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">estado</span> <span class="o">==</span> <span class="s1">&#39;F&#39;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -275,18 +275,10 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-15'>#</a>
       </div>
-      <p>obtener los permisos del usuario</p>
+      <p>sort by fechafin and estado = &lsquo;F&rsquo;</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">obtenerPermisos</span><span class="p">(</span><span class="n">proyectoid</span><span class="p">,</span> <span class="n">usuario</span><span class="p">):</span>
-    <span class="n">miembro</span> <span class="o">=</span> <span class="n">Miembro</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">idproyecto</span><span class="o">=</span><span class="n">proyectoid</span><span class="p">,</span><span class="n">usuario</span><span class="o">=</span><span class="n">usuario</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
-    <span class="n">permisos</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">usuario</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Administrador&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-        <span class="n">permisos</span> <span class="o">=</span> <span class="n">miembro</span><span class="o">.</span><span class="n">idrol</span><span class="o">.</span><span class="n">obtener_permisos</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">rol</span> <span class="o">=</span> <span class="n">Rol</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">nombre</span><span class="o">=</span><span class="s1">&#39;admin&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
-        <span class="n">permisos</span> <span class="o">=</span> <span class="n">rol</span><span class="o">.</span><span class="n">obtener_permisos</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">permisos</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="n">listaDeProyectos</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -295,17 +287,25 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-16'>#</a>
       </div>
-      <p>obtener los campos de Rol</p>
+      <p>obtener los permisos del usuario</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">importarRolProyecto</span><span class="p">(</span><span class="n">idproyecto1</span><span class="p">,</span> <span class="n">idproyecto2</span><span class="p">):</span>
-    <span class="n">proyecto1</span> <span class="o">=</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">idproyecto1</span><span class="p">)</span>
-    <span class="n">proyecto2</span> <span class="o">=</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">idproyecto2</span><span class="p">)</span>
-    <span class="n">roles</span> <span class="o">=</span> <span class="n">Rol</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">idProyecto</span><span class="o">=</span><span class="n">proyecto2</span><span class="p">)</span>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">obtenerPermisos</span><span class="p">(</span><span class="n">proyectoid</span><span class="p">,</span> <span class="n">usuario</span><span class="p">):</span>
+    <span class="n">miembro</span> <span class="o">=</span> <span class="n">Miembro</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">idproyecto</span><span class="o">=</span><span class="n">proyectoid</span><span class="p">,</span> <span class="n">usuario</span><span class="o">=</span><span class="n">usuario</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+    <span class="n">permisos</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">ban</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">permisos</span> <span class="o">=</span> <span class="n">miembro</span><span class="o">.</span><span class="n">idrol</span><span class="o">.</span><span class="n">obtener_permisos</span><span class="p">()</span>
+        <span class="n">ban</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">ban</span> <span class="o">=</span> <span class="kc">False</span>
 
-    <span class="n">rolImportado</span> <span class="o">=</span> <span class="n">Rol</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">rol</span> <span class="ow">in</span> <span class="n">roles</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">Rol</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">idProyecto</span><span class="o">=</span><span class="n">proyecto1</span><span class="p">,</span> <span class="n">nombre</span><span class="o">=</span><span class="n">rol</span><span class="o">.</span><span class="n">nombre</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span></pre></div>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">usuario</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Administrador&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">or</span> <span class="n">ban</span><span class="p">:</span>
+        <span class="n">permisos</span> <span class="o">=</span> <span class="n">miembro</span><span class="o">.</span><span class="n">idrol</span><span class="o">.</span><span class="n">obtener_permisos</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rol</span> <span class="o">=</span> <span class="n">Rol</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">nombre</span><span class="o">=</span><span class="s1">&#39;admin&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span>
+        <span class="n">permisos</span> <span class="o">=</span> <span class="n">rol</span><span class="o">.</span><span class="n">obtener_permisos</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">permisos</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -314,10 +314,10 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-17'>#</a>
       </div>
-      <p>copy all the fields from the role to the new role </p>
+      <p>obtener los campos de Rol</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>            <span class="n">rolImportado</span> <span class="o">=</span> <span class="n">Rol</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">nombre</span><span class="o">=</span><span class="n">rol</span><span class="o">.</span><span class="n">nombre</span><span class="p">,</span> <span class="n">descripcion</span><span class="o">=</span><span class="n">rol</span><span class="o">.</span><span class="n">descripcion</span><span class="p">,</span> <span class="n">idProyecto</span><span class="o">=</span><span class="n">proyecto1</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">importarRolProyecto</span><span class="p">(</span><span class="n">idproyecto</span><span class="p">,</span> <span class="n">idrol</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -326,11 +326,12 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-18'>#</a>
       </div>
-      <p>copy all the permissions from the role to the new role
-import all the fields from the model Rol</p>
+      <p>el rol a importar</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>            <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">Rol</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">get_fields</span><span class="p">():</span></pre></div>
+      <div class="highlight"><pre>    <span class="n">rol</span> <span class="o">=</span> <span class="n">Rol</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">idrol</span><span class="p">)</span>
+    <span class="n">proyecto</span> <span class="o">=</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">idproyecto</span><span class="p">)</span>
+    <span class="n">rolImportado</span> <span class="o">=</span> <span class="n">Rol</span><span class="p">()</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -339,10 +340,10 @@ import all the fields from the model Rol</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-19'>#</a>
       </div>
-      <p>if the field is a permission</p>
+      <p>creamos un nuevo rol con los datos del rol a importar</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>                <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;agregar&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;eliminar&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;modificar&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;crear&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;empezar&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;finalizar&#39;</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre>    <span class="n">rolImportado</span> <span class="o">=</span> <span class="n">Rol</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">nombre</span><span class="o">=</span><span class="n">rol</span><span class="o">.</span><span class="n">nombre</span><span class="p">,</span> <span class="n">descripcion</span><span class="o">=</span><span class="n">rol</span><span class="o">.</span><span class="n">descripcion</span><span class="p">,</span> <span class="n">idProyecto</span><span class="o">=</span><span class="n">proyecto</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -351,22 +352,15 @@ import all the fields from the model Rol</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-20'>#</a>
       </div>
-      <p>get the value of the permission</p>
+      <p>copia todos los permisos de rol a rolImportado</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>                    <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">rol</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-21'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-21'>#</a>
-      </div>
-      <p>set the value of the permission in the new role</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>                    <span class="nb">setattr</span><span class="p">(</span><span class="n">rolImportado</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+      <div class="highlight"><pre>    <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">Rol</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">get_fields</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;agregar&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;eliminar&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span>
+                <span class="s1">&#39;modificar&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;crear&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span>
+            <span class="s1">&#39;empezar&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;finalizar&#39;</span><span class="p">):</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">rol</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">rolImportado</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">rolImportado</span>
 
 </pre></div>
