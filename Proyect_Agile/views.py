@@ -814,6 +814,9 @@ def agregarUs_para_Sprint(request, id, id_us, id_sprint, estimacion):
             us = User_Story.objects.get(id=id_us)
             miembro = Miembro.objects.get(usuario=us.miembroEncargado.usuario, idproyecto=id)
             miembro.horasDisponibles += int(float(estimacion))
+            sprint = Sprint.objects.get(id=id_sprint)
+            sprint.duracion += int(float(estimacion))
+            sprint.save()
             miembro.save()
 
         form = formCrearPlanningPoker(request.POST)
@@ -1003,6 +1006,9 @@ def quitarUSsprint(request, id, id_sprint, id_us):
     us = User_Story.objects.get(id=id_us)
     miembro = Miembro.objects.get(usuario=us.miembroEncargado.usuario, idproyecto=id)
     miembro.horasDisponibles += us.estimacion
+    sprint = Sprint.objects.get(id=id_sprint)
+    sprint.duracion += us.estimacion
+    sprint.save()
     us.miembroEncargado = None
     us.idSprint = None
     us.estado = 'N'
