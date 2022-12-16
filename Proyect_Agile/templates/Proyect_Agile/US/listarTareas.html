@@ -5,6 +5,7 @@
 
     <div class="container mb-5">
         <div class="py-5 text-center ">
+            <h1 class="text-light">{{ us.nombre  }} - {{ us.miembroEncargado }}</h1>
             <h1 class="text-light"> Lista de Tareas </h1>
         </div>
         <div class="bg-dark border rounded border-dark ">
@@ -13,7 +14,6 @@
             <table class="table table-dark table-hover table-bordered border-muted">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Encargado</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Duracion</th>
 
@@ -22,7 +22,6 @@
                 <tbody>
                 <tr>
                     {% for tarea in tareas %}
-                        <td>{{ tarea.idUs.miembroEncargado }}</td>
                         <td> {{ tarea.nombre }} </td>
                         {% if tarea.duracion > 1 %}
                             <td> {{ tarea.duracion }} horas</td>
