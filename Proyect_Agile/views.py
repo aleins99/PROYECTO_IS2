@@ -944,7 +944,7 @@ def finalizarSprint(request, id, id_sprint):
             horas = horas + tarea.duracion # sumamos la duracion de cada tarea
     sprint.Htrabajadas=horas
     sprint.save()  # guardar el estado
-    planning = User_Story.objects.filter(idSprint=id_sprint, estado_in=['Finalizado', 'Cancelado'])
+    planning = User_Story.objects.filter(idSprint=id_sprint, estado__in=['Finalizado', 'Cancelado'])
     for us in planning:
         us.prioridad = 0
         us.save()
