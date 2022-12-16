@@ -732,7 +732,7 @@ def crearSprint(request, id):
                 dias = (fin - ini).days + 1
                 findes = len([1 for x in range(dias) if (ini + timedelta(days=x)).weekday() in [5, 6]])
                 duracionSprint = dias - findes
-                form.instance.duracion = duracionSprint * 24
+                form.instance.duracion = (duracionSprint * 24) - 24
                 form.save()
                 return redirect('verSprint', id)
         else:
