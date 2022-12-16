@@ -601,6 +601,7 @@ def crearUser_Story(request, id):
         return render(request, 'Proyect_Agile/US/crearUS.html', context)
 
 #@method_decorator(permisoVista(permiso="modificarRol"), name='dispatch')
+# edición de User Stories, que permite la modificación de datos registrados en los campos del User Stories
 @method_decorator(permisoVista(permiso="modificarUserStory"), name='dispatch')
 class editarUS(UpdateView):
     model = User_Story
@@ -608,7 +609,7 @@ class editarUS(UpdateView):
     form_class = UserStoryForm
 
     def get_context_data(self, **kwargs):
-        # get all the roles from the project
+        # obtiene todos los permisos del usuario/miembro
         context = super().get_context_data(**kwargs)
         id = self.kwargs['idproyecto']
         permisos = obtenerPermisos(id, self.request.user)
@@ -617,7 +618,8 @@ class editarUS(UpdateView):
         return context
 
     def get_form(self, form_class=None):
-        form = super().get_form(form_class)
+        # filtra todos los tipos de user stories, por proyecto
+        form = super().get_form(form_class) #formulario
         id = self.kwargs['idproyecto']
         form.fields["tipo"].queryset = TipoUS.objects.filter(idproyecto=id)
         return form
@@ -627,10 +629,10 @@ class editarUS(UpdateView):
 
 
 # Lista de los us dentro de un proyecto
-
 def verListaUS(request, id):
-    proyecto = Proyecto.objects.get(id=id)
+    proyecto = Proyecto.objects.get(id=id) #Llama a al proyecto sobre el que se quiere trabajar
     usuario = request.user
+    #Se filtra US por id
     us = User_Story.objects.filter(idproyecto=proyecto).order_by('-prioridad')
     for u in us:
         if u.estado == 'H':
@@ -654,7 +656,7 @@ def verListaUS(request, id):
 
 # Lista de tipo de us dentro de un proyecto
 def listarTUSproyectos(request, id):
-    proyectos = Proyecto.objects.exclude(id=id)
+    proyectos = Proyecto.objects.exclude(id=id)#Llama a al proyecto sobre el que se quiere trabajar
     context = {
         'proyectos': proyectos,
         'estados': estados_Proyecto,
@@ -676,7 +678,7 @@ def listarTipoUsProyectos(request, id):
 
 # Funcion para importar tipos de us de otro proyecto al actual
 def importarTipoUS(request, id, id_tipo):
-    proyecto1 = Proyecto.objects.get(id=id)
+    proyecto1 = Proyecto.objects.get(id=id)#Llama a al proyecto sobre el que se quiere trabajar
     tipo = TipoUS.objects.get(id=id_tipo)
     tipoImportado = TipoUS.objects.create(nombre=tipo.nombre, idproyecto=proyecto1, estado=tipo.estado)
     tipoImportado.save()
@@ -690,7 +692,7 @@ def verSprint(request, id):
         # throw error
         iniciar = False
     sprint = Sprint.objects.filter(idproyecto=id)
-    proyecto = Proyecto.objects.get(id=id)
+    proyecto = Proyecto.objects.get(id=id)#Llama a al proyecto sobre el que se quiere trabajar
     usuario = request.user
     ban = True
     scrum = False
@@ -718,7 +720,7 @@ def verSprint(request, id):
 # form para la creacion de sprints de un proyecto
 
 def crearSprint(request, id):
-    proyecto = Proyecto.objects.get(id=id)
+    proyecto = Proyecto.objects.get(id=id)#Llama a al proyecto sobre el que se quiere trabajar
     if request.method == 'POST':
         form = SprintForm(request.POST)
         # get the start and end date from the form
@@ -807,7 +809,7 @@ def listarUS_para_Sprint(request, id, id_sprint):
 # Para agregar un us al sprint backlog
 
 def agregarUs_para_Sprint(request, id, id_us, id_sprint, estimacion):
-    proyecto = get_object_or_404(Proyecto, pk=id)
+    proyecto = get_object_or_404(Proyecto, pk=id)#Llama a al proyecto sobre el que se quiere trabajar
     if request.method == 'POST':
 
         if int(float(estimacion)) > 0:
@@ -892,14 +894,13 @@ def listaMiembroSprint(request, id, id_sprint):
 
 
 # muestra los us del sprint backlog
-
 def listarPlanningPoker(request, id, id_sprint):
     planningPoker = User_Story.objects.filter(idSprint=id_sprint).order_by(
         '-prioridad')  # listar us dentro del sprint backlog
     capacidad = 0
     for us in planningPoker:
         capacidad += us.estimacion
-    proyecto = Proyecto.objects.get(id=id)
+    proyecto = Proyecto.objects.get(id=id)#Llama a al proyecto sobre el que se quiere trabajar
     sprint = Sprint.objects.get(id=id_sprint)
     duracion = sprint.duracion
     context = {
@@ -915,7 +916,6 @@ def listarPlanningPoker(request, id, id_sprint):
 
 
 # inicia el sprint del proyecto
-
 def iniciarSprint(request, id, id_sprint):
     sprint = Sprint.objects.get(id=id_sprint)  # para iniciar el sprint seleccionado
     sprint.estado = 'E'  # cambia el estado
@@ -990,7 +990,6 @@ def mostrarKanban(request, id, id_sprint, id_tipo):
 
 
 # Cambiar el estado del us dentro del tablero kan ban
-
 def cambiarEstadoUs(request):
     # traemos el estado y el idus del ajax de kanban.html
     estado = request.GET.get('estado', None)
@@ -1001,7 +1000,7 @@ def cambiarEstadoUs(request):
     us.save()
     return HttpResponse(estado)
 
-
+# Quitar un US de un Sprint
 def quitarUSsprint(request, id, id_sprint, id_us):
     us = User_Story.objects.get(id=id_us)
     miembro = Miembro.objects.get(usuario=us.miembroEncargado.usuario, idproyecto=id)
@@ -1188,6 +1187,7 @@ def finalizarProyecto(request, id):
     proyecto.save()
     return redirect('listarproyecto')
 
+# Creación del BurndownChart para mostrar en pantalla
 def burndownChart(request,id):
     proyecto=Proyecto.objects.get(id=id)
     scrum=False;

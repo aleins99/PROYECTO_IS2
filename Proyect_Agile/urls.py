@@ -89,8 +89,11 @@ urlpatterns = [
     path('Proyecto/<id>/decision/<opcion>/us/<id_us>/', views.decisionScrumUS, name= 'decisionUS'),
     # vista para la aprobacion del us o su cancelacion
     path('Proyecto/<id>/US/<id_us>/historial/', views.historialUs, name='historialUs'),
+    # vista para el historial de US
     path('Proyecto/<id>/finalizar', views.finalizarProyecto, name='finalizarProyecto'),
+    # vista para finalizar un proyecto
     path('Proyecto/<idproyecto>/TipoUs/<pk>/editar/', views.editarTipoUS.as_view(), name='editarTipoUS'),
+    # vista para editar los tipos de US
     path('Proyecto/<id>/burndownChart/', views.burndownChart, name='burndownChart')
     #vista para ver el burndown chart del proyecto
 
