@@ -64,7 +64,6 @@
                             {% else %}
                                 <a href="{% url 'mostrarKanban' proyecto_id sprint.id sprint|idtipo %}" title="Kanban"
                                    type="button" class="btn btn-primary ml-1">Kanban</a>
-                                <a title="BurndownChart" type="button" class="btn btn-primary ml-1">Burndown Chart</a>
                             {% endif %}
                             <a href="{% url 'listarPlanningPoker' proyecto_id sprint.id %}"
                                type="button"
