@@ -6,8 +6,8 @@
         {% csrf_token %}
         {{ form|crispy }}
         <div class="mb-3">
-            <a href="{% url 'listarTareas' idproyecto  us.id %}" type="button" class="btn btn-primary ml-1">Cancelar</a>
             <input type="submit" class="btn btn-primary" value="Crear Tarea">
+            <a href="{% url 'listarTareas' idproyecto  us.id %}" type="button" class="btn btn-danger ml-1">Cancelar</a>
         </div>
     </form>
 

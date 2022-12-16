@@ -13,31 +13,41 @@
             <table class="table table-dark table-hover table-bordered border-muted">
                 <thead class="thead-dark">
                 <tr>
+                    <th scope="col">Encargado</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Duracion</th>
 
                 </tr>
                 </thead>
                 <tbody>
+                <tr>
                     {% for tarea in tareas %}
-                        <tr>
-                            <td> {{ tarea.nombre }} </td>
-                            <td> {{ tarea.duracion }} </td>
+                        <td>{{ tarea.idUs.miembroEncargado }}</td>
+                        <td> {{ tarea.nombre }} </td>
+                        {% if tarea.duracion > 1 %}
+                            <td> {{ tarea.duracion }} horas</td>
+                        {% else %}
+                            <td>{{ tarea.duracion }} hora</td>
+                        {% endif %}
                         </tr>
                     {% endfor %}
+
                 </tbody>
 
 
             </table>
-            {%if scrum and us.estado == "Hecho"%}
-                <a  type="button" class="btn btn-primary ml-1" href="{%url 'revisionUs' idproyecto%}">Ir a la Revision del US</a>
-            {%endif%}
-            <a href="{% url 'mostrarKanban' idproyecto us.idSprint.id tipo %}" type="button" class="btn btn-primary ml-1">Ir al Tablero</a>
-            {%if us.estado == "Por hacer" or us.estado == "En Proceso" %}
-                {%if us.miembroEncargado.usuario == usuario %}
-                <a href="{% url 'crearTarea' idproyecto us.id %}" type="button" class="btn btn-primary ml-1">Agregar Tarea</a>
-                {%endif%}
-            {%endif%}    
+            {% if scrum and us.estado == "Hecho" %}
+                <a type="button" class="btn btn-primary ml-1" href="{% url 'revisionUs' idproyecto %}">Ir a la Revision
+                    del US</a>
+            {% endif %}
+            <a href="{% url 'mostrarKanban' idproyecto us.idSprint.id tipo %}" type="button"
+               class="btn btn-primary ml-1">Ir al Tablero</a>
+            {% if us.estado == "Por hacer" or us.estado == "En Proceso" %}
+                {% if us.miembroEncargado.usuario == usuario %}
+                    <a href="{% url 'crearTarea' idproyecto us.id %}" type="button" class="btn btn-primary ml-1">Agregar
+                        Tarea</a>
+                {% endif %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}
