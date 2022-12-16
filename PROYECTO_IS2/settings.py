@@ -26,9 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-!)4-4e@-04l)q3l-7%d7@5fq9k@g3a2$1fj3rhn&9^n_$k@j*o'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['agileproject.software', 'www.agileproject.software']
+ALLOWED_HOSTS = ['localhost', '*']
 APPEND_SLASH = True
 
 # Application definition
@@ -93,7 +93,7 @@ WSGI_APPLICATION = 'PROYECTO_IS2.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'producciondb',
+        'NAME': 'agileproject',
         'USER': 'usuario',
         'PASSWORD': 'admin',
         'HOST': 'localhost',
@@ -133,8 +133,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = '/home/agile/is2/PROYECTO_IS2/Proyect_Agile/static/'
-STATIC_ROOT = '/home/agile/is2/PROYECTO_IS2/Proyect_Agile/static/'
+STATIC_URL = '/home/diego/Desktop/IS2/PROYECTO_IS2/Proyect_Agile/static/'
+STATIC_ROOT = '/home/diego/Desktop/IS2/PROYECTO_IS2/Proyect_Agile/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
@@ -165,7 +165,7 @@ SOCIALACCOUNT_PROVIDERS = {
         'AUTH_PARAMS': {
             'access_type': 'online',
         }
-    }
+    },
 }
 
 LOGIN_REDIRECT_URL = 'home'
