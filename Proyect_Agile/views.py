@@ -1023,7 +1023,13 @@ def crearTarea(request, id, id_us):
     if request.method == 'POST':
         form = FormTarea(request.POST)
         if form.is_valid():
+            us = User_Story.objects.get(id=id_us)
+            estados = us.tipo.estado.split(', ')
+            if us.estado == estados[0]:
+                us.estado = estados[1]
+                us.save()
             form.save()
+
             return redirect('listarTareas', id, id_us)
         else:
             form = FormTarea(request.POST or None)
