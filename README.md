@@ -12,9 +12,8 @@ Antes de comenzar, asegúrese de tener instalado lo siguiente en su máquina:
 ## Instalación
 1. Clonar el repositorio:
 ``` bash
-* Copy code
-* git clone https://github.com/aleins99/PROYECTO_IS2.git
-* cd PROYECTO_IS2
+ git clone https://github.com/aleins99/PROYECTO_IS2.git
+ cd PROYECTO_IS2
 ``` 
 2. Crear un entorno virtual e instalar las dependencias:
 ``` bash
