@@ -1227,7 +1227,8 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-66'>#</a>
       </div>
-      <p>@method_decorator(permisoVista(permiso=&rdquo;modificarRol&rdquo;), name=&rsquo;dispatch&rsquo;)</p>
+      <p>@method_decorator(permisoVista(permiso=&rdquo;modificarRol&rdquo;), name=&rsquo;dispatch&rsquo;)
+edición de User Stories, que permite la modificación de datos registrados en los campos del User Stories</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="nd">@method_decorator</span><span class="p">(</span><span class="n">permisoVista</span><span class="p">(</span><span class="n">permiso</span><span class="o">=</span><span class="s2">&quot;modificarUserStory&quot;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;dispatch&#39;</span><span class="p">)</span>
@@ -1245,7 +1246,7 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-67'>#</a>
       </div>
-      <p>get all the roles from the project</p>
+      <p>obtiene todos los permisos del usuario/miembro</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -1265,11 +1266,7 @@
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form_class</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="n">form</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_form</span><span class="p">(</span><span class="n">form_class</span><span class="p">)</span>
-        <span class="nb">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;idproyecto&#39;</span><span class="p">]</span>
-        <span class="n">form</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;tipo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">queryset</span> <span class="o">=</span> <span class="n">TipoUS</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">idproyecto</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">form</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form_class</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -1277,6 +1274,21 @@
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-69'>#</a>
+      </div>
+      <p>filtra todos los tipos de user stories, por proyecto</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">form</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_form</span><span class="p">(</span><span class="n">form_class</span><span class="p">)</span> <span class="c1">#formulario</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;idproyecto&#39;</span><span class="p">]</span>
+        <span class="n">form</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s2">&quot;tipo&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">queryset</span> <span class="o">=</span> <span class="n">TipoUS</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">idproyecto</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">form</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-70'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-70'>#</a>
       </div>
       
     </div>
@@ -1287,30 +1299,29 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-70'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-70'>#</a>
-      </div>
-      <p>Lista de los us dentro de un proyecto</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
   <div class='section' id='section-71'>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-71'>#</a>
       </div>
-      
+      <p>Lista de los us dentro de un proyecto</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">verListaUS</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
-    <span class="n">proyecto</span> <span class="o">=</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
-    <span class="n">usuario</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
-    <span class="n">us</span> <span class="o">=</span> <span class="n">User_Story</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">idproyecto</span><span class="o">=</span><span class="n">proyecto</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-prioridad&#39;</span><span class="p">)</span>
+    <span class="n">proyecto</span> <span class="o">=</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span> <span class="c1">#Llama a al proyecto sobre el que se quiere trabajar</span>
+    <span class="n">usuario</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-72'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-72'>#</a>
+      </div>
+      <p>Se filtra US por id</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">us</span> <span class="o">=</span> <span class="n">User_Story</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">idproyecto</span><span class="o">=</span><span class="n">proyecto</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">&#39;-prioridad&#39;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">us</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">u</span><span class="o">.</span><span class="n">estado</span> <span class="o">==</span> <span class="s1">&#39;H&#39;</span><span class="p">:</span>
             <span class="n">u</span><span class="o">.</span><span class="n">prioridad</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1332,16 +1343,16 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-72'>
+  <div class='section' id='section-73'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-72'>#</a>
+        <a class='octothorpe' href='#section-73'>#</a>
       </div>
       <p>Lista de tipo de us dentro de un proyecto</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">listarTUSproyectos</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
-    <span class="n">proyectos</span> <span class="o">=</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
+    <span class="n">proyectos</span> <span class="o">=</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span><span class="c1">#Llama a al proyecto sobre el que se quiere trabajar</span>
     <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;proyectos&#39;</span><span class="p">:</span> <span class="n">proyectos</span><span class="p">,</span>
         <span class="s1">&#39;estados&#39;</span><span class="p">:</span> <span class="n">estados_Proyecto</span><span class="p">,</span>
@@ -1352,10 +1363,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-73'>
+  <div class='section' id='section-74'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-73'>#</a>
+        <a class='octothorpe' href='#section-74'>#</a>
       </div>
       <p>listar todos los tipos de US del sistema excepto los tipos del proyecto mismo</p>
     </div>
@@ -1371,16 +1382,16 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-74'>
+  <div class='section' id='section-75'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-74'>#</a>
+        <a class='octothorpe' href='#section-75'>#</a>
       </div>
       <p>Funcion para importar tipos de us de otro proyecto al actual</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">importarTipoUS</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">id_tipo</span><span class="p">):</span>
-    <span class="n">proyecto1</span> <span class="o">=</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
+    <span class="n">proyecto1</span> <span class="o">=</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span><span class="c1">#Llama a al proyecto sobre el que se quiere trabajar</span>
     <span class="n">tipo</span> <span class="o">=</span> <span class="n">TipoUS</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">id_tipo</span><span class="p">)</span>
     <span class="n">tipoImportado</span> <span class="o">=</span> <span class="n">TipoUS</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">nombre</span><span class="o">=</span><span class="n">tipo</span><span class="o">.</span><span class="n">nombre</span><span class="p">,</span> <span class="n">idproyecto</span><span class="o">=</span><span class="n">proyecto1</span><span class="p">,</span> <span class="n">estado</span><span class="o">=</span><span class="n">tipo</span><span class="o">.</span><span class="n">estado</span><span class="p">)</span>
     <span class="n">tipoImportado</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
@@ -1388,10 +1399,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-75'>
+  <div class='section' id='section-76'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-75'>#</a>
+        <a class='octothorpe' href='#section-76'>#</a>
       </div>
       <p>Muestra el listado de sprints del proyecto</p>
     </div>
@@ -1402,17 +1413,17 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-76'>
+  <div class='section' id='section-77'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-76'>#</a>
+        <a class='octothorpe' href='#section-77'>#</a>
       </div>
       <p>throw error</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>        <span class="n">iniciar</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">sprint</span> <span class="o">=</span> <span class="n">Sprint</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">idproyecto</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
-    <span class="n">proyecto</span> <span class="o">=</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
+    <span class="n">proyecto</span> <span class="o">=</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span><span class="c1">#Llama a al proyecto sobre el que se quiere trabajar</span>
     <span class="n">usuario</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
     <span class="n">ban</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">scrum</span> <span class="o">=</span> <span class="kc">False</span>
@@ -1424,10 +1435,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-77'>
+  <div class='section' id='section-78'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-77'>#</a>
+        <a class='octothorpe' href='#section-78'>#</a>
       </div>
       <p>calcular la duracion de los sprints</p>
     </div>
@@ -1448,10 +1459,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-78'>
+  <div class='section' id='section-79'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-78'>#</a>
+        <a class='octothorpe' href='#section-79'>#</a>
       </div>
       <p>form para la creacion de sprints de un proyecto</p>
     </div>
@@ -1460,25 +1471,25 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-79'>
+  <div class='section' id='section-80'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-79'>#</a>
+        <a class='octothorpe' href='#section-80'>#</a>
       </div>
       
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">crearSprint</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
-    <span class="n">proyecto</span> <span class="o">=</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
+    <span class="n">proyecto</span> <span class="o">=</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span><span class="c1">#Llama a al proyecto sobre el que se quiere trabajar</span>
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
         <span class="n">form</span> <span class="o">=</span> <span class="n">SprintForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-80'>
+  <div class='section' id='section-81'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-80'>#</a>
+        <a class='octothorpe' href='#section-81'>#</a>
       </div>
       <p>get the start and end date from the form</p>
     </div>
@@ -1492,10 +1503,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-81'>
+  <div class='section' id='section-82'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-81'>#</a>
+        <a class='octothorpe' href='#section-82'>#</a>
       </div>
       <p>get the days between the start and end date without counting the weekends</p>
     </div>
@@ -1526,10 +1537,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-82'>
+  <div class='section' id='section-83'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-82'>#</a>
+        <a class='octothorpe' href='#section-83'>#</a>
       </div>
       <p>Aqui obtiene el numero del ultimo sprint, para hacer &ldquo;autoincrementable&rdquo;</p>
     </div>
@@ -1547,10 +1558,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-83'>
+  <div class='section' id='section-84'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-83'>#</a>
+        <a class='octothorpe' href='#section-84'>#</a>
       </div>
       <p>si no hay sprints, el inicio del sprint es el dia siguiente al inicio del            </p>
     </div>
@@ -1562,10 +1573,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-84'>
+  <div class='section' id='section-85'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-84'>#</a>
+        <a class='octothorpe' href='#section-85'>#</a>
       </div>
       <p>si es sabado o domingo, el inicio del sprint es el lunes</p>
     </div>
@@ -1593,10 +1604,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-85'>
+  <div class='section' id='section-86'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-85'>#</a>
+        <a class='octothorpe' href='#section-86'>#</a>
       </div>
       <p>Muestra los us que se pueden agregar al sprint backlog</p>
     </div>
@@ -1605,10 +1616,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-86'>
+  <div class='section' id='section-87'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-86'>#</a>
+        <a class='octothorpe' href='#section-87'>#</a>
       </div>
       
     </div>
@@ -1617,10 +1628,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-87'>
+  <div class='section' id='section-88'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-87'>#</a>
+        <a class='octothorpe' href='#section-88'>#</a>
       </div>
       <p>USs = User_Story.objects.filter(idproyecto=id, estado=&rsquo;N&rsquo;).order_by(&lsquo;-prioridad&rsquo;) | User_Story.objects.filter(idproyecto=id, estado=&rsquo;STSA&rsquo;).order_by(&lsquo;-prioridad&rsquo;) | User_Story.objects.filter(idproyecto=id, estado=&rsquo;Cancelado&rsquo;).order_by(&lsquo;-prioridad&rsquo;)</p>
     </div>
@@ -1635,10 +1646,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-88'>
+  <div class='section' id='section-89'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-88'>#</a>
+        <a class='octothorpe' href='#section-89'>#</a>
       </div>
       <p>Para agregar un us al sprint backlog</p>
     </div>
@@ -1647,22 +1658,25 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-89'>
+  <div class='section' id='section-90'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-89'>#</a>
+        <a class='octothorpe' href='#section-90'>#</a>
       </div>
       
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">agregarUs_para_Sprint</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">id_us</span><span class="p">,</span> <span class="n">id_sprint</span><span class="p">,</span> <span class="n">estimacion</span><span class="p">):</span>
-    <span class="n">proyecto</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
+    <span class="n">proyecto</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Proyecto</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span><span class="c1">#Llama a al proyecto sobre el que se quiere trabajar</span>
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
 
         <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">estimacion</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">us</span> <span class="o">=</span> <span class="n">User_Story</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">id_us</span><span class="p">)</span>
             <span class="n">miembro</span> <span class="o">=</span> <span class="n">Miembro</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">usuario</span><span class="o">=</span><span class="n">us</span><span class="o">.</span><span class="n">miembroEncargado</span><span class="o">.</span><span class="n">usuario</span><span class="p">,</span> <span class="n">idproyecto</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
             <span class="n">miembro</span><span class="o">.</span><span class="n">horasDisponibles</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">estimacion</span><span class="p">))</span>
+            <span class="n">sprint</span> <span class="o">=</span> <span class="n">Sprint</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">id_sprint</span><span class="p">)</span>
+            <span class="n">sprint</span><span class="o">.</span><span class="n">duracion</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">estimacion</span><span class="p">))</span>
+            <span class="n">sprint</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
             <span class="n">miembro</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 
         <span class="n">form</span> <span class="o">=</span> <span class="n">formCrearPlanningPoker</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
@@ -1686,10 +1700,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-90'>
+  <div class='section' id='section-91'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-90'>#</a>
+        <a class='octothorpe' href='#section-91'>#</a>
       </div>
       <p>get all the members of the project except the scrum master</p>
     </div>
@@ -1713,10 +1727,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-91'>
+  <div class='section' id='section-92'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-91'>#</a>
+        <a class='octothorpe' href='#section-92'>#</a>
       </div>
       <p>se excluye el rol</p>
     </div>
@@ -1734,10 +1748,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-92'>
+  <div class='section' id='section-93'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-92'>#</a>
+        <a class='octothorpe' href='#section-93'>#</a>
       </div>
       <p>Muestra los miembros del proyecto que trabajan en ese sprint</p>
     </div>
@@ -1746,10 +1760,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-93'>
+  <div class='section' id='section-94'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-93'>#</a>
+        <a class='octothorpe' href='#section-94'>#</a>
       </div>
       
     </div>
@@ -1776,24 +1790,12 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-94'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-94'>#</a>
-      </div>
-      <p>muestra los us del sprint backlog</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
   <div class='section' id='section-95'>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-95'>#</a>
       </div>
-      
+      <p>muestra los us del sprint backlog</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">listarPlanningPoker</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">id_sprint</span><span class="p">):</span>
@@ -1802,7 +1804,7 @@
     <span class="n">capacidad</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">us</span> <span class="ow">in</span> <span class="n">planningPoker</span><span class="p">:</span>
         <span class="n">capacidad</span> <span class="o">+=</span> <span class="n">us</span><span class="o">.</span><span class="n">estimacion</span>
-    <span class="n">proyecto</span> <span class="o">=</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
+    <span class="n">proyecto</span> <span class="o">=</span> <span class="n">Proyecto</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span><span class="c1">#Llama a al proyecto sobre el que se quiere trabajar</span>
     <span class="n">sprint</span> <span class="o">=</span> <span class="n">Sprint</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">id_sprint</span><span class="p">)</span>
     <span class="n">duracion</span> <span class="o">=</span> <span class="n">sprint</span><span class="o">.</span><span class="n">duracion</span>
     <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
@@ -1826,18 +1828,6 @@
       <p>inicia el sprint del proyecto</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-97'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-97'>#</a>
-      </div>
-      
-    </div>
-    <div class='code'>
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">iniciarSprint</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">id_sprint</span><span class="p">):</span>
     <span class="n">sprint</span> <span class="o">=</span> <span class="n">Sprint</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">id_sprint</span><span class="p">)</span>  <span class="c1"># para iniciar el sprint seleccionado</span>
     <span class="n">sprint</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;E&#39;</span>  <span class="c1"># cambia el estado</span>
@@ -1851,10 +1841,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-98'>
+  <div class='section' id='section-97'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-98'>#</a>
+        <a class='octothorpe' href='#section-97'>#</a>
       </div>
       <p>finaliza el sprint del proyecto</p>
     </div>
@@ -1863,10 +1853,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-99'>
+  <div class='section' id='section-98'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-99'>#</a>
+        <a class='octothorpe' href='#section-98'>#</a>
       </div>
       
     </div>
@@ -1875,10 +1865,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-100'>
+  <div class='section' id='section-99'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-100'>#</a>
+        <a class='octothorpe' href='#section-99'>#</a>
       </div>
       <p>check if us of the sprint are in state &ldquo;N&rdquo; or &ldquo;STSA&rdquo; or &ldquo;PP&rdquo;</p>
     </div>
@@ -1889,10 +1879,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-101'>
+  <div class='section' id='section-100'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-101'>#</a>
+        <a class='octothorpe' href='#section-100'>#</a>
       </div>
       <p>para calcular las horas de las tareas del sprint</p>
     </div>
@@ -1905,7 +1895,12 @@
             <span class="n">horas</span> <span class="o">=</span> <span class="n">horas</span> <span class="o">+</span> <span class="n">tarea</span><span class="o">.</span><span class="n">duracion</span> <span class="c1"># sumamos la duracion de cada tarea</span>
     <span class="n">sprint</span><span class="o">.</span><span class="n">Htrabajadas</span><span class="o">=</span><span class="n">horas</span>
     <span class="n">sprint</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>  <span class="c1"># guardar el estado</span>
-    <span class="n">planning</span> <span class="o">=</span> <span class="n">User_Story</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">idSprint</span><span class="o">=</span><span class="n">id_sprint</span><span class="p">,</span> <span class="n">estado__in</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Por hacer&#39;</span><span class="p">,</span> <span class="s1">&#39;En Ṕroceso&#39;</span><span class="p">,</span> <span class="s1">&#39;Cancelado&#39;</span><span class="p">])</span>
+    <span class="n">planning</span> <span class="o">=</span> <span class="n">User_Story</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">idSprint</span><span class="o">=</span><span class="n">id_sprint</span><span class="p">,</span> <span class="n">estado__in</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Finalizado&#39;</span><span class="p">,</span> <span class="s1">&#39;Cancelado&#39;</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">us</span> <span class="ow">in</span> <span class="n">planning</span><span class="p">:</span>
+        <span class="n">us</span><span class="o">.</span><span class="n">prioridad</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">us</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+    
+    <span class="n">planning</span> <span class="o">=</span> <span class="n">User_Story</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">idSprint</span><span class="o">=</span><span class="n">id_sprint</span><span class="p">)</span><span class="o">.</span><span class="n">exclude</span><span class="p">(</span><span class="n">estado__in</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Finalizado&#39;</span><span class="p">,</span> <span class="s1">&#39;Cancelado&#39;</span><span class="p">])</span>
     <span class="k">for</span> <span class="n">us</span> <span class="ow">in</span> <span class="n">planning</span><span class="p">:</span>
         <span class="n">UP</span> <span class="o">=</span> <span class="n">us</span><span class="o">.</span><span class="n">UP</span>
         <span class="n">BV</span> <span class="o">=</span> <span class="n">us</span><span class="o">.</span><span class="n">BV</span>
@@ -1916,10 +1911,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-102'>
+  <div class='section' id='section-101'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-102'>#</a>
+        <a class='octothorpe' href='#section-101'>#</a>
       </div>
       <p>Mostrar el kan ban dentro de la pestaña de sprint</p>
     </div>
@@ -1954,34 +1949,22 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-103'>
+  <div class='section' id='section-102'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-103'>#</a>
+        <a class='octothorpe' href='#section-102'>#</a>
       </div>
       <p>Cambiar el estado del us dentro del tablero kan ban</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-104'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-104'>#</a>
-      </div>
-      
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">cambiarEstadoUs</span><span class="p">(</span><span class="n">request</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-105'>
+  <div class='section' id='section-103'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-105'>#</a>
+        <a class='octothorpe' href='#section-103'>#</a>
       </div>
       <p>traemos el estado y el idus del ajax de kanban.html</p>
     </div>
@@ -1992,10 +1975,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-106'>
+  <div class='section' id='section-104'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-106'>#</a>
+        <a class='octothorpe' href='#section-104'>#</a>
       </div>
       <p>cambiamos el estado al nuevo y guardamos</p>
     </div>
@@ -2006,18 +1989,21 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-107'>
+  <div class='section' id='section-105'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-107'>#</a>
+        <a class='octothorpe' href='#section-105'>#</a>
       </div>
-      
+      <p>Quitar un US de un Sprint</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">quitarUSsprint</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">id_sprint</span><span class="p">,</span> <span class="n">id_us</span><span class="p">):</span>
     <span class="n">us</span> <span class="o">=</span> <span class="n">User_Story</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">id_us</span><span class="p">)</span>
     <span class="n">miembro</span> <span class="o">=</span> <span class="n">Miembro</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">usuario</span><span class="o">=</span><span class="n">us</span><span class="o">.</span><span class="n">miembroEncargado</span><span class="o">.</span><span class="n">usuario</span><span class="p">,</span> <span class="n">idproyecto</span><span class="o">=</span><span class="nb">id</span><span class="p">)</span>
     <span class="n">miembro</span><span class="o">.</span><span class="n">horasDisponibles</span> <span class="o">+=</span> <span class="n">us</span><span class="o">.</span><span class="n">estimacion</span>
+    <span class="n">sprint</span> <span class="o">=</span> <span class="n">Sprint</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">id_sprint</span><span class="p">)</span>
+    <span class="n">sprint</span><span class="o">.</span><span class="n">duracion</span> <span class="o">+=</span> <span class="n">us</span><span class="o">.</span><span class="n">estimacion</span>
+    <span class="n">sprint</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
     <span class="n">us</span><span class="o">.</span><span class="n">miembroEncargado</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">us</span><span class="o">.</span><span class="n">idSprint</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">us</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="s1">&#39;N&#39;</span>
@@ -2028,10 +2014,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-108'>
+  <div class='section' id='section-106'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-108'>#</a>
+        <a class='octothorpe' href='#section-106'>#</a>
       </div>
       <p>crear tareas para un us</p>
     </div>
@@ -2040,7 +2026,13 @@
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
         <span class="n">form</span> <span class="o">=</span> <span class="n">FormTarea</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
+            <span class="n">us</span> <span class="o">=</span> <span class="n">User_Story</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">id_us</span><span class="p">)</span>
+            <span class="n">estados</span> <span class="o">=</span> <span class="n">us</span><span class="o">.</span><span class="n">tipo</span><span class="o">.</span><span class="n">estado</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">us</span><span class="o">.</span><span class="n">estado</span> <span class="o">==</span> <span class="n">estados</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">us</span><span class="o">.</span><span class="n">estado</span> <span class="o">=</span> <span class="n">estados</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">us</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
             <span class="n">form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
             <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="s1">&#39;listarTareas&#39;</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">id_us</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">form</span> <span class="o">=</span> <span class="n">FormTarea</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">)</span>
@@ -2064,10 +2056,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-109'>
+  <div class='section' id='section-107'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-109'>#</a>
+        <a class='octothorpe' href='#section-107'>#</a>
       </div>
       <p>listar las tareas de un us</p>
     </div>
@@ -2090,10 +2082,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-110'>
+  <div class='section' id='section-108'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-110'>#</a>
+        <a class='octothorpe' href='#section-108'>#</a>
       </div>
       <p>revision del us , el scrum master debe aprobar el us para que su estado pase a finalizado</p>
     </div>
@@ -2102,10 +2094,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-111'>
+  <div class='section' id='section-109'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-111'>#</a>
+        <a class='octothorpe' href='#section-109'>#</a>
       </div>
       <p>get all us of the project when is in the last state</p>
     </div>
@@ -2131,10 +2123,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-112'>
+  <div class='section' id='section-110'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-112'>#</a>
+        <a class='octothorpe' href='#section-110'>#</a>
       </div>
       <p>comprueba la descicion del scrum para cancelar o aprovar el us</p>
     </div>
@@ -2177,10 +2169,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-113'>
+  <div class='section' id='section-111'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-113'>#</a>
+        <a class='octothorpe' href='#section-111'>#</a>
       </div>
       <p>cambia el encargado de un us en un sprint</p>
     </div>
@@ -2213,10 +2205,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-114'>
+  <div class='section' id='section-112'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-114'>#</a>
+        <a class='octothorpe' href='#section-112'>#</a>
       </div>
       <p>historial de cada US</p>
     </div>
@@ -2227,10 +2219,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-115'>
+  <div class='section' id='section-113'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-115'>#</a>
+        <a class='octothorpe' href='#section-113'>#</a>
       </div>
       <p>obtener los historiales de los US</p>
     </div>
@@ -2253,10 +2245,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-116'>
+  <div class='section' id='section-114'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-116'>#</a>
+        <a class='octothorpe' href='#section-114'>#</a>
       </div>
       <p>finalizar Sprint</p>
     </div>
@@ -2269,12 +2261,12 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-117'>
+  <div class='section' id='section-115'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-117'>#</a>
+        <a class='octothorpe' href='#section-115'>#</a>
       </div>
-      
+      <p>Creación del BurndownChart para mostrar en pantalla</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">burndownChart</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="nb">id</span><span class="p">):</span>
@@ -2285,10 +2277,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-118'>
+  <div class='section' id='section-116'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-118'>#</a>
+        <a class='octothorpe' href='#section-116'>#</a>
       </div>
       <p>dibujo del burndown</p>
     </div>
@@ -2297,10 +2289,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-119'>
+  <div class='section' id='section-117'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-119'>#</a>
+        <a class='octothorpe' href='#section-117'>#</a>
       </div>
       <p>asignacion</p>
     </div>

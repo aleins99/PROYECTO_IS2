@@ -520,10 +520,7 @@ vista en donde se muestran la documentacion</p>
       <p>vista para la aprobacion del us o su cancelacion</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/US/&lt;id_us&gt;/historial/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">historialUs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;historialUs&#39;</span><span class="p">),</span>
-    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/finalizar&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">finalizarProyecto</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;finalizarProyecto&#39;</span><span class="p">),</span>
-    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;idproyecto&gt;/TipoUs/&lt;pk&gt;/editar/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">editarTipoUS</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;editarTipoUS&#39;</span><span class="p">),</span>
-    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/burndownChart/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">burndownChart</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;burndownChart&#39;</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/US/&lt;id_us&gt;/historial/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">historialUs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;historialUs&#39;</span><span class="p">),</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -531,6 +528,42 @@ vista en donde se muestran la documentacion</p>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-42'>#</a>
+      </div>
+      <p>vista para el historial de US</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/finalizar&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">finalizarProyecto</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;finalizarProyecto&#39;</span><span class="p">),</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-43'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-43'>#</a>
+      </div>
+      <p>vista para finalizar un proyecto</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;idproyecto&gt;/TipoUs/&lt;pk&gt;/editar/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">editarTipoUS</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;editarTipoUS&#39;</span><span class="p">),</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-44'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-44'>#</a>
+      </div>
+      <p>vista para editar los tipos de US</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;Proyecto/&lt;id&gt;/burndownChart/&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">burndownChart</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;burndownChart&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-45'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-45'>#</a>
       </div>
       <p>vista para ver el burndown chart del proyecto</p>
     </div>

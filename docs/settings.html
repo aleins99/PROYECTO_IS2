@@ -79,9 +79,9 @@ See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/</p>
       <p>SECURITY WARNING: don&rsquo;t run with debug turned on in production!</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="n">DEBUG</span> <span class="o">=</span> <span class="kc">False</span>
+      <div class="highlight"><pre><span class="n">DEBUG</span> <span class="o">=</span> <span class="kc">True</span>
 
-<span class="n">ALLOWED_HOSTS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;agileproject.software&#39;</span><span class="p">,</span> <span class="s1">&#39;www.agileproject.software&#39;</span><span class="p">]</span>
+<span class="n">ALLOWED_HOSTS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">]</span>
 <span class="n">APPEND_SLASH</span> <span class="o">=</span> <span class="kc">True</span></pre></div>
     </div>
   </div>
@@ -162,7 +162,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/#databases</p>
       <div class="highlight"><pre><span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s1">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s1">&#39;django.db.backends.postgresql_psycopg2&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;NAME&#39;</span><span class="p">:</span> <span class="s1">&#39;producciondb&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;NAME&#39;</span><span class="p">:</span> <span class="s1">&#39;agileproject&#39;</span><span class="p">,</span>
         <span class="s1">&#39;USER&#39;</span><span class="p">:</span> <span class="s1">&#39;usuario&#39;</span><span class="p">,</span>
         <span class="s1">&#39;PASSWORD&#39;</span><span class="p">:</span> <span class="s1">&#39;admin&#39;</span><span class="p">,</span>
         <span class="s1">&#39;HOST&#39;</span><span class="p">:</span> <span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
@@ -226,8 +226,8 @@ https://docs.djangoproject.com/en/4.1/topics/i18n/</p>
 https://docs.djangoproject.com/en/4.1/howto/static-files/</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="n">STATIC_URL</span> <span class="o">=</span> <span class="s1">&#39;/home/agile/is2/PROYECTO_IS2/Proyect_Agile/static/&#39;</span>
-<span class="n">STATIC_ROOT</span> <span class="o">=</span> <span class="s1">&#39;/home/agile/is2/PROYECTO_IS2/Proyect_Agile/static/&#39;</span>
+      <div class="highlight"><pre><span class="n">STATIC_URL</span> <span class="o">=</span> <span class="s1">&#39;/home/diego/Desktop/IS2/PROYECTO_IS2/Proyect_Agile/static/&#39;</span>
+<span class="n">STATIC_ROOT</span> <span class="o">=</span> <span class="s1">&#39;/home/diego/Desktop/IS2/PROYECTO_IS2/Proyect_Agile/static/&#39;</span>
 <span class="n">STATICFILES_STORAGE</span> <span class="o">=</span> <span class="s1">&#39;whitenoise.storage.CompressedManifestStaticFilesStorage&#39;</span></pre></div>
     </div>
   </div>
@@ -293,7 +293,7 @@ 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</p>
         <span class="s1">&#39;AUTH_PARAMS&#39;</span><span class="p">:</span> <span class="p">{</span>
             <span class="s1">&#39;access_type&#39;</span><span class="p">:</span> <span class="s1">&#39;online&#39;</span><span class="p">,</span>
         <span class="p">}</span>
-    <span class="p">}</span>
+    <span class="p">},</span>
 <span class="p">}</span>
 
 <span class="n">LOGIN_REDIRECT_URL</span> <span class="o">=</span> <span class="s1">&#39;home&#39;</span>
